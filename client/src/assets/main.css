@@ -6,9 +6,9 @@
   --color-secondary: #0745ff;
   --color-danger: #d8062d;
 
-  --color-gray-0: #A7A7A7;
-  --color-gray-1: #909090;
-  --color-gray-2: #555555;
+  --color-gray-0: #dfdfdf;
+  --color-gray-1: #c2c2c2;
+  --color-gray-2: #848484;
 
   --color-bg-light: #f2f2f2;
   --color-bg-dark: #181818;
@@ -32,7 +32,7 @@
 body {
   color: var(--color-text);
   background-color: var(--color-background);
-  font-family: 'News Cycle', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   margin: 0;
   padding: 0;
@@ -42,5 +42,5 @@ body {
 }
 
 small{
-  font-size: 14px;
+  font-size: 12px;
 }

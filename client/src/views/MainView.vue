@@ -34,7 +34,6 @@ import Day from "../components/Day.vue";
   overflow-y: scroll;
   box-sizing: border-box;
   background-color: var(--color-background);
-  box-shadow: inset 0px 5px 5px var(--color-gray-0);
 }
 
 .main-info-panel-container {
@@ -46,8 +45,8 @@ import Day from "../components/Day.vue";
   margin-right: auto;
   text-align: center;
   background-color: var(--color-background);
-  box-shadow: inset 0px 5px 5px var(--color-gray-0);
   box-shadow: 0px 5px 5px var(--color-gray-0);
+  z-index: 10;
 }
 
 .main-day-container {
@@ -55,5 +54,6 @@ import Day from "../components/Day.vue";
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  z-index: 5;
 }
 </style>
