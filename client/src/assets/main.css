@@ -1,13 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=News+Cycle&family=Stalemate&display=swap');
 
 
-body{
-  color: "#000000";
-  background-color: "#eeeeee";
+:root {
+  --color-primary: #FFC107;
+  --color-secondary: #0745ff;
+  --color-danger: #d8062d;
+
+  --color-gray-0: #A7A7A7;
+  --color-gray-1: #909090;
+  --color-gray-2: #555555;
+
+  --color-bg-light: #f2f2f2;
+  --color-bg-dark: #181818;
+
+  --color-text-light: #000000;
+  --color-text-dark: #ffffff;  
+}
+
+:root{
+  --color-background: var(--color-bg-light);
+  --color-text: var(--color-text-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--color-bg-light);
+    --color-text: var(--color-text-light);
+  }
+}
+
+body {
+  color: var(--color-text);
+  background-color: var(--color-background);
   font-family: 'News Cycle', sans-serif;
+  font-size: 15px;
   margin: 0;
   padding: 0;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+}
+
+small{
+  font-size: 14px;
 }

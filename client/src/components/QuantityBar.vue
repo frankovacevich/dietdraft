@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { COLORS } from '@/colors';
+
     export default {
         props: {
             value: {type: Number, default: 0},
@@ -13,23 +15,22 @@
             },
 
             barColor(){
-                return this.barWidth < 80 ? 'blue' : 'red';
+                if(this.barWidth < 85 || this.barWidth > 110){
+                    return COLORS.danger;
+                }
+                return COLORS.primary;
             }
         }
     }
-
-   
-
-
 </script>
 
 <template>
     <div class="quantity-bar-container">
-        <span>{{ text }}</span>
+        <small>{{ text }}</small>
         <div class="quantity-bar-outer">
             <div class="quantity-bar-inner" :style="{ width: barWidth + '%', backgroundColor: barColor }"></div>
         </div>
-        <span>{{ value }}{{unit}} </span>
+        <small>{{ value }}{{unit}} </small>
     </div>
 </template>
 
@@ -38,13 +39,12 @@
         display: flex;
         height: 50px;
         flex-direction: column;
-        width: 40px;
-        font-size: 13px;
+        width: 60px;
         text-align: center;
     }
     
     .quantity-bar-outer{
-        background-color: gray;
+        background-color: var(--color-gray-0);
         border-radius: 6px;
         width: 100%;
         height: 6px;
@@ -55,6 +55,7 @@
         border-bottom-left-radius: 3px;
         height: 6px;
     }
+
 
 
 </style>

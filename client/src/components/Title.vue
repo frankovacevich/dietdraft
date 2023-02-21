@@ -11,7 +11,9 @@
         display: flex;
         height: 54px;
         align-items: center;
-        background-color: rgb(198, 198, 198);
+        background: var(--color-primary);
+        box-shadow: 0px 5px 5px var(--color-gray-0);
+        z-index: 10;
     }
 
     .title{
