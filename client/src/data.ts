@@ -1,0 +1,51 @@
+export default [
+  {
+    name: "Wrap JyQ",
+    icon: "burrito",
+    description:
+      "Wrap con 2 fetas de jamon, 2 fetas de queso, morron y lechuga",
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+  },
+  {
+    name: "Wrap veggie",
+    icon: "burrito",
+    description: "Wrap con 3 fetas de queso, morron y lechuga",
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+  },
+  {
+    name: "Sandwich JyQ",
+    icon: "sandwich",
+    description: "Sandwich jamon y queso",
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+  },
+  {
+    name: "Sandwich veggie",
+    icon: "sandwich",
+    description: "",
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+  },
+  {
+    name: "Bread slice",
+    icon: "bread",
+    description: "",
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+  },
+  {
+    name: "Peanut butter",
+    icon: "peanut-butter",
+    description: "",
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+  },
+];
