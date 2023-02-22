@@ -5,7 +5,12 @@ import Day from "../components/Day.vue";
 </script>
 
 <template>
-  <Title />
+  <Title>
+    <template v-slot:right-icon>
+      <font-awesome-icon icon="fa-solid fa-map" />
+    </template>
+  </Title>
+
   <div class="main-container">
     <div class="main-info-panel-container">
       <InfoPanel
@@ -45,7 +50,7 @@ import Day from "../components/Day.vue";
   margin-right: auto;
   text-align: center;
   background-color: var(--color-background);
-  box-shadow: 0px 5px 5px var(--color-gray-0);
+  box-shadow: 0px 20px 20px -20px var(--color-gray-1);
   z-index: 10;
 }
 

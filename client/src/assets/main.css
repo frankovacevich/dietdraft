@@ -9,6 +9,7 @@
   --color-gray-0: #dfdfdf;
   --color-gray-1: #c2c2c2;
   --color-gray-2: #848484;
+  --color-gray-3: #565656;
 
   --color-bg-light: #f2f2f2;
   --color-bg-dark: #181818;
@@ -39,6 +40,7 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  user-select: none;
 }
 
 small{

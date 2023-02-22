@@ -30,7 +30,7 @@ export default {
 
 <template>
   <div class="info-panel-container">
-    <!--font-awesome-icon icon="fa-solid fa-chevron-left" /-->
+    <font-awesome-icon icon="fa-solid fa-chevron-left" />
     <div style="flex: 1"></div>
     <QuantityBar
       text="Protein"
@@ -52,7 +52,7 @@ export default {
       :setpoint="caloriesSetpoint"
     />
     <div style="flex: 1"></div>
-    <!--font-awesome-icon icon="fa-solid fa-chevron-right" /-->
+    <font-awesome-icon icon="fa-solid fa-chevron-right" />
   </div>
 </template>
 

@@ -1,11 +1,12 @@
 import type { CalculationMethod, Food, Plan } from "./food";
 import { defineStore } from "pinia";
 
-export const store = defineStore("store", {
+export const mainStore = defineStore("mainStore", {
   state: () => {
     return {
       currentDay: 0,
       currentPlan: null as Plan | null,
+      tst: true,
     };
   },
 
@@ -20,5 +21,9 @@ export const store = defineStore("store", {
       daysRequired: number,
       calculationMethod: CalculationMethod
     ) {},
+    test() {
+      this.tst = !this.tst;
+      console.log(this.tst);
+    },
   },
 });
