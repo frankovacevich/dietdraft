@@ -20,7 +20,15 @@ app.use(pinia);
 /// DELETE ME //////////////////////////////////////////
 import { mainStore } from "./store";
 const store = mainStore();
-store.createPlan(1);
+store.planInfo = {
+  created: 0,
+  proteinSetpoint: 100,
+  fatSetpoint: 100,
+  carbsSetpoint: 100,
+  daysSetpoint: 2,
+  calculationMethod: CalculationMethod.ALL,
+};
+store.redoPlanAll();
 ////////////////////////////////////////////////////////
 
 /*
@@ -31,6 +39,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { faMap } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { CalculationMethod } from "./food";
 
 library.add(faChevronLeft);
 library.add(faChevronRight);

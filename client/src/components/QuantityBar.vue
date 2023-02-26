@@ -4,18 +4,22 @@ import { COLORS } from "@/colors";
 export default {
   props: {
     value: { type: Number, default: 0 },
-    setpoint: { type: Number, default: 1 },
+    setpoint: { type: Number, default: 0 },
     unit: { type: String, default: "" },
     text: { type: String, default: "" },
   },
 
   computed: {
-    barWidth() {
+    valuePercentage() {
       return this.setpoint == 0 ? 0 : (100 * this.value) / this.setpoint;
     },
 
+    barWidth() {
+      return 0.5 * this.valuePercentage;
+    },
+
     barColor() {
-      if (this.barWidth < 85 || this.barWidth > 110) {
+      if (this.valuePercentage < 85 || this.valuePercentage > 110) {
         return COLORS.danger;
       } else {
         return COLORS.primary;

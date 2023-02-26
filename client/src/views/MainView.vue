@@ -2,10 +2,10 @@
 import Title from "../components/Title.vue";
 import InfoPanel from "../components/InfoPanel.vue";
 import Day from "../components/Day.vue";
+import DayEdit from "../components/DayEdit.vue";
+
 import { mainStore } from "@/store";
 const store = mainStore();
-const totals = store.todaysQuantities;
-const requirements = store.planInfo;
 </script>
 
 <template>
@@ -18,16 +18,17 @@ const requirements = store.planInfo;
   <div class="main-container">
     <div class="main-info-panel-container">
       <InfoPanel
-        :protein="totals.protein"
-        :fat="totals.fat"
-        :carbs="totals.carbs"
-        :protein-setpoint="requirements.proteinSetpoint"
-        :fat-setpoint="requirements.fatSetpoint"
-        :carbs-setpoint="requirements.carbsSetpoint"
+        v-if="store.planInfo !== undefined"
+        :protein="store.todaysQuantities.protein"
+        :fat="store.todaysQuantities.fat"
+        :carbs="store.todaysQuantities.carbs"
+        :protein-setpoint="store.planInfo.proteinSetpoint"
+        :fat-setpoint="store.planInfo.fatSetpoint"
+        :carbs-setpoint="store.planInfo.carbsSetpoint"
       />
     </div>
     <div class="main-day-container">
-      <Day />
+      <DayEdit />
     </div>
   </div>
 </template>
@@ -64,5 +65,13 @@ const requirements = store.planInfo;
   margin-left: auto;
   margin-right: auto;
   z-index: 5;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 </style>
