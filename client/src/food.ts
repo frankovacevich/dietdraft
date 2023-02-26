@@ -15,7 +15,7 @@ export interface Food {
   carbs: number;
   price?: number;
   amount?: number;
-  eaten?: boolean;
+  selected?: boolean;
 }
 
 export interface PlanInfo {
@@ -37,12 +37,13 @@ export interface PlanTotal {
 export function calculateDay(foodList: Food[], planInfo: PlanInfo): Food[] {
   const allFoods = [...foodList];
 
-  const N = Math.floor(allFoods.length * 0.8);
+  const N = 1;
   const shuffled = allFoods.sort(() => 0.5 - Math.random());
 
   const plan: Food[] = [];
   for (const food of shuffled.slice(0, N)) {
-    plan.push({ ...food, amount: 1, eaten: false });
+    plan.push({ ...food, amount: 1, selected: false });
+    plan.push({ ...food, amount: 0.5, selected: false });
   }
 
   return plan;

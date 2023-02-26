@@ -14,6 +14,13 @@ export default {
       return this.setpoint == 0 ? 0 : (100 * this.value) / this.setpoint;
     },
 
+    valueRounded() {
+      if (this.value < 100) {
+        return this.value.toFixed(1);
+      }
+      return this.value.toFixed();
+    },
+
     barWidth() {
       return 0.5 * this.valuePercentage;
     },
@@ -38,7 +45,7 @@ export default {
         :style="{ width: barWidth + '%', backgroundColor: barColor }"
       ></div>
     </div>
-    <small v-if="value != 0">{{ value }}{{ unit }} </small>
+    <small v-if="value != 0">{{ valueRounded }}{{ unit }} </small>
     <small v-if="value == 0">-</small>
   </div>
 </template>

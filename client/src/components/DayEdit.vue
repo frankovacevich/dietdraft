@@ -15,8 +15,11 @@ const store = mainStore();
       :carbs="food.carbs"
       :amount="food.amount"
       :selected="food.amount ? food.amount > 0 : false"
-      @top-click="store.updateFoodAmount(food.id, 1)"
-      @bottom-click="store.updateFoodAmount(food.id, -1)"
+      :extra="
+        (food.carbs * 4 + food.protein * 4 + food.fat * 9).toFixed() + ' kcal'
+      "
+      @top-click="store.updateFoodAmount(food, 1)"
+      @bottom-click="store.updateFoodAmount(food, -1)"
     />
   </template>
 </template>

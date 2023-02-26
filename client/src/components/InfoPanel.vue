@@ -30,7 +30,10 @@ export default {
 
 <template>
   <div class="info-panel-container">
-    <font-awesome-icon icon="fa-solid fa-chevron-left" />
+    <slot name="left-icon">
+      <div class="info-panel-icon"></div>
+    </slot>
+
     <div style="flex: 1"></div>
     <QuantityBar
       text="Protein"
@@ -52,7 +55,10 @@ export default {
       :setpoint="caloriesSetpoint"
     />
     <div style="flex: 1"></div>
-    <font-awesome-icon icon="fa-solid fa-chevron-right" />
+
+    <slot name="right-icon">
+      <div class="info-panel-icon"></div>
+    </slot>
   </div>
 </template>
 
@@ -63,5 +69,15 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+.info-panel-icon {
+  cursor: pointer;
+  width: 24px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 </style>

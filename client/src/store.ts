@@ -1,12 +1,7 @@
-import {
-  type CalculationMethod,
-  type Food,
-  type PlanInfo,
-  type PlanTotal,
-  calculateDay,
-} from "./food";
-import DATA from "./data";
+import type { Food, PlanInfo, PlanTotal } from "./food";
+import { calculateDay } from "./food";
 import { defineStore } from "pinia";
+import DATA from "./data";
 
 export const mainStore = defineStore("mainStore", {
   state: () => {
@@ -24,16 +19,44 @@ export const mainStore = defineStore("mainStore", {
     },
 
     todaysFoodsExtended(): Food[] {
-      const map = new Map(this.planData[this.today].map((f) => [f.id, f]));
-      return this.allFoods.map((f) => map.get(f.id) || f);
+      const map = new Map<string, number>(); // id: count
+      for (const food of this.planData[this.today]) {
+        map.set(food.id, (map.get(food.id) || 0) + (food.amount || 0));
+      }
+      return this.allFoods.map((f) => ({ ...f, amount: map.get(f.id) }));
     },
 
     todaysQuantities(): PlanTotal {
-      let total = { protein: 0, fat: 0, carbs: 0 };
+      const total = { protein: 0, fat: 0, carbs: 0 };
       for (const food of this.planData[this.today]) {
         total.protein += food.protein * (food.amount || 0);
         total.fat += food.fat * (food.amount || 0);
         total.carbs += food.carbs * (food.amount || 0);
+      }
+      return total;
+    },
+
+    todaysQuantitiesSelected(): PlanTotal {
+      const total = { protein: 0, fat: 0, carbs: 0 };
+      for (const food of this.planData[this.today]) {
+        if (!food.selected) {
+          continue;
+        }
+        total.protein += food.protein * (food.amount || 0);
+        total.fat += food.fat * (food.amount || 0);
+        total.carbs += food.carbs * (food.amount || 0);
+      }
+      return total;
+    },
+
+    allPlanQuantities(): PlanTotal {
+      const total = { protein: 0, fat: 0, carbs: 0 };
+      for (let day = 0; day < this.planData.length; day++) {
+        for (const food of this.planData[day]) {
+          total.protein += food.protein * (food.amount || 0);
+          total.fat += food.fat * (food.amount || 0);
+          total.carbs += food.carbs * (food.amount || 0);
+        }
       }
       return total;
     },
@@ -48,35 +71,46 @@ export const mainStore = defineStore("mainStore", {
       console.error("[ERROR]", e);
     },
 
-    save() {},
+    save() {
+      localStorage.setItem("planData", JSON.stringify(this.planData));
+      localStorage.setItem("planInfo", JSON.stringify(this.planInfo));
+    },
 
-    load() {},
+    load() {
+      const planData = localStorage.getItem("planData");
+      const planInfo = localStorage.getItem("planInfo");
+      this.planData = planData ? JSON.parse(planData) : [];
+      this.planInfo = planInfo ? JSON.parse(planInfo) : undefined;
+    },
 
-    updateFoodAmount(foodId: string, delta: number) {
-      const map = new Map(this.planData[this.today].map((f) => [f.id, f]));
-      const newAmount = delta + (map.get(foodId)?.amount || 0);
+    updateFoodAmount(food: Food, delta: number) {
+      const newAmount = (food.amount || 0) + delta;
       if (newAmount < 0) {
         return;
       }
 
-      const newPlan = [];
-      for (const food of this.allFoods) {
-        const foodInPlan = map.get(food.id);
+      const map = new Map<string, number>(); // id: count
+      for (const food of this.planData[this.today]) {
+        map.set(food.id, (map.get(food.id) || 0) + (food.amount || 0));
+      }
 
-        if (food.id === foodId && foodInPlan === undefined) {
-          // new food item, does not exist in current plan
-          newPlan.push({ ...food, amount: newAmount });
-        } else if (food.id === foodId && foodInPlan !== undefined) {
-          // new food item, already exists in current plan
-          newPlan.push({ ...foodInPlan, amount: newAmount });
-        } else if (food.id !== foodId && foodInPlan !== undefined) {
-          // other food items in current plan
-          newPlan.push(foodInPlan);
+      map.set(food.id, newAmount);
+      const newPlan = [];
+      for (const item of this.allFoods) {
+        const amount = map.get(item.id);
+        if (amount !== undefined && amount !== 0) {
+          newPlan.push({ ...item, amount: amount });
         }
       }
 
       this.planData[this.today] = newPlan;
       this.planData = [...this.planData];
+      this.save();
+    },
+
+    toggleSelected(food: Food) {
+      food.selected = food.selected !== undefined ? !food.selected : true;
+      this.save();
     },
 
     redoPlanToday() {
@@ -85,6 +119,7 @@ export const mainStore = defineStore("mainStore", {
       }
 
       this.planData[this.today] = calculateDay(this.allFoods, this.planInfo);
+      this.save();
     },
 
     redoPlanAll() {
@@ -97,6 +132,7 @@ export const mainStore = defineStore("mainStore", {
         newPlan.push(calculateDay(this.allFoods, this.planInfo));
       }
       this.planData = newPlan;
+      this.save();
     },
 
     nextDay() {

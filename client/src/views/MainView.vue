@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import Title from "../components/Title.vue";
-import InfoPanel from "../components/InfoPanel.vue";
 import Day from "../components/Day.vue";
-import DayEdit from "../components/DayEdit.vue";
-
+import Title from "../components/Title.vue";
+import DayEdit from "@/components/DayEdit.vue";
+import InfoPanel from "../components/InfoPanel.vue";
 import { mainStore } from "@/store";
 const store = mainStore();
 </script>
@@ -25,7 +24,26 @@ const store = mainStore();
         :protein-setpoint="store.planInfo.proteinSetpoint"
         :fat-setpoint="store.planInfo.fatSetpoint"
         :carbs-setpoint="store.planInfo.carbsSetpoint"
-      />
+      >
+        <template v-slot:left-icon>
+          <div
+            v-if="store.today > 0"
+            @click="store.previousDay()"
+            class="info-panel-icon"
+          >
+            <font-awesome-icon icon="fa-solid fa-chevron-left" />
+          </div>
+        </template>
+        <template v-slot:right-icon>
+          <div
+            v-if="store.today + 1 < store.planData.length"
+            class="info-panel-icon"
+            @click="store.nextDay()"
+          >
+            <font-awesome-icon icon="fa-solid fa-chevron-right" />
+          </div>
+        </template>
+      </InfoPanel>
     </div>
     <div class="main-day-container">
       <DayEdit />
@@ -49,7 +67,7 @@ const store = mainStore();
 .main-info-panel-container {
   position: sticky;
   top: 0px;
-  padding: 20px;
+  padding: 10px 20px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;

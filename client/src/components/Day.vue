@@ -13,7 +13,10 @@ const store = mainStore();
       :protein="food.protein"
       :fat="food.fat"
       :carbs="food.carbs"
-      :amount="1"
+      :selected="food.selected"
+      :amount="food.amount !== 1 ? food.amount : undefined"
+      @top-click="store.toggleSelected(food)"
+      @bottom-click="store.toggleSelected(food)"
     />
   </template>
 </template>

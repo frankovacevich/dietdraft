@@ -1,7 +1,9 @@
 <script lang="ts">
 export default {
   data() {
-    return {};
+    return {
+      holdStartTimestamp: 0,
+    };
   },
 
   props: {
@@ -11,14 +13,26 @@ export default {
     protein: { type: Number, default: 0 },
     fat: { type: Number, default: 0 },
     carbs: { type: Number, default: 0 },
-    amount: { type: Number, default: null },
+    amount: { type: Number, default: undefined },
     selected: { type: Boolean, default: false },
-    quantity: { type: String, default: null },
+    extra: { type: String, default: undefined },
   },
 
   computed: {
     calories() {
       return 9 * this.fat + 4 * this.protein + 4 * this.carbs;
+    },
+
+    amountDisplay() {
+      if (this.amount === undefined) {
+        return undefined;
+      }
+
+      if (this.amount == 0.5) {
+        return "½";
+      }
+
+      return this.amount.toString();
     },
   },
 
@@ -27,12 +41,32 @@ export default {
       return `./food/${image}.svg`;
     },
 
+    heldLongEnough() {
+      const now = new Date().getTime();
+      const holdThreshold = 500; // 500 milliseconds
+      return now - this.holdStartTimestamp > holdThreshold;
+    },
+
     topClick() {
-      this.$emit("topClick");
+      if (!this.heldLongEnough()) {
+        this.$emit("topClick");
+      }
     },
 
     bottomClick() {
-      this.$emit("bottomClick");
+      if (!this.heldLongEnough()) {
+        this.$emit("bottomClick");
+      }
+    },
+
+    holdStart() {
+      this.holdStartTimestamp = new Date().getTime();
+    },
+
+    holdEnd() {
+      if (this.heldLongEnough()) {
+        this.$emit("hold");
+      }
     },
   },
 };
@@ -40,16 +74,28 @@ export default {
 
 <template>
   <div class="food-item" :class="{ selected: selected }">
-    <div class="food-item-top" @click="topClick()"></div>
-    <div class="food-item-bottom" @click="bottomClick()"></div>
+    <div
+      class="food-item-top"
+      @click="topClick()"
+      @mousedown="holdStart()"
+      @mouseup="holdEnd()"
+    ></div>
+    <div
+      class="food-item-bottom"
+      @click="bottomClick()"
+      @mousedown="holdStart()"
+      @mouseup="holdEnd()"
+    ></div>
 
     <div class="food-icon">
       <img :src="resolveImg(icon)" />
     </div>
-    <div v-if="amount > 0" class="food-amount">
+    <div v-if="amount" class="food-amount">
       {{ amount }}
     </div>
-    <div v-if="quantity" class="food-quantity">{{ calories }} kcal</div>
+    <div v-if="extra" class="food-quantity">
+      {{ extra }}
+    </div>
     <div class="food-name">
       <span>{{ name }}</span>
     </div>
