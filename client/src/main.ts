@@ -16,6 +16,13 @@ const pinia = createPinia();
 
 app.use(router);
 app.use(pinia);
+
+/// DELETE ME //////////////////////////////////////////
+import { mainStore } from "./store";
+const store = mainStore();
+store.createPlan(1);
+////////////////////////////////////////////////////////
+
 /*
  * Font awesome icons
  */

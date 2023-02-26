@@ -11,14 +11,15 @@ export default {
 
   computed: {
     barWidth() {
-      return (100 * this.value) / this.setpoint;
+      return this.setpoint == 0 ? 0 : (100 * this.value) / this.setpoint;
     },
 
     barColor() {
       if (this.barWidth < 85 || this.barWidth > 110) {
         return COLORS.danger;
+      } else {
+        return COLORS.primary;
       }
-      return COLORS.primary;
     },
   },
 };
@@ -33,7 +34,8 @@ export default {
         :style="{ width: barWidth + '%', backgroundColor: barColor }"
       ></div>
     </div>
-    <small>{{ value }}{{ unit }} </small>
+    <small v-if="value != 0">{{ value }}{{ unit }} </small>
+    <small v-if="value == 0">-</small>
   </div>
 </template>
 

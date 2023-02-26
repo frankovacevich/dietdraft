@@ -1,13 +1,3 @@
-export interface Food {
-  name: string;
-  icon: string;
-  description?: string;
-  protein: number;
-  fat: number;
-  carbs: number;
-  amount?: number;
-}
-
 export enum CalculationMethod {
   ALL = "all",
   PROTEIN = "protein",
@@ -15,13 +5,35 @@ export enum CalculationMethod {
   CARBS = "carbs",
 }
 
-export interface Plan {
+export interface Food {
+  id: string;
+  name: string;
+  icon: string;
+  description?: string;
+  protein: number;
+  fat: number;
+  carbs: number;
+  price?: number;
+}
+
+export interface PlanItem {
+  foodId: string;
+  amount?: number;
+  eaten?: boolean;
+}
+
+export interface PlanInfo {
   created?: number; // timestamp in ms
-  proteinRequired?: number;
-  fatRequired?: number;
-  carbsRequired?: number;
-  daysRequired?: number;
+  proteinSetpoint?: number;
+  fatSetpoint?: number;
+  carbsSetpoint?: number;
+  daysSetpoint?: number;
   calculationMethod?: CalculationMethod;
   calculationError?: number;
-  foods?: Food[][]; // list of food for each day
+}
+
+export interface PlanTotal {
+  protein: number;
+  fat: number;
+  carbs: number;
 }

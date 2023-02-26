@@ -2,6 +2,10 @@
 import Title from "../components/Title.vue";
 import InfoPanel from "../components/InfoPanel.vue";
 import Day from "../components/Day.vue";
+import { mainStore } from "@/store";
+const store = mainStore();
+const totals = store.todaysQuantities;
+const requirements = store.planInfo;
 </script>
 
 <template>
@@ -14,12 +18,12 @@ import Day from "../components/Day.vue";
   <div class="main-container">
     <div class="main-info-panel-container">
       <InfoPanel
-        :protein="100"
-        :fat="100"
-        :carbs="100"
-        :protein-setpoint="150"
-        :fat-setpoint="200"
-        :carbs-setpoint="150"
+        :protein="totals.protein"
+        :fat="totals.fat"
+        :carbs="totals.carbs"
+        :protein-setpoint="requirements.proteinSetpoint"
+        :fat-setpoint="requirements.fatSetpoint"
+        :carbs-setpoint="requirements.carbsSetpoint"
       />
     </div>
     <div class="main-day-container">
