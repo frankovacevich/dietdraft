@@ -22,11 +22,17 @@ export default {
     },
 
     barWidth() {
-      return 0.5 * this.valuePercentage;
+      if (this.valuePercentage < 50) {
+        return 0;
+      } else if (this.valuePercentage > 150) {
+        return 100;
+      } else {
+        return (100 * (this.valuePercentage - 50)) / (150 - 50);
+      }
     },
 
     barColor() {
-      if (this.valuePercentage < 85 || this.valuePercentage > 110) {
+      if (this.valuePercentage < 85 || this.valuePercentage > 115) {
         return COLORS.danger;
       } else {
         return COLORS.primary;

@@ -37,8 +37,8 @@ const store = mainStore();
         <template v-slot:right-icon>
           <div
             v-if="store.today + 1 < store.planData.length"
-            class="info-panel-icon"
             @click="store.nextDay()"
+            class="info-panel-icon"
           >
             <font-awesome-icon icon="fa-solid fa-chevron-right" />
           </div>

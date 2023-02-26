@@ -1,4 +1,9 @@
-import type { Food, PlanInfo, PlanTotal } from "./food";
+import {
+  defaultPlanInfo,
+  type Food,
+  type PlanInfo,
+  type PlanTotal,
+} from "./food";
 import { calculateDay } from "./food";
 import { defineStore } from "pinia";
 import DATA from "./data";
@@ -73,14 +78,22 @@ export const mainStore = defineStore("mainStore", {
 
     save() {
       localStorage.setItem("planData", JSON.stringify(this.planData));
-      localStorage.setItem("planInfo", JSON.stringify(this.planInfo));
+
+      if (this.planInfo !== undefined) {
+        localStorage.setItem("planInfo", JSON.stringify(this.planInfo));
+      }
     },
 
     load() {
       const planData = localStorage.getItem("planData");
+      this.planData = planData ? JSON.parse(planData) : [[]];
+
       const planInfo = localStorage.getItem("planInfo");
-      this.planData = planData ? JSON.parse(planData) : [];
-      this.planInfo = planInfo ? JSON.parse(planInfo) : undefined;
+      if (planInfo) {
+        this.planInfo = JSON.parse(planInfo);
+      } else {
+        this.planInfo = { ...defaultPlanInfo, created: new Date().getTime() };
+      }
     },
 
     updateFoodAmount(food: Food, delta: number) {

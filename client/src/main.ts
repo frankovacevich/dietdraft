@@ -28,7 +28,7 @@ store.planInfo = {
   daysSetpoint: 2,
   calculationMethod: CalculationMethod.ALL,
 };
-store.redoPlanAll();
+store.load();
 ////////////////////////////////////////////////////////
 
 /*

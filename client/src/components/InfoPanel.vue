@@ -21,7 +21,7 @@ export default {
 
     caloriesSetpoint() {
       return (
-        4 * this.proteinSetpoint + 4 * this.fatSetpoint + 9 * this.carbsSetpoint
+        4 * this.proteinSetpoint + 4 * this.carbsSetpoint + 9 * this.fatSetpoint
       );
     },
   },

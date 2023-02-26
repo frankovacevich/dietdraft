@@ -157,7 +157,7 @@ export default {
 .food-name {
   position: absolute;
   bottom: 0;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 8px;
   text-align: center;
   text-overflow: ellipsis;

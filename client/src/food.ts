@@ -34,6 +34,14 @@ export interface PlanTotal {
   carbs: number;
 }
 
+export const defaultPlanInfo = {
+  proteinSetpoint: 125,
+  fatSetpoint: 120,
+  carbsSetpoint: 105,
+  daysSetpoint: 1,
+  calculationMethod: CalculationMethod.ALL,
+};
+
 export function calculateDay(foodList: Food[], planInfo: PlanInfo): Food[] {
   const allFoods = [...foodList];
 
