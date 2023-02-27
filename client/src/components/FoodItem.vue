@@ -130,6 +130,9 @@ export default {
 
 .food-amount {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 10px;
   top: 0;
   left: 0;
@@ -138,8 +141,6 @@ export default {
   height: 18px;
   border-bottom-right-radius: 4px;
   border-top-left-radius: 8px;
-  text-align: center;
-  padding-top: 3px;
   box-sizing: border-box;
 }
 
@@ -150,8 +151,8 @@ export default {
   right: 0;
   color: var(--color-gray-2);
   text-align: right;
-  padding-top: 3px;
-  padding-right: 5px;
+  padding-top: 5px;
+  padding-right: 8px;
 }
 
 .food-name {

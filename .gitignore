@@ -27,3 +27,4 @@ client/cypress/screenshots/
 
 *.code-workspace
 serve.sh
+deploy.sh
