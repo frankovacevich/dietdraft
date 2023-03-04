@@ -62,13 +62,16 @@ export default {
 .protein-bar {
   background-color: var(--color-protein);
   text-align: center;
+  line-height: 12px;
 }
 .fat-bar {
   background-color: var(--color-fat);
   text-align: center;
+  line-height: 12px;
 }
 .carbs-bar {
   background-color: var(--color-carbs);
   text-align: center;
+  line-height: 12px;
 }
 </style>

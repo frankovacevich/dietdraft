@@ -79,12 +79,16 @@ export default {
       @click="topClick()"
       @mousedown="holdStart()"
       @mouseup="holdEnd()"
+      @touchstart="holdStart()"
+      @touchend="holdEnd()"
     ></div>
     <div
       class="food-item-bottom"
       @click="bottomClick()"
       @mousedown="holdStart()"
       @mouseup="holdEnd()"
+      @touchstart="holdStart()"
+      @touchend="holdEnd()"
     ></div>
 
     <div class="food-icon">

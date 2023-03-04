@@ -58,7 +58,7 @@ export default [
     id: "7",
     name: "Peanut butter",
     icon: "peanut-butter",
-    descrption: "One spoonful (25g) of peanut butter.",
+    description: "One spoonful (25g) of peanut butter.",
     protein: 6.75,
     fat: 13.25,
     carbs: 4.25,
