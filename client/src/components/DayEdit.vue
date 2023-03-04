@@ -17,6 +17,7 @@ const store = mainStore();
       :selected="food.amount ? food.amount > 0 : false"
       @top-click="store.updateFoodAmount(food, 1)"
       @bottom-click="store.updateFoodAmount(food, -1)"
+      @hold="store.openModalFoodInfo(food)"
     />
   </template>
 </template>

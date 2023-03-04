@@ -3,6 +3,8 @@ import Day from "../components/Day.vue";
 import Title from "../components/Title.vue";
 import DayEdit from "@/components/DayEdit.vue";
 import InfoPanel from "../components/InfoPanel.vue";
+import ModalFoodInfo from "@/components/ModalFoodInfo.vue";
+
 import { mainStore } from "@/store";
 const store = mainStore();
 </script>
@@ -15,6 +17,17 @@ const store = mainStore();
   </Title>
 
   <div class="main-container">
+    <ModalFoodInfo
+      v-if="store.modal_food_info !== undefined"
+      :name="store.modal_food_info.name"
+      :icon="store.modal_food_info.icon"
+      :description="store.modal_food_info.description"
+      :protein="store.modal_food_info.protein"
+      :fat="store.modal_food_info.fat"
+      :carbs="store.modal_food_info.carbs"
+    >
+    </ModalFoodInfo>
+
     <div class="main-info-panel-container">
       <InfoPanel
         v-if="store.planInfo !== undefined"

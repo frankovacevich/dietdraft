@@ -15,12 +15,16 @@
   --color-bg-dark: #181818;
 
   --color-text-light: #000000;
-  --color-text-dark: #ffffff;  
+  --color-text-dark: #ffffff;
 }
 
 :root{
   --color-background: var(--color-bg-light);
   --color-text: var(--color-text-light);
+
+  --color-protein: #8cb596;
+  --color-fat: #6a938b;
+  --color-carbs: #f0c1aa;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,7 +38,7 @@ body {
   color: var(--color-text);
   background-color: var(--color-background);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 15px;
+  font-size: 12px;
   margin: 0;
   padding: 0;
   height: 100vh;

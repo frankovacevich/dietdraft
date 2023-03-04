@@ -15,9 +15,6 @@ export default {
     },
 
     valueRounded() {
-      if (this.value < 100) {
-        return this.value.toFixed(1);
-      }
       return this.value.toFixed();
     },
 
@@ -70,12 +67,11 @@ export default {
   background-color: var(--color-gray-1);
   border-radius: 6px;
   width: 100%;
-  height: 6px;
+  min-height: 6px;
+  overflow: hidden;
 }
 
 .quantity-bar-inner {
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-  height: 6px;
+  height: 100%;
 }
 </style>

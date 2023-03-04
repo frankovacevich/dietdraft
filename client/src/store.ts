@@ -15,10 +15,19 @@ export const mainStore = defineStore("mainStore", {
       planData: [] as Food[][],
       planInfo: undefined as PlanInfo | undefined,
       today: 0,
+      modal_food_info: undefined as Food | undefined,
     };
   },
 
   getters: {
+    maxFoodCalories(): number {
+      const calcCalories = (food: Food) => {
+        return food.protein * 4 + food.fat * 9 + food.carbs * 4;
+      };
+
+      return Math.max(...this.allFoods.map(calcCalories));
+    },
+
     todaysFoods(): Food[] {
       return this.planData[this.today];
     },
@@ -160,6 +169,14 @@ export const mainStore = defineStore("mainStore", {
       if (this.today < 0) {
         this.today = 0;
       }
+    },
+
+    openModalFoodInfo(food: Food) {
+      this.modal_food_info = food;
+    },
+
+    closeModals() {
+      this.modal_food_info = undefined;
     },
   },
 });

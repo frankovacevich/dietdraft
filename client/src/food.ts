@@ -35,9 +35,9 @@ export interface PlanTotal {
 }
 
 export const defaultPlanInfo = {
-  proteinSetpoint: 125,
-  fatSetpoint: 120,
-  carbsSetpoint: 105,
+  proteinSetpoint: 110,
+  fatSetpoint: 105,
+  carbsSetpoint: 100,
   daysSetpoint: 1,
   calculationMethod: CalculationMethod.ALL,
 };
