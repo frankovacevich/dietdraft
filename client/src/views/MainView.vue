@@ -12,7 +12,7 @@ const store = mainStore();
 <template>
   <Title>
     <template v-slot:right-icon>
-      <font-awesome-icon icon="fa-solid fa-map" />
+      <font-awesome-icon icon="fa-solid fa-ellipsis" />
     </template>
   </Title>
 
@@ -91,7 +91,7 @@ const store = mainStore();
 }
 
 .main-day-container {
-  padding: 20px;
+  padding: 15px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;

@@ -38,12 +38,14 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { faMap } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { CalculationMethod } from "./food";
 
 library.add(faChevronLeft);
 library.add(faChevronRight);
 library.add(faMap);
+library.add(faEllipsis);
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 /*
