@@ -28,3 +28,9 @@ client/cypress/screenshots/
 *.code-workspace
 serve.sh
 deploy.sh
+
+# Cordova
+.DS_Store
+node_modules/
+plugins/
+platforms/
