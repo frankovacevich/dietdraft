@@ -31,6 +31,7 @@ deploy.sh
 
 # Cordova
 .DS_Store
-node_modules/
-plugins/
-platforms/
+apk/DietDraft/node_modules/
+apk/DietDraft/plugins/
+apk/DietDraft/platforms/
+apk/DietDraft/www/
