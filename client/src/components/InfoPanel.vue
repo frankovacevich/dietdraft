@@ -41,7 +41,12 @@ export default {
       unit="g"
       :setpoint="proteinSetpoint"
     />
-    <QuantityBar text="Fat" :value="fat" unit="g" :setpoint="fatSetpoint" />
+    <QuantityBar 
+      text="Fat" 
+      :value="fat" 
+      unit="g" 
+      :setpoint="fatSetpoint"
+    />
     <QuantityBar
       text="Carbs"
       :value="carbs"

@@ -10,12 +10,7 @@ const store = mainStore();
 </script>
 
 <template>
-  <Title>
-    <template v-slot:right-icon>
-      <font-awesome-icon icon="fa-solid fa-ellipsis" />
-    </template>
-  </Title>
-
+  
   <div class="main-container">
     <ModalFoodInfo
       v-if="store.modal_food_info !== undefined"
@@ -58,6 +53,7 @@ const store = mainStore();
         </template>
       </InfoPanel>
     </div>
+
     <div class="main-day-container">
       <DayEdit />
     </div>
@@ -68,7 +64,7 @@ const store = mainStore();
 .main-container {
   left: 0;
   bottom: 0;
-  top: 54px;
+  top: 0;
   right: 0;
   position: fixed;
   overflow-x: hidden;
@@ -80,7 +76,7 @@ const store = mainStore();
 .main-info-panel-container {
   position: sticky;
   top: 0px;
-  padding: 10px 20px;
+  padding: 30px 20px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;

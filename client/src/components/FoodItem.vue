@@ -112,8 +112,8 @@ export default {
   border-radius: 8px;
   padding: 8px;
 
-  width: calc(20vw);
-  height: calc(20vw);
+  width: 20vw;
+  height: 20vw;
 
   display: flex;
   align-items: center;
@@ -163,7 +163,7 @@ export default {
   position: absolute;
   bottom: 0;
   margin-bottom: 5px;
-  font-size: 12px;
+  font-size: 10pt;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;

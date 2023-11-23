@@ -41,15 +41,15 @@ export default {
 
 <template>
   <div class="quantity-bar-container">
-    <small>{{ text }}</small>
+    <a class="quantity-bar-text">{{ text }}</a>
     <div class="quantity-bar-outer">
       <div
         class="quantity-bar-inner"
         :style="{ width: barWidth + '%', backgroundColor: barColor }"
       ></div>
     </div>
-    <small v-if="value != 0">{{ valueRounded }}{{ unit }} </small>
-    <small v-if="value == 0">-</small>
+    <a class="quantity-bar-text" v-if="value != 0">{{ valueRounded }}{{ unit }} </a>
+    <a class="quantity-bar-text" v-if="value == 0">-</a>
   </div>
 </template>
 
@@ -74,4 +74,10 @@ export default {
 .quantity-bar-inner {
   height: 100%;
 }
+
+.quantity-bar-text{
+  font-size: 10pt;
+  font-weight: bold;
+}
+
 </style>

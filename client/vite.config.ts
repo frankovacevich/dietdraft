@@ -8,7 +8,7 @@ import { resolve } from "node:path";
 export default defineConfig({
   plugins: [vue()],
   build: {
-    target: "ES2015",
+    target: 'es2015',
   },
   resolve: {
     alias: {
