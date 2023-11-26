@@ -55,7 +55,7 @@ const store = mainStore();
     </div>
 
     <div class="main-day-container">
-      <DayEdit />
+      <Day />
     </div>
   </div>
 </template>

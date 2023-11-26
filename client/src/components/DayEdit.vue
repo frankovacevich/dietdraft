@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import FoodItem from "../components/FoodItem.vue";
+import FoodItemAlt from "../components/FoodItemAlt.vue";
 import { mainStore } from "@/store";
 const store = mainStore();
 </script>
 
 <template>
   <template v-for="food in store.todaysFoodsExtended">
-    <FoodItem
+    <FoodItemAlt
       :name="food.name"
       :icon="food.icon"
       :description="food.description"
