@@ -1,104 +1,162 @@
-<script setup lang="ts">
-import Day from "../components/Day.vue";
-import Title from "../components/Title.vue";
-import DayEdit from "@/components/DayEdit.vue";
-import InfoPanel from "../components/InfoPanel.vue";
-import ModalFoodInfo from "@/components/ModalFoodInfo.vue";
-
+<script setup>
+import draggable from "vuedraggable";
+import TitleBar from "@/components/TitleBar.vue";
+import MainContainer from "@/components/MainContainer.vue";
+import FoodItem from "@/components/FoodItem.vue";
+import TotalsBars from "@/components/TotalsBars.vue";
+import AddFoodModal from "./AddFoodModal.vue";
 import { mainStore } from "@/store";
 const store = mainStore();
 </script>
 
 <template>
-  
-  <div class="main-container">
-    <ModalFoodInfo
-      v-if="store.modal_food_info !== undefined"
-      :name="store.modal_food_info.name"
-      :icon="store.modal_food_info.icon"
-      :description="store.modal_food_info.description"
-      :protein="store.modal_food_info.protein"
-      :fat="store.modal_food_info.fat"
-      :carbs="store.modal_food_info.carbs"
-    >
-    </ModalFoodInfo>
-
-    <div class="main-info-panel-container">
-      <InfoPanel
-        v-if="store.planInfo !== undefined"
-        :protein="store.todaysQuantities.protein"
-        :fat="store.todaysQuantities.fat"
-        :carbs="store.todaysQuantities.carbs"
-        :protein-setpoint="store.planInfo.proteinSetpoint"
-        :fat-setpoint="store.planInfo.fatSetpoint"
-        :carbs-setpoint="store.planInfo.carbsSetpoint"
-      >
-        <template v-slot:left-icon>
-          <div
-            v-if="store.today > 0"
-            @click="store.previousDay()"
-            class="info-panel-icon"
-          >
-            <font-awesome-icon icon="fa-solid fa-chevron-left" />
-          </div>
-        </template>
-        <template v-slot:right-icon>
-          <div
-            v-if="store.today + 1 < store.planData.length"
-            @click="store.nextDay()"
-            class="info-panel-icon"
-          >
-            <font-awesome-icon icon="fa-solid fa-chevron-right" />
-          </div>
-        </template>
-      </InfoPanel>
+  <AddFoodModal></AddFoodModal>
+  <TitleBar>
+    <div style="margin-left: 8px">
+      Day {{ store.day + 1 }} / {{ store.planInfo.days }}
+    </div>
+    <div style="flex-grow: 1"></div>
+    <div class="title-bar-icon" @click="store.goToPreviousDay">
+      <font-awesome-icon icon="fa-solid fa-chevron-left" />
     </div>
 
-    <div class="main-day-container">
-      <Day />
+    <div class="title-bar-icon" @click="this.$router.push('/plan')">
+      <font-awesome-icon icon="fa-solid fa-map" />
+    </div>
+    <div class="title-bar-icon" @click="store.toggleEditMode">
+      <font-awesome-icon
+        v-if="store.editMode"
+        icon="fa-solid fa-pen-to-square"
+      />
+      <font-awesome-icon
+        v-if="!store.editMode"
+        icon="fa-regular fa-pen-to-square"
+      />
+    </div>
+    <div class="title-bar-icon" @click="store.goToNextDay">
+      <font-awesome-icon icon="fa-solid fa-chevron-right" />
+    </div>
+  </TitleBar>
+
+  <MainContainer>
+    <TotalsBars
+      :protein="store.todaysQuantities.protein"
+      :fat="store.todaysQuantities.fat"
+      :carbs="store.todaysQuantities.carbs"
+      :proteinTarget="store.planInfo.protein"
+      :fatTarget="store.planInfo.fat"
+      :carbsTarget="store.planInfo.carbs"
+    ></TotalsBars>
+
+    <div v-for="(meal, m) in store.meals" :key="m">
+      <div class="meal-title-container">
+        <div class="meal-title">{{ meal }}</div>
+        <div
+          v-if="store.editMode"
+          class="meal-title-icon"
+          @click="store.addFoodModal.open(m, store.allFoods)"
+        >
+          <font-awesome-icon icon="fa-solid fa-plus" />
+        </div>
+        <div style="flex-grow: 1"></div>
+      </div>
+      <draggable
+        :list="store.todaysFoods[m]"
+        item-key="id"
+        tag="div"
+        group="foods"
+        :end="store.foodDragEnd()"
+        :disabled="!store.editMode"
+      >
+        <template #item="{ element: food, index: j }">
+          <FoodItem
+            :name="food.name"
+            :icon="food.icon"
+            :description="food.description"
+            :protein="food.protein"
+            :fat="food.fat"
+            :carbs="food.carbs"
+            :amount="store.editMode || food.amount !== 1 ? food.amount : null"
+            :crossed="food.selected"
+            :selected-quantity="store.selectedQuantity"
+            @bodyClick="store.changeFoodEaten(food)"
+            @amountClick="if (store.editMode) store.changeFoodAmount(food);"
+            @hold="store.removeFood(m, j)"
+          ></FoodItem>
+        </template>
+      </draggable>
+    </div>
+  </MainContainer>
+
+  <div class="bottom-toolbar" v-if="store.editMode">
+    <div
+      class="round-button round-button-secondary"
+      @click="store.clearToday()"
+    >
+      <font-awesome-icon icon="fa-solid fa-trash" />
+    </div>
+    <div class="round-button" @click="store.recalculateToday()">
+      <font-awesome-icon icon="fa-solid fa-rotate-right" />
     </div>
   </div>
 </template>
 
-<style>
-.main-container {
-  left: 0;
-  bottom: 0;
-  top: 0;
-  right: 0;
+<style scoped>
+.bottom-toolbar {
   position: fixed;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  box-sizing: border-box;
-  background-color: var(--color-background);
-}
-
-.main-info-panel-container {
-  position: sticky;
-  top: 0px;
-  padding: 30px 20px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  background-color: var(--color-background);
-  box-shadow: 0px 20px 20px -20px var(--color-gray-1);
-  z-index: 10;
-}
-
-.main-day-container {
-  padding: 15px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 5;
-
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  height: 56px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 100%;
+  align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  overflow-y: scroll;
+  gap: 10px;
+}
+
+.round-button {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-size: 16pt;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.round-button:active {
+  background-color: var(--color-primary-active);
+}
+
+.round-button-secondary {
+  background-color: var(--color-gray-1);
+}
+
+.round-button-secondary:active {
+  background-color: var(--color-gray-2);
+}
+
+.meal-title-container {
+  display: flex;
+  align-items: center;
+}
+
+.meal-title-icon {
+  font-size: 12pt;
+  padding: 10px;
+}
+
+.meal-title-icon:active {
+  color: var(--color-primary-active);
+}
+
+.meal-title {
+  font-size: 12pt;
+  text-transform: capitalize;
+  color: var(--color-gray-1);
+  padding: 10px 0 10px 0;
 }
 </style>

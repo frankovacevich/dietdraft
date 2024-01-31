@@ -1,17 +1,13 @@
-# Build Vue app
+# build vue app
 cd client
-npm run build -- --base=/
+npm run build
 cd ..
 
-# Copy files
-cp -r client/dist/* apk/DietDraft/www/
+# copy files
+cp -r client/dist/* app/www/
 
-# Build apk
-cd apk/DietDraft
+# build apk
+cd app
 cordova build
-cd ../..
-
-# Build Vue again with another base
-cd client
-npm run build -- --base=/client/dist/
 cd ..
+cp app/platforms/android/app/build/outputs/apk/debug/app-debug.apk app/dist/dietdraft.apk

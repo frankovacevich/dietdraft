@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 export default {
   data() {
     return {
@@ -15,7 +15,9 @@ export default {
     carbs: { type: Number, default: 0 },
     amount: { type: Number, default: undefined },
     selected: { type: Boolean, default: false },
-    extra: { type: String, default: undefined },
+    crossed: { type: Boolean, default: false },
+    editing: { type: Boolean, default: false },
+    selectedQuantity: { type: Number, default: undefined },
   },
 
   computed: {
@@ -23,40 +25,47 @@ export default {
       return 9 * this.fat + 4 * this.protein + 4 * this.carbs;
     },
 
-    amountDisplay() {
-      if (this.amount === undefined) {
+    displayName() {
+      return this.name.charAt(0).toUpperCase() + this.name.slice(1);
+    },
+
+    displayQuantity() {
+      let value;
+      let unit;
+      switch (this.selectedQuantity) {
+        case 0:
+          value = this.calories;
+          unit = "kcal";
+          break;
+        case 1:
+          value = this.protein;
+          unit = "g";
+          break;
+        case 2:
+          value = this.fat;
+          unit = "g";
+          break;
+        case 3:
+          value = this.carbs;
+          unit = "g";
+          break;
+      }
+      if (value === undefined) {
         return undefined;
       }
-
-      if (this.amount == 0.5) {
-        return "½";
-      }
-
-      return this.amount.toString();
+      return `${value.toFixed(0)} ${unit}`;
     },
   },
 
   methods: {
-    resolveImg(image: string) {
-      return `./food/${image}.svg`;
+    resolveImg(image) {
+      return `/food/${image}.png`;
     },
 
     heldLongEnough() {
       const now = new Date().getTime();
       const holdThreshold = 500; // 500 milliseconds
       return now - this.holdStartTimestamp > holdThreshold;
-    },
-
-    topClick() {
-      if (!this.heldLongEnough()) {
-        this.$emit("topClick");
-      }
-    },
-
-    bottomClick() {
-      if (!this.heldLongEnough()) {
-        this.$emit("bottomClick");
-      }
     },
 
     holdStart() {
@@ -66,6 +75,20 @@ export default {
     holdEnd() {
       if (this.heldLongEnough()) {
         this.$emit("hold");
+        this.holdStartTimestamp = 0;
+        console.log("HELD!");
+      }
+    },
+
+    bodyClick() {
+      if (!this.heldLongEnough()) {
+        this.$emit("bodyClick");
+      }
+    },
+
+    amountClick() {
+      if (!this.heldLongEnough()) {
+        this.$emit("amountClick");
       }
     },
   },
@@ -73,120 +96,80 @@ export default {
 </script>
 
 <template>
-  <div class="food-item" :class="{ selected: selected }">
-    <div
-      class="food-item-top"
-      @click="topClick()"
-      @mousedown="holdStart()"
-      @mouseup="holdEnd()"
-      @touchstart="holdStart()"
-      @touchend="holdEnd()"
-    ></div>
-    <div
-      class="food-item-bottom"
-      @click="bottomClick()"
-      @mousedown="holdStart()"
-      @mouseup="holdEnd()"
-      @touchstart="holdStart()"
-      @touchend="holdEnd()"
-    ></div>
-
-    <div class="food-icon">
+  <div
+    class="food-item"
+    :class="{ selected: selected }"
+    @click.self="bodyClick()"
+    @mousedown="holdStart()"
+    @mouseup="holdEnd()"
+  >
+    <div class="food-icon" :class="{ crossed: crossed }">
       <img :src="resolveImg(icon)" />
     </div>
-    <div v-if="amount" class="food-amount">
-      {{ amount }}
+    <div class="food-name" :class="{ crossed: crossed }" @click="bodyClick()">
+      <span>{{ displayName }}</span>
     </div>
-    <div v-if="extra" class="food-quantity">
-      {{ extra }}
+    <div style="flex-grow: 1"></div>
+    <div v-if="selectedQuantity !== undefined" class="display-quantity">
+      <span>{{ displayQuantity }}</span>
     </div>
-    <div class="food-name">
-      <span>{{ name }}</span>
+    <div v-if="amount" class="food-amount" @click="amountClick()">
+      <span>{{ amount }}</span>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .food-item {
   background-color: var(--color-gray-0);
   border-radius: 8px;
-  padding: 8px;
 
-  width: 20vw;
-  height: 20vw;
+  width: 100%;
+  height: 34px;
 
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: stretch;
   position: relative;
   box-sizing: border-box;
+
+  margin-bottom: 5px;
 }
 
 .food-item.selected {
-  outline: 3px solid var(--color-primary);
-  outline-offset: -3px;
-}
-
-.food-icon img {
-  width: 32px;
-  height: 32px;
-}
-
-.food-amount {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  top: 0;
-  left: 0;
-  background-color: var(--color-primary);
-  width: 18px;
-  height: 18px;
-  border-bottom-right-radius: 4px;
-  border-top-left-radius: 8px;
-  box-sizing: border-box;
-}
-
-.food-quantity {
-  position: absolute;
-  font-size: 8px;
-  top: 0;
-  right: 0;
-  color: var(--color-gray-2);
-  text-align: right;
-  padding-top: 5px;
-  padding-right: 8px;
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
 }
 
 .food-name {
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 5px;
-  font-size: 10pt;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-  overflow-x: hidden;
-  color: var(--color-gray-2);
+  font-size: 0.9rem;
 }
 
-.food-item-top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 50%;
-  z-index: 1;
+.food-name.crossed {
+  text-decoration: line-through;
 }
 
-.food-item-bottom {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
+.food-icon img {
+  width: 24px;
+  height: 24px;
+  margin: 0 6px;
+}
+
+.food-icon.crossed {
+  filter: grayscale(1);
+}
+
+.food-amount {
+  border-radius: 5px;
+  padding: 6px 6px;
+  background-color: var(--color-gray-1);
+  margin-right: 4px;
+}
+
+.display-quantity {
+  font-size: 9pt;
+  color: var(--color-gray-1);
+  margin-right: 6px;
 }
 </style>

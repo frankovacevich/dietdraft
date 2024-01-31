@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=swap");
+
+:root {
+  --color-primary: #3089b3;
+  --color-primary-active: #2c6a87;
+  --color-danger: #d8062d;
+
+  --color-protein: #8cb596;
+  --color-fat: #6a938b;
+  --color-carbs: #f0c1aa;
+}
+
+:root {
+  --color-background: #f2f2f2;
+  --color-text: #000000;
+
+  --color-gray-0: #dfdfdf;
+  --color-gray-1: #c2c2c2;
+  --color-gray-2: #848484;
+  --color-gray-3: #565656;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #282828;
+    --color-text: #ffffff;
+
+    --color-gray-0: #565656;
+    --color-gray-1: #848484;
+    --color-gray-2: #c2c2c2;
+    --color-gray-3: #dfdfdf;
+  }
+}
+
+body {
+  color: var(--color-text);
+  background-color: var(--color-background);
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  user-select: none;
+}
+
+small {
+  font-size: 12px;
+}
+
+button {
+  background-color: var(--color-gray-0);
+  border: 1px solid var(--color-gray-3);
+  color: var(--color-text-light);
+  border-radius: 3px;
+  padding: 0 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 11px;
+  height: 26px;
+}
+
+.main-app-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
