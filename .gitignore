@@ -1,0 +1,7 @@
+/app/plugins/
+/app/platforms/
+/app/node_modules/
+/app/www/
+
+/client/node_modules/
+/client/dist/
