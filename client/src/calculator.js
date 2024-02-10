@@ -162,7 +162,7 @@ export class Calculator {
  * Helper function
  */
 
-function getRandomSubsample(list, sampleSize) {
+export function getRandomSubsample(list, sampleSize) {
   if (sampleSize <= 0) {
     return [];
   }

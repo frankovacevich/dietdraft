@@ -2,6 +2,7 @@
 import TitleBar from "@/components/TitleBar.vue";
 import MainContainer from "@/components/MainContainer.vue";
 import FoodItem from "@/components/FoodItem.vue";
+
 import { mainStore } from "@/store";
 const store = mainStore();
 </script>
@@ -20,10 +21,29 @@ const store = mainStore();
       </div>
     </TitleBar>
     <MainContainer>
-      <div v-for="category in store.addFoodModal.foodCategores" :key="category">
-        <div class="category-title">{{ category }}</div>
+      <div class="search-bar">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search"
+          v-model="store.addFoodModal.searchText"
+        />
+        <font-awesome-icon
+          v-if="store.addFoodModal.searchText !== ''"
+          @click="store.addFoodModal.clearSearch()"
+          icon="fa-solid fa-xmark"
+          class="search-icon"
+        />
+        <font-awesome-icon
+          v-if="store.addFoodModal.searchText === ''"
+          icon="fa-solid fa-magnifying-glass"
+          class="search-icon"
+        />
+      </div>
+      <div v-for="cat in store.addFoodModal.getCategories()" :key="cat">
+        <div class="category-title">{{ cat }}</div>
         <FoodItem
-          v-for="(food, i) in store.addFoodModal.getFoodsByCategory(category)"
+          v-for="(food, i) in store.addFoodModal.getFoodsForCategory(cat)"
           :key="i"
           :name="food.name"
           :icon="food.icon"
@@ -61,5 +81,25 @@ const store = mainStore();
   text-transform: capitalize;
   color: var(--color-gray-1);
   padding: 10px 0 10px 0;
+}
+
+.search-bar {
+  background-color: var(--color-gray-0);
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+}
+
+.search-bar input {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  flex-grow: 1;
+}
+
+.search-bar .search-icon {
+  color: var(--color-gray-1);
 }
 </style>

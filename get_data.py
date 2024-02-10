@@ -3,7 +3,7 @@ import json
 import requests
 from io import StringIO
 
-url = "https://docs.google.com/spreadsheets/u/1/d/1rdlyYMqmWA6FnUneMAa71odaipJKO2Cq5ivrjIcpC-0/gviz/tq?tqx=out:csv"
+url = "https://docs.google.com/spreadsheets/u/1/d/1d6RKA-GsM2IiFmZEQtNHsrXuF-ZXw4BTqmaK2tT5cuw/gviz/tq?tqx=out:csv"
 r = requests.get(url)
 
 csv_file_like = StringIO(r.text)

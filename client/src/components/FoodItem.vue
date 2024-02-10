@@ -2,7 +2,11 @@
 export default {
   data() {
     return {
+      // Hold
       holdStartTimestamp: 0,
+      // Drag delete
+      dragStartX: null,
+      dragAboutToDelete: false,
     };
   },
 
@@ -16,7 +20,7 @@ export default {
     amount: { type: Number, default: undefined },
     selected: { type: Boolean, default: false },
     crossed: { type: Boolean, default: false },
-    editing: { type: Boolean, default: false },
+    allowDelete: { type: Boolean, default: false },
     selectedQuantity: { type: Number, default: undefined },
   },
 
@@ -68,18 +72,6 @@ export default {
       return now - this.holdStartTimestamp > holdThreshold;
     },
 
-    holdStart() {
-      this.holdStartTimestamp = new Date().getTime();
-    },
-
-    holdEnd() {
-      if (this.heldLongEnough()) {
-        this.$emit("hold");
-        this.holdStartTimestamp = 0;
-        console.log("HELD!");
-      }
-    },
-
     bodyClick() {
       if (!this.heldLongEnough()) {
         this.$emit("bodyClick");
@@ -91,6 +83,46 @@ export default {
         this.$emit("amountClick");
       }
     },
+
+    touchStart(e) {
+      // Drag delete
+      if (this.allowDelete) {
+        this.dragStartX = e.touches[0].clientX;
+      }
+
+      // Hold
+      this.holdStartTimestamp = new Date().getTime();
+    },
+
+    touchMove(e) {
+      // Drag delete
+      if (this.allowDelete && this.dragStartX) {
+        const threshold = 100;
+        const delta = this.dragStartX - e.touches[0].clientX;
+        if (Math.abs(delta) > threshold) {
+          this.dragAboutToDelete = true;
+        } else {
+          this.dragAboutToDelete = false;
+        }
+      }
+    },
+
+    touchEnd() {
+      // Drag delete
+      if (this.allowDelete && this.dragAboutToDelete) {
+        this.$emit("delete");
+        this.dragAboutToDelete = false;
+        this.dragStartX = null;
+        return;
+      }
+
+      // Hold
+      if (this.heldLongEnough()) {
+        this.$emit("hold");
+        this.holdStartTimestamp = 0;
+        return;
+      }
+    },
   },
 };
 </script>
@@ -98,10 +130,13 @@ export default {
 <template>
   <div
     class="food-item"
-    :class="{ selected: selected }"
+    :class="{ selected: selected, delete: dragAboutToDelete }"
     @click.self="bodyClick()"
     @mousedown="holdStart()"
     @mouseup="holdEnd()"
+    @touchstart="touchStart($event)"
+    @touchmove="touchMove($event)"
+    @touchend="touchEnd()"
   >
     <div class="food-icon" :class="{ crossed: crossed }">
       <img :src="resolveImg(icon)" />
@@ -142,6 +177,10 @@ export default {
   outline-offset: -1px;
 }
 
+.food-item.delete {
+  background-color: var(--color-danger);
+}
+
 .food-name {
   font-size: 0.9rem;
 }
@@ -163,8 +202,9 @@ export default {
 .food-amount {
   border-radius: 5px;
   padding: 6px 6px;
-  background-color: var(--color-gray-1);
-  margin-right: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin-right: 3px;
+  font-size: 12px;
 }
 
 .display-quantity {

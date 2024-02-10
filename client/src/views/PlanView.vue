@@ -1,6 +1,8 @@
 <script setup>
 import TitleBar from "@/components/TitleBar.vue";
 import MainContainer from "@/components/MainContainer.vue";
+import FoodItem from "@/components/FoodItem.vue";
+
 import { mainStore } from "@/store";
 import { CalculationMethods } from "@/calculator";
 const store = mainStore();
@@ -8,15 +10,44 @@ const store = mainStore();
 
 <template>
   <TitleBar>
-    <div class="title-bar-icon" @click="this.$router.push('/menu')">
-      <font-awesome-icon icon="fa-solid fa-arrow-left" />
-    </div>
+    <router-link to="/menu">
+      <div class="title-bar-icon">
+        <font-awesome-icon icon="fa-solid fa-arrow-left" />
+      </div>
+    </router-link>
     <div style="flex-grow: 1"></div>
     <div>Plan</div>
     <div style="flex-grow: 1"></div>
-    <div class="title-bar-icon-hidden"></div>
+    <div class="title-bar-icon" @click="store.generateNewPlan()">
+      <font-awesome-icon
+        icon="fa-solid fa-rotate-right"
+        :spin="store.calculating"
+      />
+    </div>
   </TitleBar>
   <MainContainer>
+    <div class="more-options-div">
+      <div>Days:</div>
+      <input
+        v-model="store.planInfoInput.days"
+        min="0"
+        max="31"
+        type="number"
+      />
+      <div>Optimize:</div>
+      <select
+        v-model="store.planInfoInput.calculationMethod"
+        style="flex-grow: 1; max-width: none"
+      >
+        <option
+          v-for="option in CalculationMethods"
+          :key="option"
+          :value="option"
+        >
+          {{ option }}
+        </option>
+      </select>
+    </div>
     <table class="summary-table">
       <tr>
         <td></td>
@@ -24,20 +55,6 @@ const store = mainStore();
         <td>Fat</td>
         <td>Carbs</td>
         <td>Calories</td>
-      </tr>
-      <tr>
-        <td>Averages</td>
-        <td>{{ store.planFoodsAverages.protein.toFixed() }}</td>
-        <td>{{ store.planFoodsAverages.fat.toFixed() }}</td>
-        <td>{{ store.planFoodsAverages.carbs.toFixed() }}</td>
-        <td>{{ store.planFoodsAverages.calories.toFixed() }}</td>
-      </tr>
-      <tr>
-        <td>%</td>
-        <td>{{ store.planFoodsAveragesPercentages.protein }}%</td>
-        <td>{{ store.planFoodsAveragesPercentages.fat }}%</td>
-        <td>{{ store.planFoodsAveragesPercentages.carbs }}%</td>
-        <td>{{ store.planFoodsAveragesPercentages.calories }}%</td>
       </tr>
       <tr>
         <td>Target</td>
@@ -74,38 +91,31 @@ const store = mainStore();
         <td>{{ store.planInfoInput.percentages.carbs }}%</td>
         <td>{{ store.planInfoInput.percentages.calories }}%</td>
       </tr>
+      <tr>
+        <td>Average</td>
+        <td>{{ store.planFoodsAverages.protein.toFixed() }}</td>
+        <td>{{ store.planFoodsAverages.fat.toFixed() }}</td>
+        <td>{{ store.planFoodsAverages.carbs.toFixed() }}</td>
+        <td>{{ store.planFoodsAverages.calories.toFixed() }}</td>
+      </tr>
+      <tr>
+        <td>%</td>
+        <td>{{ store.planFoodsAveragesPercentages.protein }}%</td>
+        <td>{{ store.planFoodsAveragesPercentages.fat }}%</td>
+        <td>{{ store.planFoodsAveragesPercentages.carbs }}%</td>
+        <td>{{ store.planFoodsAveragesPercentages.calories }}%</td>
+      </tr>
     </table>
 
-    <div class="more-options-div">
-      <div>Days:</div>
-      <input
-        v-model="store.planInfoInput.days"
-        min="0"
-        max="31"
-        type="number"
-      />
-      <div>Optimize:</div>
-      <select
-        v-model="store.planInfoInput.calculationMethod"
-        style="flex-grow: 1; max-width: none"
-      >
-        <option
-          v-for="option in CalculationMethods"
-          :key="option"
-          :value="option"
-        >
-          {{ option }}
-        </option>
-      </select>
-    </div>
-
-    <div class="button" @click="store.generateNewPlan()">
-      <font-awesome-icon
-        icon="fa-solid fa-rotate-right"
-        :spin="store.calculating"
-      />
-      Generate
-    </div>
+    <div class="subtitle">Shopping List</div>
+    <FoodItem
+      v-for="(food, i) in store.shoppingList"
+      :key="i"
+      :name="food.name"
+      :icon="food.icon"
+      :description="food.description"
+      :amount="food.amount"
+    ></FoodItem>
   </MainContainer>
 </template>
 
@@ -120,12 +130,13 @@ select {
   max-width: 50px;
   text-align: center;
   padding: 5px;
+  font-size: 1rem;
 }
 
 .more-options-div {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-bottom: 10px;
   gap: 10px;
 }
 
@@ -162,8 +173,19 @@ select {
   border-bottom: 1px solid;
 }
 
+.summary-table tr:nth-child(3) td,
+.summary-table tr:nth-child(5) td {
+  color: var(--color-gray-2);
+}
+
 .summary-table td:not(:first-child) {
   width: 20%;
   text-align: center;
+}
+
+.subtitle {
+  color: var(--color-gray-1);
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 </style>

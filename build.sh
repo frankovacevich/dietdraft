@@ -4,6 +4,7 @@ npm run build
 cd ..
 
 # copy files
+rm -r app/www/*
 cp -r client/dist/* app/www/
 
 # build apk

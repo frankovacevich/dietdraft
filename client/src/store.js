@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
-import { Calculator, CalculationMethods } from "./calculator";
+import {
+  Calculator,
+  CalculationMethods,
+  getRandomSubsample,
+} from "./calculator";
 
 /*
 Classes
@@ -73,13 +77,28 @@ export class AddFoodModal {
   visible = false;
   meal = 0;
   foods = [];
-
-  get foodCategores() {
-    return new Set(this.foods.map((food) => food.category));
-  }
+  searchText = "";
 
   get mealName() {
     return Meals[this.meal];
+  }
+
+  get searchInput() {
+    return document.getElementById("searchInput");
+  }
+
+  getSearchedFoods() {
+    if (this.searchText === "") {
+      return this.foods;
+    }
+    return this.foods.filter((food) =>
+      food.name.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
+
+  getCategories() {
+    const foods = this.getSearchedFoods();
+    return new Set(foods.map((food) => food.category));
   }
 
   getSelectedFoods() {
@@ -91,19 +110,27 @@ export class AddFoodModal {
     return foods;
   }
 
-  getFoodsByCategory(category) {
-    return this.foods.filter((food) => food.category === category);
+  getFoodsForCategory(category) {
+    const foods = this.getSearchedFoods();
+    return foods.filter((food) => food.category === category);
   }
 
   open(meal, foods) {
     this.meal = meal;
     this.visible = true;
     this.foods = foods.map((food) => ({ ...food }));
+    this.searchInput.focus();
   }
 
   close() {
     this.visible = false;
+    this.searchText = "";
     return this.getSelectedFoods();
+  }
+
+  clearSearch() {
+    this.searchText = "";
+    this.searchInput.focus();
   }
 }
 
@@ -170,14 +197,13 @@ export const mainStore = defineStore("mainStore", {
     },
 
     todaysQuantities() {
-      const total = { protein: 0, fat: 0, carbs: 0 };
-      for (const meal of this.todaysFoods) {
-        for (const food of meal) {
-          total.protein += food.protein * (food.amount || 0);
-          total.fat += food.fat * (food.amount || 0);
-          total.carbs += food.carbs * (food.amount || 0);
-        }
-      }
+      const total = { protein: 0, fat: 0, carbs: 0, calories: 0 };
+      this.planFoods[this.day].flat().forEach((food) => {
+        total.protein += food.protein * (food.amount || 0);
+        total.fat += food.fat * (food.amount || 0);
+        total.carbs += food.carbs * (food.amount || 0);
+      });
+      total.calories = 4 * total.protein + 9 * total.fat + 4 * total.carbs;
       return total;
     },
 
@@ -220,9 +246,20 @@ export const mainStore = defineStore("mainStore", {
       );
     },
 
-    allFoodsCategories() {
-      const categories = new Set(this.allFoods.map((food) => food.category));
-      return Array.from(categories);
+    shoppingList() {
+      const foods = this.planFoods.flat(2);
+      const foodMap = new Map();
+
+      foods.forEach((food) => {
+        if (foodMap.has(food.name)) {
+          const newAmount = food.amount + foodMap.get(food.name).amount;
+          foodMap.set(food.name, { ...food, amount: newAmount });
+        } else {
+          foodMap.set(food.name, { ...food });
+        }
+      });
+
+      return Array.from(foodMap.values()).sort((a, b) => b.amount - a.amount);
     },
   },
 
@@ -292,15 +329,13 @@ export const mainStore = defineStore("mainStore", {
     recalculateToday() {
       // Calculate targets based on what's already been eaten
       const totalEaten = { protein: 0, fat: 0, carbs: 0 };
-      for (const meal of this.todaysFoods) {
-        for (const food of meal) {
-          if (food.selected) {
-            totalEaten.protein += food.protein * (food.amount || 0);
-            totalEaten.fat += food.fat * (food.amount || 0);
-            totalEaten.carbs += food.carbs * (food.amount || 0);
-          }
+      this.planFoods[this.day].flat().forEach((food) => {
+        if (food.selected) {
+          totalEaten.protein += food.protein * (food.amount || 0);
+          totalEaten.fat += food.fat * (food.amount || 0);
+          totalEaten.carbs += food.carbs * (food.amount || 0);
         }
-      }
+      });
 
       const calculator = new Calculator(
         this.allFoods,
@@ -317,26 +352,30 @@ export const mainStore = defineStore("mainStore", {
       }
 
       this.planFoods[this.day] = newPlan;
-
       this.save();
     },
 
     generateNewPlan() {
       this.calculating = true;
+      this.planInfo.protein = this.planInfoInput.protein;
+      this.planInfo.fat = this.planInfoInput.fat;
+      this.planInfo.carbs = this.planInfoInput.carbs;
+      this.planInfo.days = this.planInfoInput.days;
+      this.planInfo.calculationMethod = this.planInfoInput.calculationMethod;
 
+      const r = Math.min(1, 0.3 + 0.024 * (this.planInfo.days - 1));
       const calculator = new Calculator(
-        this.allFoods,
+        getRandomSubsample(this.allFoods, Math.round(this.allFoods.length * r)),
         this.planInfo.calculationMethod,
         this.planInfo.protein,
         this.planInfo.fat,
         this.planInfo.carbs
       );
 
-      this.planInfo.days = this.planInfoInput.days;
-      this.planInfo.calculationMethod = this.planInfoInput.calculationMethod;
-      this.planInfo.created = new Date().getTime();
       this.planFoods = calculator.calculateDays(this.planInfo.days);
+      this.planInfo.created = new Date().getTime();
       this.day = 0;
+
       this.save();
       this.calculating = false;
     },

@@ -3,7 +3,7 @@ import draggable from "vuedraggable";
 import TitleBar from "@/components/TitleBar.vue";
 import MainContainer from "@/components/MainContainer.vue";
 import FoodItem from "@/components/FoodItem.vue";
-import TotalsBars from "@/components/TotalsBars.vue";
+import TotalsBar from "@/components/TotalsBar.vue";
 import AddFoodModal from "./AddFoodModal.vue";
 import { mainStore } from "@/store";
 const store = mainStore();
@@ -19,10 +19,11 @@ const store = mainStore();
     <div class="title-bar-icon" @click="store.goToPreviousDay">
       <font-awesome-icon icon="fa-solid fa-chevron-left" />
     </div>
-
-    <div class="title-bar-icon" @click="this.$router.push('/plan')">
-      <font-awesome-icon icon="fa-solid fa-map" />
-    </div>
+    <router-link to="/plan">
+      <div class="title-bar-icon">
+        <font-awesome-icon icon="fa-solid fa-map" />
+      </div>
+    </router-link>
     <div class="title-bar-icon" @click="store.toggleEditMode">
       <font-awesome-icon
         v-if="store.editMode"
@@ -39,14 +40,36 @@ const store = mainStore();
   </TitleBar>
 
   <MainContainer>
-    <TotalsBars
-      :protein="store.todaysQuantities.protein"
-      :fat="store.todaysQuantities.fat"
-      :carbs="store.todaysQuantities.carbs"
-      :proteinTarget="store.planInfo.protein"
-      :fatTarget="store.planInfo.fat"
-      :carbsTarget="store.planInfo.carbs"
-    ></TotalsBars>
+    <div class="total-bars-container">
+      <div @click="store.selectedQuantity = 1">
+        <TotalsBar
+          :text="'Protein' + (store.selectedQuantity === 1 ? ' •' : '')"
+          :value="store.todaysQuantities.protein"
+          :target="store.planInfo.protein"
+        ></TotalsBar>
+      </div>
+      <div @click="store.selectedQuantity = 2">
+        <TotalsBar
+          :text="'Fat' + (store.selectedQuantity === 2 ? ' •' : '')"
+          :value="store.todaysQuantities.fat"
+          :target="store.planInfo.fat"
+        ></TotalsBar>
+      </div>
+      <div @click="store.selectedQuantity = 3">
+        <TotalsBar
+          :text="'Carbs' + (store.selectedQuantity === 3 ? ' •' : '')"
+          :value="store.todaysQuantities.carbs"
+          :target="store.planInfo.carbs"
+        ></TotalsBar>
+      </div>
+      <div @click="store.selectedQuantity = 0">
+        <TotalsBar
+          :text="'Calories' + (store.selectedQuantity === 0 ? ' •' : '')"
+          :value="store.todaysQuantities.calories"
+          :target="store.planInfo.calories"
+        ></TotalsBar>
+      </div>
+    </div>
 
     <div v-for="(meal, m) in store.meals" :key="m">
       <div class="meal-title-container">
@@ -79,9 +102,11 @@ const store = mainStore();
             :amount="store.editMode || food.amount !== 1 ? food.amount : null"
             :crossed="food.selected"
             :selected-quantity="store.selectedQuantity"
+            :allow-delete="store.editMode"
             @bodyClick="store.changeFoodEaten(food)"
             @amountClick="if (store.editMode) store.changeFoodAmount(food);"
-            @hold="store.removeFood(m, j)"
+            @hold="console.log('held')"
+            @delete="store.removeFood(m, j)"
           ></FoodItem>
         </template>
       </draggable>
@@ -158,5 +183,15 @@ const store = mainStore();
   text-transform: capitalize;
   color: var(--color-gray-1);
   padding: 10px 0 10px 0;
+}
+
+.total-bars-container {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.total-bars-container div {
+  flex-grow: 1;
 }
 </style>
