@@ -2,11 +2,10 @@
 export default {
   data() {
     return {
-      // Hold
-      holdStartTimestamp: 0,
-      // Drag delete
-      dragStartX: null,
-      dragAboutToDelete: false,
+      touchStartTimestamp: null,
+      touchStartX: null,
+      touchStartY: null,
+      aboutToDelete: false,
     };
   },
 
@@ -31,6 +30,10 @@ export default {
 
     displayName() {
       return this.name.charAt(0).toUpperCase() + this.name.slice(1);
+    },
+
+    iconSrc() {
+      return `/food/${this.icon}.png`;
     },
 
     displayQuantity() {
@@ -62,14 +65,13 @@ export default {
   },
 
   methods: {
-    resolveImg(image) {
-      return `/food/${image}.png`;
-    },
-
     heldLongEnough() {
       const now = new Date().getTime();
-      const holdThreshold = 500; // 500 milliseconds
-      return now - this.holdStartTimestamp > holdThreshold;
+      const holdThreshold = 500; // milliseconds
+      return (
+        this.touchStartTimestamp !== null &&
+        now - this.touchStartTimestamp > holdThreshold
+      );
     },
 
     bodyClick() {
@@ -85,43 +87,42 @@ export default {
     },
 
     touchStart(e) {
-      // Drag delete
-      if (this.allowDelete) {
-        this.dragStartX = e.touches[0].clientX;
+      if (e.touches !== undefined) {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
       }
-
-      // Hold
-      this.holdStartTimestamp = new Date().getTime();
+      this.touchStartTimestamp = new Date().getTime();
     },
 
     touchMove(e) {
       // Drag delete
-      if (this.allowDelete && this.dragStartX) {
-        const threshold = 100;
-        const delta = this.dragStartX - e.touches[0].clientX;
+      if (this.allowDelete && this.touchStartX) {
+        const threshold = 70; //pixels
+        const delta = this.touchStartX - e.touches[0].clientX;
         if (Math.abs(delta) > threshold) {
-          this.dragAboutToDelete = true;
+          this.aboutToDelete = true;
         } else {
-          this.dragAboutToDelete = false;
+          this.aboutToDelete = false;
         }
       }
     },
 
-    touchEnd() {
-      // Drag delete
-      if (this.allowDelete && this.dragAboutToDelete) {
+    touchEnd(e) {
+      const threshold = 10; // pixels
+
+      if (this.allowDelete && this.aboutToDelete) {
         this.$emit("delete");
-        this.dragAboutToDelete = false;
-        this.dragStartX = null;
-        return;
+      } else if (
+        this.heldLongEnough() &&
+        Math.abs(e.changedTouches[0].clientY - this.touchStartY) < threshold
+      ) {
+        this.$emit("hold");
       }
 
-      // Hold
-      if (this.heldLongEnough()) {
-        this.$emit("hold");
-        this.holdStartTimestamp = 0;
-        return;
-      }
+      this.aboutToDelete = false;
+      this.touchStartX = null;
+      this.touchStartY = null;
+      this.touchStartTimestamp = null;
     },
   },
 };
@@ -130,16 +131,16 @@ export default {
 <template>
   <div
     class="food-item"
-    :class="{ selected: selected, delete: dragAboutToDelete }"
+    :class="{ selected: selected, delete: aboutToDelete }"
     @click.self="bodyClick()"
-    @mousedown="holdStart()"
-    @mouseup="holdEnd()"
+    @mousedown="touchStart($event)"
+    @mouseup="touchEnd()"
     @touchstart="touchStart($event)"
     @touchmove="touchMove($event)"
-    @touchend="touchEnd()"
+    @touchend="touchEnd($event)"
   >
     <div class="food-icon" :class="{ crossed: crossed }">
-      <img :src="resolveImg(icon)" />
+      <img :src="iconSrc" />
     </div>
     <div class="food-name" :class="{ crossed: crossed }" @click="bodyClick()">
       <span>{{ displayName }}</span>

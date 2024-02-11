@@ -5,12 +5,14 @@ import MainContainer from "@/components/MainContainer.vue";
 import FoodItem from "@/components/FoodItem.vue";
 import TotalsBar from "@/components/TotalsBar.vue";
 import AddFoodModal from "./AddFoodModal.vue";
+import FoodInfoModal from "@/components/FoodInfoModal.vue";
 import { mainStore } from "@/store";
 const store = mainStore();
 </script>
 
 <template>
   <AddFoodModal></AddFoodModal>
+  <FoodInfoModal></FoodInfoModal>
   <TitleBar>
     <div style="margin-left: 8px">
       Day {{ store.day + 1 }} / {{ store.planInfo.days }}
@@ -105,7 +107,7 @@ const store = mainStore();
             :allow-delete="store.editMode"
             @bodyClick="store.changeFoodEaten(food)"
             @amountClick="if (store.editMode) store.changeFoodAmount(food);"
-            @hold="console.log('held')"
+            @hold="store.foodInfoModal.open(food)"
             @delete="store.removeFood(m, j)"
           ></FoodItem>
         </template>
@@ -149,7 +151,9 @@ const store = mainStore();
   color: var(--color-text);
   font-size: 16pt;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .round-button:active {

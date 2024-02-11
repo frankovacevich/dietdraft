@@ -92,7 +92,7 @@ export class AddFoodModal {
       return this.foods;
     }
     return this.foods.filter((food) =>
-      food.name.toLowerCase().includes(this.searchText.toLowerCase())
+      food.name.toLowerCase().includes(this.searchText.toLowerCase()),
     );
   }
 
@@ -131,6 +131,27 @@ export class AddFoodModal {
   clearSearch() {
     this.searchText = "";
     this.searchInput.focus();
+  }
+}
+
+export class FoodInfoModal {
+  visible = false;
+  food = {
+    name: "",
+    icon: "egg",
+    description: "",
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+  };
+
+  open(food) {
+    this.food = food;
+    this.visible = true;
+  }
+
+  close() {
+    this.visible = false;
   }
 }
 
@@ -173,6 +194,7 @@ export const mainStore = defineStore("mainStore", {
       selectedQuantity: 0,
       //
       addFoodModal: new AddFoodModal(),
+      foodInfoModal: new FoodInfoModal(),
       //
       planInfoInput: new PlanInfoInput(new PlanInfo()),
       calculating: false,
@@ -342,7 +364,7 @@ export const mainStore = defineStore("mainStore", {
         this.planInfo.calculationMethod,
         this.planInfo.protein - totalEaten.protein,
         this.planInfo.fat - totalEaten.fat,
-        this.planInfo.carbs - totalEaten.carbs
+        this.planInfo.carbs - totalEaten.carbs,
       );
 
       const newPlan = calculator.calculateDay();
@@ -369,7 +391,7 @@ export const mainStore = defineStore("mainStore", {
         this.planInfo.calculationMethod,
         this.planInfo.protein,
         this.planInfo.fat,
-        this.planInfo.carbs
+        this.planInfo.carbs,
       );
 
       this.planFoods = calculator.calculateDays(this.planInfo.days);

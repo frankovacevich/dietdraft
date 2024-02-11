@@ -5,6 +5,12 @@ import App from "./App.vue";
 import { createApp } from "vue";
 const app = createApp(App);
 
+/*
+Tocuh events
+*/
+import Vue3TouchEvents from "vue3-touch-events";
+app.use(Vue3TouchEvents);
+
 /* 
 Styles
 */
