@@ -323,7 +323,9 @@ export const mainStore = defineStore("mainStore", {
     },
 
     async fetchData() {
-      const response = await fetch("/data.json");
+      const url =
+        "https://raw.githubusercontent.com/frankovacevich/dietdraft/master/client/public/data.json";
+      const response = await fetch(url);
       this.allFoods = await response.json();
       this.allFoods.forEach((food) => {
         food.selected = false;
