@@ -10,6 +10,7 @@ const store = mainStore();
 <template>
   <TabsTitleBar></TabsTitleBar>
   <MainContainer>
+    <div class="subtitle">Shopping List</div>
     <FoodItem
       v-for="(food, i) in store.shoppingList"
       :key="i"

@@ -9,7 +9,8 @@ const store = mainStore();
 
 <template>
   <TabsTitleBar></TabsTitleBar>
-  <MainContainer>
+  <MainContainer padding="0">
+    <div class="subtitle" style="padding: 10px">Plan Settings</div>
     <div class="more-options-div">
       <div>Days:</div>
       <input
@@ -69,7 +70,7 @@ const store = mainStore();
         <td>{{ store.planInfoInput.calories }}</td>
       </tr>
       <tr>
-        <td>%</td>
+        <td></td>
         <td>{{ store.planInfoInput.percentages.protein }}%</td>
         <td>{{ store.planInfoInput.percentages.fat }}%</td>
         <td>{{ store.planInfoInput.percentages.carbs }}%</td>
@@ -83,13 +84,17 @@ const store = mainStore();
         <td>{{ store.planFoodsAverages.calories.toFixed() }}</td>
       </tr>
       <tr>
-        <td>%</td>
+        <td></td>
         <td>{{ store.planFoodsAveragesPercentages.protein }}%</td>
         <td>{{ store.planFoodsAveragesPercentages.fat }}%</td>
         <td>{{ store.planFoodsAveragesPercentages.carbs }}%</td>
         <td>{{ store.planFoodsAveragesPercentages.calories }}%</td>
       </tr>
     </table>
+    <div class="button" @click="store.generateNewPlan()">
+      <font-awesome-icon icon="fa-solid fa-rotate-right" />
+      <span style="margin-left: 10px">Calculate</span>
+    </div>
   </MainContainer>
 </template>
 
@@ -112,6 +117,7 @@ select {
   align-items: center;
   margin-bottom: 10px;
   gap: 10px;
+  padding: 10px;
 }
 
 .button {
@@ -120,6 +126,8 @@ select {
   padding: 12px;
   margin-top: 10px;
   text-align: center;
+  font-weight: 500;
+  margin: 10px;
 }
 
 .button:active {
@@ -137,23 +145,28 @@ select {
 }
 
 .summary-table td:first-child {
-  width: 20%;
   font-weight: bold;
+  padding-left: 10px;
+}
+
+.summary-table td:not(:first-child) {
+  text-align: center;
 }
 
 .summary-table tr:nth-child(1) td,
 .summary-table tr:nth-child(3) td,
 .summary-table tr:nth-child(5) td {
-  border-bottom: 1px solid;
+  border-bottom: 1px solid var(--color-gray-1);
 }
 
 .summary-table tr:nth-child(3) td,
 .summary-table tr:nth-child(5) td {
   color: var(--color-gray-2);
+  font-size: 13px;
+  height: 25px;
 }
-
-.summary-table td:not(:first-child) {
-  width: 20%;
-  text-align: center;
+.summary-table tr:nth-child(2) td,
+.summary-table tr:nth-child(3) td {
+  background-color: var(--color-gray-0);
 }
 </style>

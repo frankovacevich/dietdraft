@@ -5,5 +5,7 @@ import TabsTitleBar from "@/components/TabsTitleBar.vue";
 
 <template>
   <TabsTitleBar></TabsTitleBar>
-  <MainContainer> </MainContainer>
+  <MainContainer>
+    <div class="subtitle">Food List</div>
+  </MainContainer>
 </template>
