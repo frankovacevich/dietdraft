@@ -1,7 +1,13 @@
-<script setup></script>
+<script>
+export default {
+  props: {
+    padding: { type: String, default: "10px" },
+  },
+};
+</script>
 
 <template>
-  <div class="main-container">
+  <div class="main-container" :style="{ padding: padding }">
     <slot></slot>
   </div>
 </template>
@@ -15,9 +21,8 @@
   overflow-x: hidden;
   overflow-y: scroll;
   bottom: 0;
-  top: 54px;
+  top: 52px;
   left: 0;
   right: 0;
-  padding: 10px;
 }
 </style>

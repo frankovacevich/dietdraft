@@ -1,13 +1,22 @@
 <script setup>
-import TitleBar from "@/components/TitleBar.vue";
+import MainContainer from "@/components/MainContainer.vue";
+import TabsTitleBar from "@/components/TabsTitleBar.vue";
+import FoodItem from "@/components/FoodItem.vue";
+
+import { mainStore } from "@/store";
+const store = mainStore();
 </script>
 
 <template>
-  <TitleBar>
-    <div style="flex-grow: 1"></div>
-    <div>Shopping List</div>
-    <div style="flex-grow: 1"></div>
-  </TitleBar>
+  <TabsTitleBar></TabsTitleBar>
+  <MainContainer>
+    <FoodItem
+      v-for="(food, i) in store.shoppingList"
+      :key="i"
+      :name="food.name"
+      :icon="food.icon"
+      :description="food.description"
+      :amount="food.amount"
+    ></FoodItem>
+  </MainContainer>
 </template>
-
-<style scoped></style>

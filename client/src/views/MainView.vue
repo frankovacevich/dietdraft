@@ -23,7 +23,7 @@ const store = mainStore();
     </div>
     <router-link to="/plan">
       <div class="title-bar-icon">
-        <font-awesome-icon icon="fa-solid fa-map" />
+        <font-awesome-icon icon="fa-solid fa-sliders" />
       </div>
     </router-link>
     <div class="title-bar-icon" @click="store.toggleEditMode">

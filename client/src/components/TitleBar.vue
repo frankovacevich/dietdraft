@@ -44,4 +44,13 @@
 .title-bar-icon:active {
   background-color: var(--color-primary-active);
 }
+
+.title-bar-icon-dot {
+  position: absolute;
+  width: 25px;
+  height: 4px;
+  border-radius: 4px 4px 0 0;
+  background-color: white;
+  transform: translate(0px, 24px);
+}
 </style>

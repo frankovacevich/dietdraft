@@ -1,7 +1,6 @@
 <script setup>
-import TitleBar from "@/components/TitleBar.vue";
 import MainContainer from "@/components/MainContainer.vue";
-import FoodItem from "@/components/FoodItem.vue";
+import TabsTitleBar from "@/components/TabsTitleBar.vue";
 
 import { mainStore } from "@/store";
 import { CalculationMethods } from "@/calculator";
@@ -9,22 +8,7 @@ const store = mainStore();
 </script>
 
 <template>
-  <TitleBar>
-    <router-link to="/menu">
-      <div class="title-bar-icon">
-        <font-awesome-icon icon="fa-solid fa-arrow-left" />
-      </div>
-    </router-link>
-    <div style="flex-grow: 1"></div>
-    <div>Plan</div>
-    <div style="flex-grow: 1"></div>
-    <div class="title-bar-icon" @click="store.generateNewPlan()">
-      <font-awesome-icon
-        icon="fa-solid fa-rotate-right"
-        :spin="store.calculating"
-      />
-    </div>
-  </TitleBar>
+  <TabsTitleBar></TabsTitleBar>
   <MainContainer>
     <div class="more-options-div">
       <div>Days:</div>
@@ -106,16 +90,6 @@ const store = mainStore();
         <td>{{ store.planFoodsAveragesPercentages.calories }}%</td>
       </tr>
     </table>
-
-    <div class="subtitle">Shopping List</div>
-    <FoodItem
-      v-for="(food, i) in store.shoppingList"
-      :key="i"
-      :name="food.name"
-      :icon="food.icon"
-      :description="food.description"
-      :amount="food.amount"
-    ></FoodItem>
   </MainContainer>
 </template>
 
@@ -181,11 +155,5 @@ select {
 .summary-table td:not(:first-child) {
   width: 20%;
   text-align: center;
-}
-
-.subtitle {
-  color: var(--color-gray-1);
-  margin-top: 20px;
-  margin-bottom: 10px;
 }
 </style>
