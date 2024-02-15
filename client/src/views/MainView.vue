@@ -15,7 +15,7 @@ const store = mainStore();
   <FoodInfoModal></FoodInfoModal>
   <TitleBar>
     <div style="margin-left: 8px">
-      Day {{ store.day + 1 }} / {{ store.planInfo.days }}
+      Day {{ store.day + 1 }} / {{ store.planInfo.days }} ({{ store.weekDay }})
     </div>
     <div style="flex-grow: 1"></div>
     <div class="title-bar-icon" @click="store.goToPreviousDay">

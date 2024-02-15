@@ -36,8 +36,21 @@ export class PlanInfo {
   }
 
   get currentDay() {
-    const now = new Date().getTime();
-    return Math.floor((now - this.created) / (24 * 60 * 60 * 1000));
+    const date = new Date(this.created);
+    const today = new Date();
+    const oneDay = 24 * 60 * 60 * 1000;
+    const todayStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+    );
+    const dateStart = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+    );
+    const differenceInDays = Math.floor((todayStart - dateStart) / oneDay);
+    return differenceInDays;
   }
 
   get percentages() {
@@ -204,6 +217,13 @@ export const mainStore = defineStore("mainStore", {
   getters: {
     meals() {
       return Meals;
+    },
+
+    weekDay() {
+      const oneDay = 24 * 60 * 60 * 1000;
+      const date = new Date(this.planInfo.created + this.day * oneDay);
+      const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      return daysOfWeek[date.getDay()];
     },
 
     todaysFoods() {
