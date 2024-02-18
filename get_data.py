@@ -15,10 +15,22 @@ headers = [header[:-1] for header in headers]
 data = [{headers[i]: row[i] for i in range(len(headers))} for row in rows]
 data = [d for d in data if d["category"] != ""]
 
-for food in data:
-    food["protein"] = float(food["protein"])
-    food["fat"] = float(food["fat"])
-    food["carbs"] = float(food["carbs"])
+for i in range(len(data)):
+    food = data[i]
+    data[i] = {
+        "id": food["id"],
+        "name": food["name"],
+        "icon": food["icon"],
+        "category": food["category"],
+        "description": food["description"],
+        "protein": float(food["protein"]),
+        "fat": float(food["fat"]),
+        "carbs": float(food["carbs"]),
+        "b": food["b"],
+        "s": food["s"],
+        "l": food["l"],
+        "d": food["d"],
+    }
 
 with open("client/public/data.json", "w+") as f:
-    json.dump(data, f)
+    json.dump(data, f, indent=2)
