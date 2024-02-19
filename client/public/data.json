@@ -270,10 +270,10 @@
     "name": "avocado",
     "icon": "avocado",
     "category": "basic",
-    "description": "1 avocado (~200g)",
-    "protein": 4.0,
-    "fat": 29.0,
-    "carbs": 17.0,
+    "description": "1/4 avocado (~50g)",
+    "protein": 1.0,
+    "fat": 7.3,
+    "carbs": 4.3,
     "b": "",
     "s": "",
     "l": "",
@@ -512,10 +512,10 @@
     "protein": 6.3,
     "fat": 5.3,
     "carbs": 0.6,
-    "b": "",
-    "s": "",
-    "l": "",
-    "d": ""
+    "b": "1",
+    "s": "1",
+    "l": "1",
+    "d": "1"
   },
   {
     "id": "e169f7f5-1ccf-4e75-9cf0-e28f096567bc",
@@ -537,12 +537,12 @@
     "icon": "sandwich",
     "category": "sandwiches & wraps",
     "description": "queso, avocado",
-    "protein": 10.9,
-    "fat": 15.7,
-    "carbs": 34.1,
+    "protein": 10.2,
+    "fat": 10.2,
+    "carbs": 30.9,
     "b": "",
     "s": "",
-    "l": "",
+    "l": "1",
     "d": ""
   },
   {
@@ -598,8 +598,8 @@
     "carbs": 56.1,
     "b": "",
     "s": "",
-    "l": "",
-    "d": ""
+    "l": "1",
+    "d": "1"
   },
   {
     "id": "189a570b-3823-47c4-a8ac-619550f452b5",
@@ -680,10 +680,10 @@
     "protein": 13.4,
     "fat": 12.3,
     "carbs": 11.5,
-    "b": "",
-    "s": "",
-    "l": "",
-    "d": ""
+    "b": "1",
+    "s": "1",
+    "l": "1",
+    "d": "1"
   },
   {
     "id": "63ca83cb-d4d9-49ca-845d-1e7ccc8dae72",
@@ -725,7 +725,7 @@
     "b": "",
     "s": "",
     "l": "",
-    "d": ""
+    "d": "1"
   },
   {
     "id": "19be4650-1a30-41ad-b796-62576930e0cd",
@@ -845,9 +845,9 @@
     "icon": "nachos",
     "category": "fast food & snacks",
     "description": "50g nachos + media palta",
-    "protein": 5.7,
-    "fat": 24.6,
-    "carbs": 47.6,
+    "protein": 4.2,
+    "fat": 13.7,
+    "carbs": 41.2,
     "b": "",
     "s": "",
     "l": "",
@@ -1401,13 +1401,13 @@
   },
   {
     "id": "d1b7de91-c8aa-43ea-bf46-d936ff5bf1fe",
-    "name": "albondigas",
+    "name": "balletjes",
     "icon": "meatballs",
     "category": "meat",
-    "description": "2 albondigas / 8 balletjes (IKEA)",
-    "protein": 21.0,
-    "fat": 30.0,
-    "carbs": 6.0,
+    "description": "6 balletjes (IKEA)",
+    "protein": 15.8,
+    "fat": 22.5,
+    "carbs": 4.5,
     "b": "",
     "s": "",
     "l": "1",
@@ -1508,8 +1508,8 @@
     "carbs": 0.0,
     "b": "",
     "s": "",
-    "l": "",
-    "d": ""
+    "l": "1",
+    "d": "1"
   },
   {
     "id": "558732c0-ef8a-4f48-a9f0-5fa7990b634f",
@@ -1592,8 +1592,8 @@
     "carbs": 79.6,
     "b": "",
     "s": "",
-    "l": "",
-    "d": ""
+    "l": "1",
+    "d": "1"
   },
   {
     "id": "bc245058-ac56-4e7d-9e78-bd6406ea84d5",
@@ -1601,9 +1601,9 @@
     "icon": "avocado",
     "category": "other",
     "description": "2 bruschettas",
-    "protein": 7.2,
-    "fat": 16.5,
-    "carbs": 41.9,
+    "protein": 5.7,
+    "fat": 5.6,
+    "carbs": 35.5,
     "b": "",
     "s": "",
     "l": "1",
@@ -1634,8 +1634,8 @@
     "carbs": 49.1,
     "b": "",
     "s": "",
-    "l": "",
-    "d": ""
+    "l": "1",
+    "d": "1"
   },
   {
     "id": "ea8333ec-f849-48af-ad8f-9f387e489900",
@@ -1647,7 +1647,7 @@
     "fat": 0.0,
     "carbs": 11.0,
     "b": "",
-    "s": "",
+    "s": "1",
     "l": "",
     "d": ""
   },
@@ -1661,7 +1661,7 @@
     "fat": 0.5,
     "carbs": 27.3,
     "b": "",
-    "s": "",
+    "s": "1",
     "l": "",
     "d": ""
   },
@@ -1703,7 +1703,7 @@
     "fat": 16.5,
     "carbs": 42.3,
     "b": "",
-    "s": "",
+    "s": "1",
     "l": "",
     "d": ""
   }
