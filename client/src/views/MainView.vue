@@ -123,8 +123,8 @@ const store = mainStore();
 .bottom-toolbar {
   position: fixed;
   bottom: 15px;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   height: 56px;
   display: flex;
   align-items: center;
