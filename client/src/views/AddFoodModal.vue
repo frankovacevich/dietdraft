@@ -76,13 +76,6 @@ const store = mainStore();
   top: 100vh;
 }
 
-.category-title {
-  font-size: 12pt;
-  text-transform: capitalize;
-  color: var(--color-gray-1);
-  padding: 10px 0 10px 0;
-}
-
 .search-bar {
   background-color: var(--color-gray-0);
   border: none;

@@ -1,9 +1,5 @@
 import { defineStore } from "pinia";
-import {
-  Calculator,
-  CalculationMethods,
-  getRandomSubsample,
-} from "./calculator";
+import { Calculator, CalculationMethods } from "./calculator";
 
 /*
 Classes
@@ -39,18 +35,10 @@ export class PlanInfo {
     const date = new Date(this.created);
     const today = new Date();
     const oneDay = 24 * 60 * 60 * 1000;
-    const todayStart = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-    );
-    const dateStart = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-    );
+    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const dateStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const differenceInDays = Math.floor((todayStart - dateStart) / oneDay);
-    return differenceInDays;
+    return Math.min(differenceInDays, this.days - 1);
   }
 
   get percentages() {
@@ -74,6 +62,9 @@ export class PlanInfo {
   }
 
   static fromJson(json) {
+    if (!json) {
+      return new PlanInfo();
+    }
     const obj = JSON.parse(json);
     const planInfo = new PlanInfo();
     planInfo.created = obj.created;
@@ -83,6 +74,133 @@ export class PlanInfo {
     planInfo.days = obj.days;
     planInfo.calculationMethod = obj.calculationMethod;
     return planInfo;
+  }
+}
+
+export class FoodSet {
+  foods = [];
+
+  getSelectedFoods() {
+    return this.foods.filter((food) => food.selected);
+  }
+
+  setFoods(foods) {
+    const selectedFoodIds = new Set(this.getSelectedFoods().map((food) => food.id));
+    foods.forEach((food) => (food.selected = selectedFoodIds.has(food.id)));
+    this.foods = foods;
+  }
+
+  getSearchedFoods() {
+    return this.foods;
+  }
+
+  getCategories() {
+    return new Set(this.getSearchedFoods().map((food) => food.category));
+  }
+
+  getFoodsForCategory(category) {
+    const foods = this.getSearchedFoods();
+    return foods.filter((food) => food.category === category);
+  }
+
+  toJson() {
+    return JSON.stringify({ foods: this.foods });
+  }
+
+  static fromJson(json) {
+    if (!json) {
+      return new FoodSet();
+    }
+    const obj = JSON.parse(json);
+    const foodSet = new FoodSet();
+    foodSet.foods = obj.foods;
+    return foodSet;
+  }
+}
+
+export class PlanData {
+  foods = []; // [day][meal][food]
+
+  getFoods(day, meal) {
+    const foodsForDay = day >= this.foods.length ? [] : this.foods[day];
+    return meal >= foodsForDay.length ? [] : foodsForDay[meal];
+  }
+
+  quantitesForDay(day) {
+    if (day >= this.foods.length) {
+      return { protein: 0, fat: 0, carbs: 0, calories: 0 };
+    }
+
+    const total = { protein: 0, fat: 0, carbs: 0, calories: 0 };
+    this.foods[day].flat().forEach((food) => {
+      total.protein += food.protein * (food.amount || 0);
+      total.fat += food.fat * (food.amount || 0);
+      total.carbs += food.carbs * (food.amount || 0);
+    });
+    total.calories = 4 * total.protein + 9 * total.fat + 4 * total.carbs;
+    return total;
+  }
+
+  get quantitiesAverage() {
+    const total = { protein: 0, fat: 0, carbs: 0, calories: 0 };
+    this.foods.flat(2).forEach((food) => {
+      total.protein += food.protein * (food.amount || 0);
+      total.fat += food.fat * (food.amount || 0);
+      total.carbs += food.carbs * (food.amount || 0);
+    });
+    total.calories = total.protein * 4 + total.fat * 9 + total.carbs * 4;
+
+    total.calories = total.calories / this.foods.length;
+    total.protein = total.protein / this.foods.length;
+    total.fat = total.fat / this.foods.length;
+    total.carbs = total.carbs / this.foods.length;
+
+    return total;
+  }
+
+  get quantitiesAveragePercentages() {
+    const avg = { ...this.quantitiesAverage };
+    avg.protein = Math.round((100 * avg.protein * 4) / avg.calories);
+    avg.fat = Math.round((100 * avg.fat * 9) / avg.calories);
+    avg.carbs = Math.round((100 * avg.carbs * 4) / avg.calories);
+    avg.calories = 100;
+    return avg;
+  }
+
+  get shoppingList() {
+    const foodMap = new Map();
+    this.foods.flat(2).forEach((food) => {
+      if (foodMap.has(food.name)) {
+        const newAmount = food.amount + foodMap.get(food.name).amount;
+        foodMap.set(food.name, { ...food, amount: newAmount });
+      } else {
+        foodMap.set(food.name, { ...food });
+      }
+    });
+    return Array.from(foodMap.values()).sort((a, b) => b.amount - a.amount);
+  }
+
+  static emptyPlan(daysCount, mealsCount) {
+    const planData = new PlanData();
+    for (let i = 0; i < daysCount; i++) {
+      for (let m = 0; m < mealsCount; m++) {
+        planData.foods.push([]);
+      }
+    }
+    return planData;
+  }
+
+  static fromJson(json) {
+    if (!json) {
+      return null;
+    }
+    const planData = new PlanData();
+    planData.foods = JSON.parse(json);
+    return planData;
+  }
+
+  toJson() {
+    return JSON.stringify(this.foods);
   }
 }
 
@@ -98,6 +216,10 @@ export class AddFoodModal {
 
   get searchInput() {
     return document.getElementById("searchInput");
+  }
+
+  get container() {
+    return this.searchInput.parentNode.parentNode;
   }
 
   getSearchedFoods() {
@@ -133,6 +255,7 @@ export class AddFoodModal {
     this.visible = true;
     this.foods = foods.map((food) => ({ ...food }));
     this.searchInput.focus();
+    this.container.scrollTop = 0;
   }
 
   close() {
@@ -199,12 +322,12 @@ Store
 export const mainStore = defineStore("mainStore", {
   state: () => {
     return {
-      allFoods: [],
-      planFoods: [],
+      foodSet: new FoodSet(),
+      planData: new PlanData(),
       planInfo: new PlanInfo(),
       day: 0,
       editMode: false,
-      selectedQuantity: 0,
+      selectedQuantity: 0, // 0: calories, 1: protein 2: fat, 3: carbs
       //
       addFoodModal: new AddFoodModal(),
       foodInfoModal: new FoodInfoModal(),
@@ -226,154 +349,55 @@ export const mainStore = defineStore("mainStore", {
       return daysOfWeek[date.getDay()];
     },
 
-    todaysFoods() {
-      return this.planFoods[this.day];
-    },
-
-    todayIsFirstDay() {
-      return this.day === 0;
-    },
-
-    todayIsLastDay() {
-      return this.day === this.planInfo.days - 1;
-    },
-
     todaysQuantities() {
-      const total = { protein: 0, fat: 0, carbs: 0, calories: 0 };
-      this.planFoods[this.day].flat().forEach((food) => {
-        total.protein += food.protein * (food.amount || 0);
-        total.fat += food.fat * (food.amount || 0);
-        total.carbs += food.carbs * (food.amount || 0);
-      });
-      total.calories = 4 * total.protein + 9 * total.fat + 4 * total.carbs;
-      return total;
-    },
-
-    planFoodsAverages() {
-      const total = { protein: 0, fat: 0, carbs: 0, calories: 0 };
-      for (let day = 0; day < this.planFoods.length; day++) {
-        for (const meal of this.planFoods[day]) {
-          for (const food of meal) {
-            total.protein += food.protein * (food.amount || 0);
-            total.fat += food.fat * (food.amount || 0);
-            total.carbs += food.carbs * (food.amount || 0);
-          }
-        }
-      }
-
-      total.calories = total.protein * 4 + total.fat * 9 + total.carbs * 4;
-      total.calories = total.calories / this.planInfo.days;
-
-      total.protein = total.protein / this.planInfo.days;
-      total.fat = total.fat / this.planInfo.days;
-      total.carbs = total.carbs / this.planInfo.days;
-
-      return total;
-    },
-
-    planFoodsAveragesPercentages() {
-      const avg = { ...this.planFoodsAverages };
-      avg.protein = Math.round((100 * avg.protein * 4) / avg.calories);
-      avg.fat = Math.round((100 * avg.fat * 9) / avg.calories);
-      avg.carbs = Math.round((100 * avg.carbs * 4) / avg.calories);
-      avg.calories = 100;
-      return avg;
-    },
-
-    planInfoCalories() {
-      return (
-        this.planInfo.protein * 4 +
-        this.planInfo.fat * 9 +
-        this.planInfo.carbs * 4
-      );
-    },
-
-    shoppingList() {
-      const foods = this.planFoods.flat(2);
-      const foodMap = new Map();
-
-      foods.forEach((food) => {
-        if (foodMap.has(food.name)) {
-          const newAmount = food.amount + foodMap.get(food.name).amount;
-          foodMap.set(food.name, { ...food, amount: newAmount });
-        } else {
-          foodMap.set(food.name, { ...food });
-        }
-      });
-
-      return Array.from(foodMap.values()).sort((a, b) => b.amount - a.amount);
+      return this.planData.quantitesForDay(this.day);
     },
   },
 
   actions: {
     save() {
-      localStorage.setItem("planFoods", JSON.stringify(this.planFoods));
-
-      if (this.planInfo !== null) {
-        localStorage.setItem("planInfo", this.planInfo.toJson());
-      }
+      localStorage.setItem("planData", this.planData.toJson());
+      localStorage.setItem("planInfo", this.planInfo.toJson());
+      localStorage.setItem("foodSet", this.foodSet.toJson());
     },
 
     load() {
-      const obj = localStorage.getItem("planInfo");
-      if (obj) {
-        this.planInfo = PlanInfo.fromJson(obj);
-      } else {
-        this.planInfo = new PlanInfo();
-      }
+      // Get plan info
+      const planInfoJson = localStorage.getItem("planInfo");
+      this.planInfo = PlanInfo.fromJson(planInfoJson);
       this.planInfoInput = new PlanInfoInput(this.planInfo);
       this.day = this.planInfo.currentDay;
 
-      const planFoods = localStorage.getItem("planFoods");
-      if (planFoods) {
-        this.planFoods = JSON.parse(planFoods);
-        if (planFoods.length === this.planInfo.days) {
-          this.planFoods = undefined;
-        }
-      }
+      // Get plan data
+      const planDataJson = localStorage.getItem("planData");
+      const planData = PlanData.fromJson(planDataJson);
+      this.planData = planData || PlanData.emptyPlan(this.planInfo.days, this.meals.length);
 
-      if (!planFoods) {
-        this.planFoods = [[]];
-        for (let i = 0; i < this.planInfo.days; i++) {
-          for (let m = 0; m < this.meals.length; m++) {
-            this.planFoods[0].push([]);
-          }
-        }
-      }
-    },
-
-    async fetchData() {
-      const url =
-        "https://raw.githubusercontent.com/frankovacevich/dietdraft/master/client/public/data.json";
-      const response = await fetch(url);
-      this.allFoods = await response.json();
-      this.allFoods.forEach((food) => {
-        food.selected = false;
-      });
+      // Get all foods
+      const foodSet = localStorage.getItem("foodSet");
+      this.foodSet = FoodSet.fromJson(foodSet);
+      const url = "https://raw.githubusercontent.com/frankovacevich/dietdraft/master";
+      fetch(url + "/client/public/data.json")
+        .then((response) => response.json())
+        .then((foods) => this.foodSet.setFoods(foods));
     },
 
     goToPreviousDay() {
-      if (!this.todayIsFirstDay) {
-        this.day--;
-      }
+      this.day = Math.max(0, this.day - 1);
     },
 
     goToNextDay() {
-      if (!this.todayIsLastDay) {
-        this.day++;
-      }
+      this.day = Math.min(this.planInfo.days - 1, this.day + 1);
     },
 
     toggleEditMode() {
       this.editMode = !this.editMode;
     },
 
-    newPlan() {},
-
     recalculateToday() {
       // Calculate targets based on what's already been eaten
       const totalEaten = { protein: 0, fat: 0, carbs: 0 };
-      this.planFoods[this.day].flat().forEach((food) => {
+      this.planData.foods[this.day].flat().forEach((food) => {
         if (food.selected) {
           totalEaten.protein += food.protein * (food.amount || 0);
           totalEaten.fat += food.fat * (food.amount || 0);
@@ -382,7 +406,7 @@ export const mainStore = defineStore("mainStore", {
       });
 
       const calculator = new Calculator(
-        this.allFoods,
+        this.foodSet.getSelectedFoods(),
         this.planInfo.calculationMethod,
         this.planInfo.protein - totalEaten.protein,
         this.planInfo.fat - totalEaten.fat,
@@ -391,11 +415,11 @@ export const mainStore = defineStore("mainStore", {
 
       const newPlan = calculator.calculateDay();
       for (let m = 0; m < newPlan.length; m++) {
-        const eatenFoods = this.todaysFoods[m].filter((food) => food.selected);
+        const eatenFoods = this.planData.getFoods(this.day, m).filter((food) => food.selected);
         newPlan[m] = [...eatenFoods, ...newPlan[m]];
       }
 
-      this.planFoods[this.day] = newPlan;
+      this.planData.foods[this.day] = newPlan;
       this.save();
     },
 
@@ -407,16 +431,15 @@ export const mainStore = defineStore("mainStore", {
       this.planInfo.days = this.planInfoInput.days;
       this.planInfo.calculationMethod = this.planInfoInput.calculationMethod;
 
-      const r = Math.min(1, 0.3 + 0.024 * (this.planInfo.days - 1));
       const calculator = new Calculator(
-        getRandomSubsample(this.allFoods, Math.round(this.allFoods.length * r)),
+        this.foodSet.getSelectedFoods(),
         this.planInfo.calculationMethod,
         this.planInfo.protein,
         this.planInfo.fat,
         this.planInfo.carbs,
       );
 
-      this.planFoods = calculator.calculateDays(this.planInfo.days);
+      this.planData.foods = calculator.calculateDays(this.planInfo.days);
       this.planInfo.created = new Date().getTime();
       this.day = 0;
 
@@ -426,14 +449,14 @@ export const mainStore = defineStore("mainStore", {
 
     clearToday() {
       const newPlan = [];
-      for (const meal of this.planFoods[this.day]) {
+      for (const meal of this.planData.foods[this.day]) {
         newPlan.push(meal.filter((food) => food.selected));
       }
-      this.planFoods[this.day] = newPlan;
+      this.planData.foods[this.day] = newPlan;
       this.save();
     },
 
-    changeFoodEaten(food) {
+    changeFoodSelected(food) {
       food.selected = !food.selected;
       this.save();
     },
@@ -457,7 +480,8 @@ export const mainStore = defineStore("mainStore", {
     },
 
     removeFood(meal, index) {
-      this.planFoods[this.day][meal].splice(index, 1);
+      this.planData.foods[this.day][meal].splice(index, 1);
+      this.save();
     },
 
     addFoodFromModal() {
@@ -466,7 +490,7 @@ export const mainStore = defineStore("mainStore", {
       }
       const meal = this.addFoodModal.meal;
       const foods = this.addFoodModal.close();
-      this.planFoods[this.day][meal].push(...foods);
+      this.planData.foods[this.day][meal].push(...foods);
     },
   },
 });

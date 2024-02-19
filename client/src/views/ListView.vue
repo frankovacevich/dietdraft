@@ -12,7 +12,7 @@ const store = mainStore();
   <MainContainer>
     <div class="subtitle">Shopping List</div>
     <FoodItem
-      v-for="(food, i) in store.shoppingList"
+      v-for="(food, i) in store.planData.shoppingList"
       :key="i"
       :name="food.name"
       :icon="food.icon"

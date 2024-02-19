@@ -119,5 +119,4 @@ Init
 import { mainStore } from "./store";
 const store = mainStore();
 store.load();
-store.fetchData();
 app.mount("#app");

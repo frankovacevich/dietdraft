@@ -77,3 +77,10 @@ a[href] {
   color: var(--color-gray-2);
   text-align: center;
 }
+
+.category-title {
+  font-size: 12pt;
+  text-transform: capitalize;
+  color: var(--color-gray-1);
+  padding: 10px 0 10px 0;
+}

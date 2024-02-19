@@ -27,14 +27,8 @@ const store = mainStore();
       </div>
     </router-link>
     <div class="title-bar-icon" @click="store.toggleEditMode">
-      <font-awesome-icon
-        v-if="store.editMode"
-        icon="fa-solid fa-pen-to-square"
-      />
-      <font-awesome-icon
-        v-if="!store.editMode"
-        icon="fa-regular fa-pen-to-square"
-      />
+      <font-awesome-icon v-if="store.editMode" icon="fa-solid fa-pen-to-square" />
+      <font-awesome-icon v-if="!store.editMode" icon="fa-regular fa-pen-to-square" />
     </div>
     <div class="title-bar-icon" @click="store.goToNextDay">
       <font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -79,14 +73,14 @@ const store = mainStore();
         <div
           v-if="store.editMode"
           class="meal-title-icon"
-          @click="store.addFoodModal.open(m, store.allFoods)"
+          @click="store.addFoodModal.open(m, store.foodSet.foods)"
         >
           <font-awesome-icon icon="fa-solid fa-plus" />
         </div>
         <div style="flex-grow: 1"></div>
       </div>
       <draggable
-        :list="store.todaysFoods[m]"
+        :list="store.planData.getFoods(store.day, m)"
         item-key="id"
         tag="div"
         group="foods"
@@ -105,7 +99,7 @@ const store = mainStore();
             :crossed="food.selected"
             :selected-quantity="store.selectedQuantity"
             :allow-delete="store.editMode"
-            @bodyClick="store.changeFoodEaten(food)"
+            @bodyClick="store.changeFoodSelected(food)"
             @amountClick="if (store.editMode) store.changeFoodAmount(food);"
             @hold="store.foodInfoModal.open(food)"
             @delete="store.removeFood(m, j)"
@@ -116,10 +110,7 @@ const store = mainStore();
   </MainContainer>
 
   <div class="bottom-toolbar" v-if="store.editMode">
-    <div
-      class="round-button round-button-secondary"
-      @click="store.clearToday()"
-    >
+    <div class="round-button round-button-secondary" @click="store.clearToday()">
       <font-awesome-icon icon="fa-solid fa-trash" />
     </div>
     <div class="round-button" @click="store.recalculateToday()">

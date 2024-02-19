@@ -13,22 +13,10 @@ const store = mainStore();
     <div class="subtitle" style="padding: 10px">Plan Settings</div>
     <div class="more-options-div">
       <div>Days:</div>
-      <input
-        v-model="store.planInfoInput.days"
-        min="0"
-        max="31"
-        type="number"
-      />
+      <input v-model="store.planInfoInput.days" min="0" max="31" type="number" />
       <div>Optimize:</div>
-      <select
-        v-model="store.planInfoInput.calculationMethod"
-        style="flex-grow: 1; max-width: none"
-      >
-        <option
-          v-for="option in CalculationMethods"
-          :key="option"
-          :value="option"
-        >
+      <select v-model="store.planInfoInput.calculationMethod" style="flex-grow: 1; max-width: none">
+        <option v-for="option in CalculationMethods" :key="option" :value="option">
           {{ option }}
         </option>
       </select>
@@ -44,28 +32,13 @@ const store = mainStore();
       <tr>
         <td>Target</td>
         <td>
-          <input
-            v-model="store.planInfoInput.protein"
-            type="number"
-            min="0"
-            max="300"
-          />
+          <input v-model="store.planInfoInput.protein" type="number" min="0" max="300" />
         </td>
         <td>
-          <input
-            v-model="store.planInfoInput.fat"
-            type="number"
-            min="0"
-            max="300"
-          />
+          <input v-model="store.planInfoInput.fat" type="number" min="0" max="300" />
         </td>
         <td>
-          <input
-            v-model="store.planInfoInput.carbs"
-            type="number"
-            min="0"
-            max="300"
-          />
+          <input v-model="store.planInfoInput.carbs" type="number" min="0" max="300" />
         </td>
         <td>{{ store.planInfoInput.calories }}</td>
       </tr>
@@ -78,17 +51,17 @@ const store = mainStore();
       </tr>
       <tr>
         <td>Average</td>
-        <td>{{ store.planFoodsAverages.protein.toFixed() }}</td>
-        <td>{{ store.planFoodsAverages.fat.toFixed() }}</td>
-        <td>{{ store.planFoodsAverages.carbs.toFixed() }}</td>
-        <td>{{ store.planFoodsAverages.calories.toFixed() }}</td>
+        <td>{{ store.planData.quantitiesAverage.protein.toFixed() }}</td>
+        <td>{{ store.planData.quantitiesAverage.fat.toFixed() }}</td>
+        <td>{{ store.planData.quantitiesAverage.carbs.toFixed() }}</td>
+        <td>{{ store.planData.quantitiesAverage.calories.toFixed() }}</td>
       </tr>
       <tr>
         <td></td>
-        <td>{{ store.planFoodsAveragesPercentages.protein }}%</td>
-        <td>{{ store.planFoodsAveragesPercentages.fat }}%</td>
-        <td>{{ store.planFoodsAveragesPercentages.carbs }}%</td>
-        <td>{{ store.planFoodsAveragesPercentages.calories }}%</td>
+        <td>{{ store.planData.quantitiesAveragePercentages.protein }}%</td>
+        <td>{{ store.planData.quantitiesAveragePercentages.fat }}%</td>
+        <td>{{ store.planData.quantitiesAveragePercentages.carbs }}%</td>
+        <td>{{ store.planData.quantitiesAveragePercentages.calories }}%</td>
       </tr>
     </table>
     <div class="button" @click="store.generateNewPlan()">
