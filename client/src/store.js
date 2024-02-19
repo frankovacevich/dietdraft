@@ -253,7 +253,7 @@ export class AddFoodModal {
   open(meal, foods) {
     this.meal = meal;
     this.visible = true;
-    this.foods = foods.map((food) => ({ ...food }));
+    this.foods = foods.map((food) => ({ ...food, selected: false }));
     this.searchInput.focus();
     this.container.scrollTop = 0;
   }
