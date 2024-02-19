@@ -81,7 +81,7 @@ export class FoodSet {
   foods = [];
 
   getSelectedFoods() {
-    return this.foods.filter((food) => food.selected);
+    return this.foods.filter((food) => food.selected).map((food) => ({ ...food }));
   }
 
   setFoods(foods) {
