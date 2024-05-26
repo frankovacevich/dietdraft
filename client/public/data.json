@@ -616,6 +616,20 @@
     "d": ""
   },
   {
+    "id": "9e84e40c-c7ef-49a4-94a8-c13d78e3ac92",
+    "name": "wrap J&Q",
+    "icon": "wrap",
+    "category": "sandwiches & wraps",
+    "description": "1 wrap + 2 fetas queso + 2 salami",
+    "protein": 17.5,
+    "fat": 21.1,
+    "carbs": 22.1,
+    "b": "1",
+    "s": "1",
+    "l": "",
+    "d": ""
+  },
+  {
     "id": "8ed3457d-4d61-45f3-8879-3eef683d90f5",
     "name": "choripan",
     "icon": "hot-dog",
@@ -1408,6 +1422,20 @@
     "protein": 15.8,
     "fat": 22.5,
     "carbs": 4.5,
+    "b": "",
+    "s": "",
+    "l": "1",
+    "d": "1"
+  },
+  {
+    "id": "84bd8740-c087-44c0-a320-5b6bf66082f9",
+    "name": "polpetas (2)",
+    "icon": "meatballs",
+    "category": "meat",
+    "description": "8 = 500g carne + 200g acelga + 100g harina",
+    "protein": 26.5,
+    "fat": 22.8,
+    "carbs": 19.7,
     "b": "",
     "s": "",
     "l": "1",
