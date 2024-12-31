@@ -19,13 +19,7 @@ export class Calculator {
   SURVIVAL_RATE = 0.3;
   MAX_ITERATIONS = 10;
 
-  constructor(
-    allFoods,
-    calculationMethod,
-    targetProtein,
-    targetFat,
-    targetCarbs
-  ) {
+  constructor(allFoods, calculationMethod, targetProtein, targetFat, targetCarbs) {
     this.allFoods = allFoods.map((food) => ({ ...food }));
     this.calculationMethod = calculationMethod;
     this.targetProtein = Math.max(targetProtein, 0);
@@ -39,7 +33,7 @@ export class Calculator {
       planInfo.calculationMethod,
       planInfo.protein,
       planInfo.fat,
-      planInfo.carbs
+      planInfo.carbs,
     );
   }
 
@@ -104,9 +98,7 @@ export class Calculator {
   }
 
   sortPlans(plans) {
-    return plans.sort(
-      (a, b) => this.calculateError(a) - this.calculateError(b)
-    );
+    return plans.sort((a, b) => this.calculateError(a) - this.calculateError(b));
   }
 
   createRandomMeal(mealIdx) {

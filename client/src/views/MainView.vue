@@ -7,6 +7,7 @@ import TotalsBar from "@/components/TotalsBar.vue";
 import AddFoodModal from "./AddFoodModal.vue";
 import FoodInfoModal from "@/components/FoodInfoModal.vue";
 import { mainStore } from "@/store";
+
 const store = mainStore();
 </script>
 
