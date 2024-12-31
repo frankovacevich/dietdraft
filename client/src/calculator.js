@@ -33,6 +33,16 @@ export class Calculator {
     this.targetCarbs = Math.max(targetCarbs, 0);
   }
 
+  static fromPlanInfo(allFoods, planInfo) {
+    return new Calculator(
+      allFoods,
+      planInfo.calculationMethod,
+      planInfo.protein,
+      planInfo.fat,
+      planInfo.carbs
+    );
+  }
+
   get targetCalories() {
     return this.targetProtein * 4 + this.targetCarbs * 4 + this.targetFat * 9;
   }

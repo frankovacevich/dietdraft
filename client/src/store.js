@@ -4,6 +4,17 @@ import { Calculator, CalculationMethods } from "./calculator";
 /*
 Classes
 */
+export class BaseFood {
+  id;
+  name;
+  icon;
+  description;
+  category;
+  selected;
+
+  get;
+}
+
 export class Food {
   id;
   name;
@@ -13,19 +24,44 @@ export class Food {
   fat;
   carbs;
   category;
+  selected; // bool
 
   get calories() {
     return this.protein * 4 + this.fat * 9 + this.carbs * 4;
   }
 }
 
+export class Recipe extends Food {
+  ingredients = [];
+
+  get protein() {
+    return this.ingredients.reduce((sum, ingredient) => sum + ingredient.protein, 0);
+  }
+
+  get fat() {
+    return this.ingredients.reduce((sum, ingredient) => sum + ingredient.fat, 0);
+  }
+
+  get carbs() {
+    return this.ingredients.reduce((sum, ingredient) => sum + ingredient.carbs, 0);
+  }
+
+  get calories() {
+    return this.ingredients.reduce((sum, ingredient) => sum + ingredient.calories, 0);
+  }
+}
+
 export class PlanInfo {
-  created = new Date().getTime();
-  protein = 110;
-  fat = 105;
-  carbs = 100;
-  days = 1;
-  calculationMethod = CalculationMethods.all;
+  created;
+  protein;
+  fat;
+  carbs;
+  days;
+  calculationMethod;
+
+  constructor() {
+    this.created = new Date().getTime();
+  }
 
   get calories() {
     return this.protein * 4 + this.fat * 9 + this.carbs * 4;
@@ -42,10 +78,11 @@ export class PlanInfo {
   }
 
   get percentages() {
+    const convert = (value, factor) => Math.round((100 * value * factor) / this.calories);
     return {
-      protein: Math.round((100 * this.protein * 4) / this.calories),
-      fat: Math.round((100 * this.fat * 9) / this.calories),
-      carbs: Math.round((100 * this.carbs * 4) / this.calories),
+      protein: convert(this.protein, 4),
+      fat: convert(this.fat, 9),
+      carbs: convert(this.carbs, 4),
       calories: 100,
     };
   }
@@ -63,7 +100,7 @@ export class PlanInfo {
 
   static fromJson(json) {
     if (!json) {
-      return new PlanInfo();
+      return PlanInfo.default();
     }
     const obj = JSON.parse(json);
     const planInfo = new PlanInfo();
@@ -73,6 +110,16 @@ export class PlanInfo {
     planInfo.carbs = obj.carbs;
     planInfo.days = obj.days;
     planInfo.calculationMethod = obj.calculationMethod;
+    return planInfo;
+  }
+
+  static default() {
+    const planInfo = new PlanInfo();
+    planInfo.calculationMethod = CalculationMethods.all;
+    planInfo.protein = 110;
+    planInfo.fat = 105;
+    planInfo.carbs = 100;
+    planInfo.days = 1;
     return planInfo;
   }
 }
@@ -109,12 +156,16 @@ export class FoodSet {
 
   static fromJson(json) {
     if (!json) {
-      return new FoodSet();
+      return FoodSet.default();
     }
     const obj = JSON.parse(json);
     const foodSet = new FoodSet();
     foodSet.foods = obj.foods;
     return foodSet;
+  }
+
+  static default() {
+    return new FoodSet();
   }
 }
 
@@ -126,7 +177,15 @@ export class PlanData {
     return meal >= foodsForDay.length ? [] : foodsForDay[meal];
   }
 
-  quantitesForDay(day) {
+  addFoods(day, meal, foods) {
+    this.foods[day][meal].push(...foods);
+  }
+
+  removeFood(day, meal, index) {
+    this.foods[day][meal].splice(index, 1);
+  }
+
+  quantitiesForDay(day) {
     if (day >= this.foods.length) {
       return { protein: 0, fat: 0, carbs: 0, calories: 0 };
     }
@@ -148,6 +207,7 @@ export class PlanData {
       total.fat += food.fat * (food.amount || 0);
       total.carbs += food.carbs * (food.amount || 0);
     });
+
     total.calories = total.protein * 4 + total.fat * 9 + total.carbs * 4;
 
     total.calories = total.calories / this.foods.length;
@@ -160,9 +220,10 @@ export class PlanData {
 
   get quantitiesAveragePercentages() {
     const avg = { ...this.quantitiesAverage };
-    avg.protein = Math.round((100 * avg.protein * 4) / avg.calories);
-    avg.fat = Math.round((100 * avg.fat * 9) / avg.calories);
-    avg.carbs = Math.round((100 * avg.carbs * 4) / avg.calories);
+    const convert = (value, factor) => Math.round((100 * value * factor) / avg.calories);
+    avg.protein = convert(avg.protein, 4);
+    avg.fat = convert(avg.fat, 9);
+    avg.carbs = convert(avg.carbs, 4);
     avg.calories = 100;
     return avg;
   }
@@ -183,11 +244,17 @@ export class PlanData {
   static emptyPlan(daysCount, mealsCount) {
     const planData = new PlanData();
     for (let i = 0; i < daysCount; i++) {
+      const foodsDay = [];
       for (let m = 0; m < mealsCount; m++) {
-        planData.foods.push([]);
+        foodsDay.push([]);
       }
+      planData.foods.push(foodsDay);
     }
     return planData;
+  }
+
+  toJson() {
+    return JSON.stringify(this.foods);
   }
 
   static fromJson(json) {
@@ -199,8 +266,8 @@ export class PlanData {
     return planData;
   }
 
-  toJson() {
-    return JSON.stringify(this.foods);
+  static default() {
+    return [];
   }
 }
 
@@ -292,25 +359,48 @@ export class FoodInfoModal {
 }
 
 export class PlanInfoInput {
-  constructor(planInfo) {
-    this.protein = planInfo.protein;
-    this.fat = planInfo.fat;
-    this.carbs = planInfo.carbs;
-    this.days = planInfo.days;
-    this.calculationMethod = planInfo.calculationMethod;
-  }
+  protein;
+  fat;
+  carbs;
+  days;
+  calculationMethod;
 
   get calories() {
     return this.protein * 4 + this.fat * 9 + this.carbs * 4;
   }
 
   get percentages() {
+    const convert = (value, factor) => Math.round((100 * value * factor) / this.calories);
     return {
-      protein: Math.round((100 * this.protein * 4) / this.calories),
-      fat: Math.round((100 * this.fat * 9) / this.calories),
-      carbs: Math.round((100 * this.carbs * 4) / this.calories),
+      protein: convert(this.protein, 4),
+      fat: convert(this.fat, 9),
+      carbs: convert(this.carbs, 4),
       calories: 100,
     };
+  }
+
+  static default() {
+    return PlanInfoInput.fromPlanInfo(PlanInfo.default());
+  }
+
+  static fromPlanInfo(planInfo) {
+    const planInfoInput = new PlanInfoInput();
+    planInfoInput.protein = planInfo.protein;
+    planInfoInput.fat = planInfo.fat;
+    planInfoInput.carbs = planInfo.carbs;
+    planInfoInput.days = planInfo.days;
+    planInfoInput.calculationMethod = planInfo.calculationMethod;
+    return planInfoInput;
+  }
+
+  toPlanInfo() {
+    const planInfo = new PlanInfo();
+    planInfo.protein = this.protein;
+    planInfo.fat = this.fat;
+    planInfo.carbs = this.carbs;
+    planInfo.days = this.days;
+    planInfo.calculationMethod = this.calculationMethod;
+    return planInfo;
   }
 }
 
@@ -322,23 +412,24 @@ Store
 export const mainStore = defineStore("mainStore", {
   state: () => {
     return {
-      foodSet: new FoodSet(),
-      planData: new PlanData(),
-      planInfo: new PlanInfo(),
+      foodSet: FoodSet.default(),
+      planData: PlanData.default(),
+      planInfo: PlanInfo.default(),
+
       day: 0,
       editMode: false,
       selectedQuantity: 0, // 0: calories, 1: protein 2: fat, 3: carbs
-      //
+
       addFoodModal: new AddFoodModal(),
       foodInfoModal: new FoodInfoModal(),
-      //
-      planInfoInput: new PlanInfoInput(new PlanInfo()),
+
+      planInfoInput: PlanInfoInput.default(),
       calculating: false,
     };
   },
 
   getters: {
-    meals() {
+    mealNames() {
       return Meals;
     },
 
@@ -350,7 +441,7 @@ export const mainStore = defineStore("mainStore", {
     },
 
     todaysQuantities() {
-      return this.planData.quantitesForDay(this.day);
+      return this.planData.quantitiesForDay(this.day);
     },
   },
 
@@ -365,13 +456,13 @@ export const mainStore = defineStore("mainStore", {
       // Get plan info
       const planInfoJson = localStorage.getItem("planInfo");
       this.planInfo = PlanInfo.fromJson(planInfoJson);
-      this.planInfoInput = new PlanInfoInput(this.planInfo);
+      this.planInfoInput = PlanInfoInput.fromPlanInfo(this.planInfo);
       this.day = this.planInfo.currentDay;
 
       // Get plan data
       const planDataJson = localStorage.getItem("planData");
       const planData = PlanData.fromJson(planDataJson);
-      this.planData = planData || PlanData.emptyPlan(this.planInfo.days, this.meals.length);
+      this.planData = planData || PlanData.emptyPlan(this.planInfo.days, this.mealNames.length);
 
       // Get all foods
       const foodSet = localStorage.getItem("foodSet");
@@ -425,22 +516,10 @@ export const mainStore = defineStore("mainStore", {
 
     generateNewPlan() {
       this.calculating = true;
-      this.planInfo.protein = this.planInfoInput.protein;
-      this.planInfo.fat = this.planInfoInput.fat;
-      this.planInfo.carbs = this.planInfoInput.carbs;
-      this.planInfo.days = this.planInfoInput.days;
-      this.planInfo.calculationMethod = this.planInfoInput.calculationMethod;
+      this.planInfo = this.planInfoInput.toPlanInfo();
 
-      const calculator = new Calculator(
-        this.foodSet.getSelectedFoods(),
-        this.planInfo.calculationMethod,
-        this.planInfo.protein,
-        this.planInfo.fat,
-        this.planInfo.carbs,
-      );
-
+      const calculator = Calculator.fromPlanInfo(this.foodSet.getSelectedFoods(), this.planInfo);
       this.planData.foods = calculator.calculateDays(this.planInfo.days);
-      this.planInfo.created = new Date().getTime();
       this.day = 0;
 
       this.save();
@@ -475,12 +554,10 @@ export const mainStore = defineStore("mainStore", {
 
     foodDragStart() {},
 
-    foodDragEnd() {
-      this.save();
-    },
+    foodDragEnd() {},
 
     removeFood(meal, index) {
-      this.planData.foods[this.day][meal].splice(index, 1);
+      this.planData.removeFood(this.day, meal, index);
       this.save();
     },
 
@@ -490,7 +567,8 @@ export const mainStore = defineStore("mainStore", {
       }
       const meal = this.addFoodModal.meal;
       const foods = this.addFoodModal.close();
-      this.planData.foods[this.day][meal].push(...foods);
+      this.planData.addFoods(this.day, meal, foods);
+      this.save();
     },
   },
 });

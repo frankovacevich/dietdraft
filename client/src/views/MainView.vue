@@ -67,20 +67,20 @@ const store = mainStore();
       </div>
     </div>
 
-    <div v-for="(meal, m) in store.meals" :key="m">
+    <div v-for="(mealName, meal) in store.mealNames" :key="meal">
       <div class="meal-title-container">
-        <div class="meal-title">{{ meal }}</div>
+        <div class="meal-title">{{ mealName }}</div>
         <div
           v-if="store.editMode"
           class="meal-title-icon"
-          @click="store.addFoodModal.open(m, store.foodSet.foods)"
+          @click="store.addFoodModal.open(meal, store.foodSet.foods)"
         >
           <font-awesome-icon icon="fa-solid fa-plus" />
         </div>
         <div style="flex-grow: 1"></div>
       </div>
       <draggable
-        :list="store.planData.getFoods(store.day, m)"
+        :list="store.planData.getFoods(store.day, meal)"
         item-key="id"
         tag="div"
         group="foods"
@@ -102,7 +102,7 @@ const store = mainStore();
             @bodyClick="store.changeFoodSelected(food)"
             @amountClick="if (store.editMode) store.changeFoodAmount(food);"
             @hold="store.foodInfoModal.open(food)"
-            @delete="store.removeFood(m, j)"
+            @delete="store.removeFood(meal, j)"
           ></FoodItem>
         </template>
       </draggable>
