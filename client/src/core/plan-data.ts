@@ -1,6 +1,5 @@
-import { Food } from "@/core/food";
+import { Food } from "./food";
 import { Macros } from "./macros";
-import { faTrashRestoreAlt } from "@fortawesome/free-solid-svg-icons";
 
 export class PlanData {
   foodPlan!: Food[][][]; // [day][meal][food]
@@ -87,7 +86,9 @@ export class PlanData {
     return planData;
   }
 
-  static default() {
-    return [];
+  static default(): PlanData {
+    const planData = new PlanData();
+    planData.foodPlan = [];
+    return planData;
   }
 }
