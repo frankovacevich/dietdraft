@@ -1,8 +1,13 @@
+import { MEALS } from "./enums";
 import { Food } from "./food";
 import { Macros } from "./macros";
 
 export class PlanData {
   foodPlan!: Food[][][]; // [day][meal][food]
+
+  private constructor() {
+    this.foodPlan = [];
+  }
 
   getFoods(day: number, meal: number): Food[] {
     const foodsForDay = day >= this.foodPlan.length ? [] : this.foodPlan[day];
@@ -65,7 +70,7 @@ export class PlanData {
     const planData = new PlanData();
     for (let i = 0; i < days; i++) {
       const dayPlan = [];
-      for (let m = 0; m < meals; m++) {
+      for (let m = 0; m < MEALS.length; m++) {
         dayPlan.push([]);
       }
       planData.foodPlan.push(dayPlan);
@@ -87,8 +92,6 @@ export class PlanData {
   }
 
   static default(): PlanData {
-    const planData = new PlanData();
-    planData.foodPlan = [];
-    return planData;
+    return new PlanData();
   }
 }
