@@ -31,26 +31,6 @@ export class Food {
   }
 }
 
-export class Recipe extends Food {
-  ingredients = [];
-
-  get protein() {
-    return this.ingredients.reduce((sum, ingredient) => sum + ingredient.protein, 0);
-  }
-
-  get fat() {
-    return this.ingredients.reduce((sum, ingredient) => sum + ingredient.fat, 0);
-  }
-
-  get carbs() {
-    return this.ingredients.reduce((sum, ingredient) => sum + ingredient.carbs, 0);
-  }
-
-  get calories() {
-    return this.ingredients.reduce((sum, ingredient) => sum + ingredient.calories, 0);
-  }
-}
-
 export class PlanInfo {
   created;
   protein;
