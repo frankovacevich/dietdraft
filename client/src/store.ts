@@ -83,6 +83,23 @@ export const mainStore = defineStore("mainStore", {
       this.save();
     },
 
+    recalculateToday() {
+      const totalEaten = this.planData.macrosForSelectedFoodsForDay(this.day);
+      const targets = new Macros(
+        this.planInfo.protein - totalEaten.protein,
+        this.planInfo.fat - totalEaten.fat,
+        this.planInfo.carbs - totalEaten.carbs,
+      );
+      const calculator = new Calculator(
+        this.foodSet.getSelectedFoods(),
+        this.planInfo.calculationMethod,
+        targets,
+      );
+      const newPlan = calculator.calculateSingleDay();
+      this.planData.updateMealPlan(this.day, newPlan);
+      this.save();
+    },
+
     generateNewPlan() {
       this.calculating = true;
       this.planInfo = this.planInfoInput.toPlanInfo();
@@ -91,16 +108,12 @@ export const mainStore = defineStore("mainStore", {
         this.foodSet.getSelectedFoods(),
         this.planInfo as PlanInfo,
       );
-      this.planData.foodPlan = calculator.calculatePlan(this.planInfo.days);
+      const newPlan = calculator.calculatePlan(this.planInfo.days);
+      this.planData.foodPlan = newPlan;
       this.day = 0;
 
       this.save();
       this.calculating = false;
-    },
-
-    // TODO: Remove
-    clearToday() {
-      this.clearSelectedDay();
     },
 
     changeFoodSelected(food: Food) {

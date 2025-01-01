@@ -18,7 +18,7 @@ const store = mainStore();
   <FoodInfoModal></FoodInfoModal>
   <TitleBar>
     <div style="margin-left: 8px">
-      Day {{ store.day + 1 }} / {{ store.planInfo.days }} ({{ store.weekDay }})
+      Day {{ store.day + 1 }} / {{ store.planInfo.days }} ({{ store.selectedDayName }})
     </div>
     <div style="flex-grow: 1"></div>
     <div class="title-bar-icon" @click="store.goToPreviousDay">
@@ -113,7 +113,7 @@ const store = mainStore();
   </MainContainer>
 
   <div class="bottom-toolbar" v-if="store.editMode">
-    <div class="round-button round-button-secondary" @click="store.clearToday()">
+    <div class="round-button round-button-secondary" @click="store.clearSelectedDay()">
       <font-awesome-icon icon="fa-solid fa-trash" />
     </div>
     <div class="round-button" @click="store.recalculateToday()">

@@ -15,7 +15,7 @@ export class Calculator {
   target!: Macros;
 
   constructor(foods: Food[], calculationMethod: CalculationMethod, target: Macros) {
-    this.foods = foods.map((food) => food.copy());
+    this.foods = foods.map((food) => food.cleanCopy());
     this.calculationMethod = calculationMethod;
 
     target.protein = Math.max(0, target.protein);
@@ -54,7 +54,7 @@ export class Calculator {
     const foodCounts = [1, 2, 3, 4, 5];
     const foodCount = 1 + Math.floor(Math.random() * foodCounts.length);
     const foods = getRandomSubsample(this.foodsForMeal(meal), foodCount);
-    return foods.map((food) => food.copy());
+    return foods.map((food) => food.cleanCopy());
   }
 
   private createRandomPopulation(): Food[][][] {

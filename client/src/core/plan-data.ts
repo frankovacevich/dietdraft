@@ -37,12 +37,33 @@ export class PlanData {
     return macros;
   }
 
+  macrosForSelectedFoodsForDay(day: number): Macros {
+    const macros = new Macros();
+    this.foodPlan[day]
+      .flat()
+      .filter((food) => food.selected)
+      .forEach((food) => {
+        macros.protein += food.protein * food.amount;
+        macros.fat += food.fat * food.amount;
+        macros.carbs += food.carbs * food.amount;
+      });
+    return macros;
+  }
+
+  updateMealPlan(day: number, mealPlan: Food[][]) {
+    for (let m = 0; m < mealPlan.length; m++) {
+      const eatenFoods = this.foodPlan[m][day].filter((food) => food.selected);
+      mealPlan[m] = [...eatenFoods, ...mealPlan[m]];
+    }
+    this.foodPlan[day] = mealPlan;
+  }
+
   get macrosAverage(): Macros {
     const macros = new Macros();
     this.foodPlan.flat(2).forEach((food) => {
-      macros.protein += food.protein * (food.amount || 0);
-      macros.fat += food.fat * (food.amount || 0);
-      macros.carbs += food.carbs * (food.amount || 0);
+      macros.protein += food.protein * food.amount;
+      macros.fat += food.fat * food.amount;
+      macros.carbs += food.carbs * food.amount;
     });
 
     macros.protein = macros.protein / this.foodPlan.length;

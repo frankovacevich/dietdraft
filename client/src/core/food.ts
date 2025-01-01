@@ -9,7 +9,7 @@ export class Food {
   category!: string;
 
   selected: boolean = false;
-  amount: number = 0;
+  amount: number = 1;
   meals: Meal[] = [];
 
   protein!: number;
@@ -48,8 +48,23 @@ export class Food {
     food.fat = obj.fat;
     food.carbs = obj.carbs;
     food.selected = obj.selected || false;
-    food.amount = obj.amount || 0;
+    food.amount = obj.amount || 1;
     food.meals = obj.meals || [];
+
+    // TODO: Fix this
+    if (obj.b) {
+      food.meals.push(Meal.BREAKFAST);
+    }
+    if (obj.s) {
+      food.meals.push(Meal.SNACK);
+    }
+    if (obj.l) {
+      food.meals.push(Meal.LUNCH);
+    }
+    if (obj.d) {
+      food.meals.push(Meal.DINNER);
+    }
+
     return food;
   }
 
@@ -63,9 +78,16 @@ export class Food {
     food.protein = this.protein;
     food.fat = this.fat;
     food.carbs = this.carbs;
-    food.selected = this.selected;
-    food.amount = this.amount;
     food.meals = this.meals;
+    food.amount = this.amount;
+    food.selected = this.selected;
+    return food;
+  }
+
+  cleanCopy(): Food {
+    const food = this.copy();
+    food.selected = false;
+    food.amount = 1;
     return food;
   }
 

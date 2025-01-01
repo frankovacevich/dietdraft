@@ -62,8 +62,7 @@ export class AddFoodModal {
   open(meal: number, foods: Food[]) {
     this.meal = meal;
     this.visible = true;
-    this.foods = foods.map((food) => food.copy());
-    this.foods.forEach((food) => (food.selected = false));
+    this.foods = foods.map((food) => food.cleanCopy());
     this.focusOnSearchInput();
     this.scrollContainerToTop();
   }
