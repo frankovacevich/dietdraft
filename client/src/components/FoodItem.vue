@@ -68,10 +68,7 @@ export default {
     heldLongEnough() {
       const now = new Date().getTime();
       const holdThreshold = 500; // milliseconds
-      return (
-        this.touchStartTimestamp !== null &&
-        now - this.touchStartTimestamp > holdThreshold
-      );
+      return this.touchStartTimestamp !== null && now - this.touchStartTimestamp > holdThreshold;
     },
 
     bodyClick() {
@@ -134,7 +131,6 @@ export default {
     :class="{ selected: selected, delete: aboutToDelete }"
     @click.self="bodyClick()"
     @mousedown="touchStart($event)"
-    @mouseup="touchEnd()"
     @touchstart="touchStart($event)"
     @touchmove="touchMove($event)"
     @touchend="touchEnd($event)"
