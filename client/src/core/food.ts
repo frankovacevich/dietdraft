@@ -68,4 +68,18 @@ export class Food {
     food.meals = this.meals;
     return food;
   }
+
+  static placeholder(): Food {
+    const food = new Food();
+    food.id = "[placeholder]";
+    food.name = "food name";
+    food.icon = "cheese";
+    food.description = "This is a placeholder food!";
+    food.category = "";
+    food.protein = 100;
+    food.fat = 100;
+    food.carbs = 100;
+    food.meals = [];
+    return food;
+  }
 }

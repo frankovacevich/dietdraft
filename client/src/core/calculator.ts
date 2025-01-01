@@ -180,7 +180,7 @@ class ErrorCalculatorFactory {
       case CalculationMethod.FAT:
         return new FatErrorCalculator();
       default:
-        throw new Error("Invalid calculation method", calculationMethod);
+        throw new Error("Invalid calculation method");
     }
   }
 }

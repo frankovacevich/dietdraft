@@ -2,7 +2,7 @@ import { Food } from "./food";
 
 export class FoodInfoModal {
   visible: boolean = false;
-  food!: Food;
+  food: Food = Food.placeholder();
 
   private constructor() {}
 
