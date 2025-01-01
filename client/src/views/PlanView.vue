@@ -3,7 +3,7 @@ import MainContainer from "@/components/MainContainer.vue";
 import TabsTitleBar from "@/components/TabsTitleBar.vue";
 
 import { mainStore } from "@/store";
-import { CalculationMethods } from "@/calculator";
+import { CALCULATION_METHODS } from "@/core/enums";
 const store = mainStore();
 </script>
 
@@ -16,7 +16,7 @@ const store = mainStore();
       <input v-model="store.planInfoInput.days" min="0" max="31" type="number" />
       <div>Optimize:</div>
       <select v-model="store.planInfoInput.calculationMethod" style="flex-grow: 1; max-width: none">
-        <option v-for="option in CalculationMethods" :key="option" :value="option">
+        <option v-for="option in CALCULATION_METHODS" :key="option" :value="option">
           {{ option }}
         </option>
       </select>

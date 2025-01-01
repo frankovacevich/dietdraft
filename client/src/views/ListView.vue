@@ -1,7 +1,7 @@
 <script setup>
+import FoodItem from "@/components/FoodItem.vue";
 import MainContainer from "@/components/MainContainer.vue";
 import TabsTitleBar from "@/components/TabsTitleBar.vue";
-import FoodItem from "@/components/FoodItem.vue";
 
 import { mainStore } from "@/store";
 const store = mainStore();

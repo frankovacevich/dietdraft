@@ -1,7 +1,7 @@
 <script setup>
-import TitleBar from "@/components/TitleBar.vue";
-import MainContainer from "@/components/MainContainer.vue";
 import FoodItem from "@/components/FoodItem.vue";
+import MainContainer from "@/components/MainContainer.vue";
+import TitleBar from "@/components/TitleBar.vue";
 
 import { mainStore } from "@/store";
 const store = mainStore();

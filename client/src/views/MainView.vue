@@ -1,11 +1,13 @@
 <script setup>
 import draggable from "vuedraggable";
-import TitleBar from "@/components/TitleBar.vue";
-import MainContainer from "@/components/MainContainer.vue";
-import FoodItem from "@/components/FoodItem.vue";
-import TotalsBar from "@/components/TotalsBar.vue";
-import AddFoodModal from "./AddFoodModal.vue";
+
+import AddFoodModal from "@/components/AddFoodModal.vue";
 import FoodInfoModal from "@/components/FoodInfoModal.vue";
+import FoodItem from "@/components/FoodItem.vue";
+import MainContainer from "@/components/MainContainer.vue";
+import TitleBar from "@/components/TitleBar.vue";
+import TotalsBar from "@/components/TotalsBar.vue";
+
 import { mainStore } from "@/store";
 
 const store = mainStore();
