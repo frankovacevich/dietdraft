@@ -4,6 +4,8 @@ export class FoodInfoModal {
   visible: boolean = false;
   food!: Food;
 
+  private constructor() {}
+
   open(food: Food) {
     this.food = food;
     this.visible = true;
@@ -11,5 +13,9 @@ export class FoodInfoModal {
 
   close() {
     this.visible = false;
+  }
+
+  static create(): FoodInfoModal {
+    return new FoodInfoModal();
   }
 }

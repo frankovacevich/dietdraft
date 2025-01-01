@@ -1,4 +1,4 @@
-import { Macros } from "./macros";
+import { Macros } from "../core/macros";
 
 describe("core/macros", () => {
   it("should be able to create a macro", () => {

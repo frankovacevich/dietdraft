@@ -24,39 +24,33 @@ export class Food {
     return new Macros(this.protein, this.fat, this.carbs);
   }
 
-  static fromJson(json: any): Food {
-    if (!json) {
-      throw new Error("Invalid JSON");
-    }
-    const food = new Food();
-    food.id = json.id;
-    food.name = json.name;
-    food.icon = json.icon;
-    food.description = json.description;
-    food.category = json.category;
-    food.protein = json.protein;
-    food.fat = json.fat;
-    food.carbs = json.carbs;
-    food.selected = json.selected || false;
-    food.amount = json.amount || 0;
-    food.meals = json.meals || [];
-    return food;
+  increaseAmount() {
+    const amounts = [0.25, 0.5, 0.75, 1, 1.25, 1.5];
+    const idx = amounts.indexOf(this.amount);
+    this.amount = idx !== -1 ? amounts[(idx + 1) % amounts.length] : 1;
   }
 
-  toJson(): string {
-    return JSON.stringify({
-      id: this.id,
-      name: this.name,
-      icon: this.icon,
-      description: this.description,
-      category: this.category,
-      protein: this.protein,
-      fat: this.fat,
-      carbs: this.carbs,
-      selected: this.selected,
-      amount: this.amount,
-      meals: this.meals,
-    });
+  toggleSelected() {
+    this.selected = !this.selected;
+  }
+
+  static fromObj(obj: any): Food {
+    if (!obj) {
+      throw new Error("Invalid Object");
+    }
+    const food = new Food();
+    food.id = obj.id;
+    food.name = obj.name;
+    food.icon = obj.icon;
+    food.description = obj.description;
+    food.category = obj.category;
+    food.protein = obj.protein;
+    food.fat = obj.fat;
+    food.carbs = obj.carbs;
+    food.selected = obj.selected || false;
+    food.amount = obj.amount || 0;
+    food.meals = obj.meals || [];
+    return food;
   }
 
   copy(): Food {

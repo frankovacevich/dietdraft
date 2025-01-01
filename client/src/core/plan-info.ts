@@ -1,7 +1,9 @@
-import { CalculationMethod, CalculationMethodKey } from "./enums";
+import { CalculationMethod, getEnumKey, getEnumValue } from "./enums";
 import { Macros } from "./macros";
 
 export class PlanInfo {
+  static readonly DEFAULT_DAYS = 1;
+
   created!: Date;
   protein!: number;
   fat!: number;
@@ -31,30 +33,40 @@ export class PlanInfo {
     return Math.min(differenceInDays, this.days - 1);
   }
 
-  // TODO get percentages()
+  // TODO remove
+  get percentages() {
+    const macros = this.macros;
+    return {
+      protein: macros.proteinPercentage,
+      fat: macros.fatPercentage,
+      carbs: macros.caloriesPercentage,
+      calories: macros.caloriesPercentage,
+    };
+  }
 
   toJson(): string {
     return JSON.stringify({
-      created: this.created,
+      created: this.created.getTime(),
       protein: this.protein,
       fat: this.fat,
       carbs: this.carbs,
       days: this.days,
-      calculationMethod: this.calculationMethod.valueOf(),
+      calculationMethod: getEnumKey(CalculationMethod, this.calculationMethod),
     });
   }
 
   static fromJson(json: any): PlanInfo {
-    if (!json) {
+    if (!json || typeof json !== "string") {
       throw new Error("Invalid JSON");
     }
     const plan = new PlanInfo();
+    json = JSON.parse(json);
     plan.created = new Date(json.created);
     plan.protein = json.protein;
     plan.fat = json.fat;
     plan.carbs = json.carbs;
     plan.days = json.days;
-    plan.calculationMethod = CalculationMethod[json.calculationMethod as CalculationMethodKey];
+    plan.calculationMethod = getEnumValue(CalculationMethod, json.calculationMethod);
     return plan;
   }
 
@@ -64,7 +76,7 @@ export class PlanInfo {
     planInfo.protein = 110;
     planInfo.fat = 105;
     planInfo.carbs = 100;
-    planInfo.days = 1;
+    planInfo.days = PlanInfo.DEFAULT_DAYS;
     return planInfo;
   }
 }

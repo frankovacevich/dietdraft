@@ -13,6 +13,22 @@ export class PlanInfoInput {
     return new Macros(this.protein, this.fat, this.carbs);
   }
 
+  // TODO: Remove
+  get calories(): number {
+    return this.macros.calories;
+  }
+
+  // TODO: Remove
+  get percentages() {
+    const macros = this.macros;
+    return {
+      protein: macros.protein,
+      fat: macros.fat,
+      carbs: macros.carbs,
+      calories: macros.calories,
+    };
+  }
+
   static default() {
     return PlanInfoInput.fromPlanInfo(PlanInfo.default());
   }

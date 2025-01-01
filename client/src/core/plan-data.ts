@@ -29,9 +29,9 @@ export class PlanData {
     }
 
     this.foodPlan[day].flat().forEach((food) => {
-      macros.protein += food.protein * (food.amount || 0);
-      macros.fat += food.fat * (food.amount || 0);
-      macros.carbs += food.carbs * (food.amount || 0);
+      macros.protein += food.protein * food.amount;
+      macros.fat += food.fat * food.amount;
+      macros.carbs += food.carbs * food.amount;
     });
 
     return macros;
@@ -51,6 +51,39 @@ export class PlanData {
     return macros;
   }
 
+  // TODO Remove
+  quantitiesForDay(day: number) {
+    const macros = this.macrosForDay(day);
+    return {
+      protein: macros.protein,
+      fat: macros.fat,
+      carbs: macros.carbs,
+      calories: macros.calories,
+    };
+  }
+
+  // TODO Remove
+  get quantitiesAverage() {
+    const macros = this.macrosAverage;
+    return {
+      protein: macros.protein,
+      fat: macros.fat,
+      carbs: macros.carbs,
+      calories: macros.calories,
+    };
+  }
+
+  // TODO Remove
+  get quantitiesAveragePercentages() {
+    const macros = this.macrosAverage;
+    return {
+      protein: macros.proteinPercentage,
+      fat: macros.fatPercentage,
+      carbs: macros.carbsPercentage,
+      calories: macros.caloriesPercentage,
+    };
+  }
+
   get shoppingList(): Food[] {
     const foodMap = new Map<string, Food>();
 
@@ -66,7 +99,15 @@ export class PlanData {
     return Array.from(foodMap.values()).sort((a, b) => b.amount - a.amount);
   }
 
-  static emptyPlan(days: number, meals: number): PlanData {
+  clearDay(day: number) {
+    const newPlan = [];
+    for (const mealPlan of this.foodPlan[day]) {
+      newPlan.push(mealPlan.filter((food) => food.selected));
+    }
+    this.foodPlan[day] = newPlan;
+  }
+
+  static createEmptyPlan(days: number): PlanData {
     const planData = new PlanData();
     for (let i = 0; i < days; i++) {
       const dayPlan = [];
@@ -82,16 +123,15 @@ export class PlanData {
     return JSON.stringify({ foodPlan: this.foodPlan });
   }
 
-  static fromJson(json: any): PlanData | null {
-    if (!json) {
-      return null;
+  static fromJson(json: any): PlanData {
+    if (!json || typeof json !== "string") {
+      throw new Error("Invalid JSON");
     }
-    const planData = new PlanData();
-    planData.foodPlan = JSON.parse(json);
-    return planData;
-  }
 
-  static default(): PlanData {
-    return new PlanData();
+    const planData = new PlanData();
+    planData.foodPlan = JSON.parse(json).foodPlan.map((a: Food[][]) =>
+      a.map((b: Food[]) => b.map((c: Food) => Food.fromObj(c))),
+    );
+    return planData;
   }
 }

@@ -2,29 +2,42 @@ import { MEALS } from "./enums";
 import { Food } from "./food";
 
 export class AddFoodModal {
-  visible: boolean = false;
   meal: number = 0;
+  visible: boolean = false;
   foods: Food[] = [];
   searchText: string = "";
 
-  get mealName(): string {
-    return MEALS[this.meal];
-  }
+  private constructor() {}
 
-  get searchInput(): HTMLElement {
+  private focusOnSearchInput() {
     const el = document.getElementById("searchInput");
     if (!el) {
-      throw new Error("Search input not found");
+      console.warn("Element 'searchInput' not found");
+    } else {
+      el.focus();
     }
-    return el;
   }
 
-  get container(): HTMLElement {
-    const el = this.searchInput?.parentNode?.parentNode as HTMLElement;
+  private scrollContainerToTop() {
+    const el = document.getElementById("searchInput")?.parentNode?.parentNode as HTMLElement;
     if (!el) {
-      throw new Error("Container not found");
+      console.warn("Container element not found");
+    } else {
+      el.scrollTop = 0;
     }
-    return el;
+  }
+
+  private getSelectedFoodsAndSetAmount(): Food[] {
+    const foods = this.foods.filter((food) => food.selected);
+    foods.forEach((food) => {
+      food.selected = false;
+      food.amount = 1;
+    });
+    return foods;
+  }
+
+  get mealName(): string {
+    return MEALS[this.meal];
   }
 
   getSearchedFoods(): Food[] {
@@ -41,15 +54,6 @@ export class AddFoodModal {
     return Array.from(new Set(foods.map((food) => food.category)));
   }
 
-  getSelectedFoods(): Food[] {
-    const foods = this.foods.filter((food) => food.selected);
-    foods.forEach((food) => {
-      food.selected = false;
-      food.amount = 1;
-    });
-    return foods;
-  }
-
   getFoodsForCategory(category: string): Food[] {
     const foods = this.getSearchedFoods();
     return foods.filter((food) => food.category === category);
@@ -60,18 +64,22 @@ export class AddFoodModal {
     this.visible = true;
     this.foods = foods.map((food) => food.copy());
     this.foods.forEach((food) => (food.selected = false));
-    this.searchInput.focus();
-    this.container.scrollTop = 0;
+    this.focusOnSearchInput();
+    this.scrollContainerToTop();
   }
 
   close(): Food[] {
     this.visible = false;
     this.searchText = "";
-    return this.getSelectedFoods();
+    return this.getSelectedFoodsAndSetAmount();
   }
 
   clearSearch() {
     this.searchText = "";
-    this.searchInput.focus();
+    this.focusOnSearchInput();
+  }
+
+  static create(): AddFoodModal {
+    return new AddFoodModal();
   }
 }
