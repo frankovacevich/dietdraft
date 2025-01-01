@@ -1,4 +1,6 @@
-.PHONY: dev build_vue copy_files build_apk all clean
+
+# Default target to run all steps
+all: clean test build_vue copy_files build_apk
 
 # Run the local server for development
 dev:
@@ -10,6 +12,11 @@ build_vue:
 	@echo "Building the Vue app..."
 	cd client && npm run build
 
+# Run all tests
+test:
+	@echo "Running tests"
+	cd client && npm test
+
 # Copy files to the appropriate directory
 copy_files:
 	@echo "Copying files..."
@@ -20,13 +27,12 @@ copy_files:
 build_apk:
 	@echo "Building the APK..."
 	cd app && cordova build
-	cp app/platforms/android/app/build/outputs/apk/debug/app-debug.apk app/dist/dietdraft.apk
+	cp app/platforms/android/app/build/outputs/apk/debug/app-debug.apk dist/dietdraft.apk
 
 # Clean the build artifacts
 clean:
 	@echo "Cleaning up..."
-	rm -rf app/www/* client/dist/* app/dist/dietdraft.apk
+	rm -rf app/www/* client/dist/* dist/dietdraft.apk
 
-# Default target to run all steps
-all: clean build_vue copy_files build_apk
 
+.PHONY: dev build_vue copy_files build_apk all clean
