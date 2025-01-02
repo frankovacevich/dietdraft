@@ -1,4 +1,6 @@
 <script>
+import { Macros } from "@/core/macros";
+
 export default {
   data() {
     return {
@@ -25,7 +27,7 @@ export default {
 
   computed: {
     calories() {
-      return 9 * this.fat + 4 * this.protein + 4 * this.carbs;
+      return new Macros(this.protein, this.fat, this.carbs).calories;
     },
 
     displayName() {
@@ -96,11 +98,7 @@ export default {
       if (this.allowDelete && this.touchStartX) {
         const threshold = 70; //pixels
         const delta = this.touchStartX - e.touches[0].clientX;
-        if (Math.abs(delta) > threshold) {
-          this.aboutToDelete = true;
-        } else {
-          this.aboutToDelete = false;
-        }
+        this.aboutToDelete = Math.abs(delta) > threshold;
       }
     },
 
@@ -110,6 +108,7 @@ export default {
       if (this.allowDelete && this.aboutToDelete) {
         this.$emit("delete");
       } else if (
+        e !== undefined &&
         this.heldLongEnough() &&
         Math.abs(e.changedTouches[0].clientY - this.touchStartY) < threshold
       ) {
@@ -131,6 +130,7 @@ export default {
     :class="{ selected: selected, delete: aboutToDelete }"
     @click.self="bodyClick()"
     @mousedown="touchStart($event)"
+    @mouseup="touchEnd()"
     @touchstart="touchStart($event)"
     @touchmove="touchMove($event)"
     @touchend="touchEnd($event)"

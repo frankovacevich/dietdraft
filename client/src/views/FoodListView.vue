@@ -1,4 +1,5 @@
 <script setup>
+import EditFoodModal from "@/components/EditFoodModal.vue";
 import FoodItem from "@/components/FoodItem.vue";
 import MainContainer from "@/components/MainContainer.vue";
 import TabsTitleBar from "@/components/TabsTitleBar.vue";
@@ -8,6 +9,7 @@ const store = mainStore();
 </script>
 
 <template>
+  <EditFoodModal></EditFoodModal>
   <TabsTitleBar></TabsTitleBar>
   <MainContainer>
     <div class="subtitle">Food List</div>
@@ -23,7 +25,7 @@ const store = mainStore();
         :fat="food.fat"
         :carbs="food.carbs"
         :selected="food.selected"
-        @click="store.changeFoodSelected(food)"
+        @bodyClick="store.editFoodModal.open(food)"
       ></FoodItem>
     </div>
   </MainContainer>

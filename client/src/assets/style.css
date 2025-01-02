@@ -84,3 +84,55 @@ a[href] {
   color: var(--color-gray-1);
   padding: 10px 0 10px 0;
 }
+
+/*
+ * Modals
+ */
+.modal {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: top 0.2s ease-in-out;
+}
+
+.modal-hidden {
+  top: 100vh;
+}
+
+/*
+* Inputs
+*/
+.input-container {
+  background-color: var(--color-gray-0);
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.input-container input, textarea {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  resize: none;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.input-container.checkboxes{
+  flex-direction: column;
+}
+
+  .input-container.checkboxes label{
+    margin: 5px 0;
+  }
+
+.input-container .input-icon {
+  color: var(--color-gray-1);
+}

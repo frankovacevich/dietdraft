@@ -21,7 +21,7 @@ const store = mainStore();
       </div>
     </TitleBar>
     <MainContainer>
-      <div class="search-bar">
+      <div class="input-container">
         <input
           id="searchInput"
           type="text"
@@ -32,12 +32,12 @@ const store = mainStore();
           v-if="store.addFoodModal.searchText !== ''"
           @click="store.addFoodModal.clearSearch()"
           icon="fa-solid fa-xmark"
-          class="search-icon"
+          class="input-icon"
         />
         <font-awesome-icon
           v-if="store.addFoodModal.searchText === ''"
           icon="fa-solid fa-magnifying-glass"
-          class="search-icon"
+          class="input-icon"
         />
       </div>
       <div v-for="cat in store.addFoodModal.getCategories()" :key="cat">
@@ -60,39 +60,3 @@ const store = mainStore();
     </MainContainer>
   </div>
 </template>
-
-<style scoped>
-.modal {
-  z-index: 100;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  transition: top 0.2s ease-in-out;
-}
-
-.modal-hidden {
-  top: 100vh;
-}
-
-.search-bar {
-  background-color: var(--color-gray-0);
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  padding: 10px;
-  display: flex;
-}
-
-.search-bar input {
-  background-color: inherit;
-  border: none;
-  outline: none;
-  flex-grow: 1;
-}
-
-.search-bar .search-icon {
-  color: var(--color-gray-1);
-}
-</style>

@@ -28,8 +28,8 @@ Navigation
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from "./views/MainView.vue";
 import PlanView from "./views/PlanView.vue";
-import ListView from "./views/ListView.vue";
-import FoodsView from "./views/FoodsView.vue";
+import ShoppingListView from "./views/ShoppingListView.vue";
+import FoodListView from "./views/FoodListView.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -45,12 +45,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/shopping-list",
     name: "shopping-list",
-    component: ListView,
+    component: ShoppingListView,
   },
   {
     path: "/foods",
     name: "list",
-    component: FoodsView,
+    component: FoodListView,
   },
   { path: "/:catchAll(.*)", redirect: { name: "menu" } },
 ];

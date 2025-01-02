@@ -9,8 +9,8 @@ const store = mainStore();
     :class="{ 'overlay-hidden': !store.foodInfoModal.visible }"
     @mousedown="store.foodInfoModal.close()"
   ></div>
-  <div class="modal" :class="{ 'modal-hidden': !store.foodInfoModal.visible }">
-    <div class="modal-container">
+  <div class="bottom-sheet" :class="{ 'bottom-sheet-hidden': !store.foodInfoModal.visible }">
+    <div class="bottom-sheet-container">
       <div class="icon">
         <img :src="`/food/${store.foodInfoModal.food.icon}.png`" />
       </div>
@@ -41,7 +41,7 @@ const store = mainStore();
   opacity: 0.5;
 }
 
-.modal {
+.bottom-sheet {
   z-index: 100;
   position: fixed;
   left: 0;
@@ -55,11 +55,11 @@ const store = mainStore();
   transition: height 0.2s ease-in-out;
 }
 
-.modal-hidden {
+.bottom-sheet-hidden {
   height: 0;
 }
 
-.modal-container {
+.bottom-sheet-container {
   padding: 10px;
 }
 

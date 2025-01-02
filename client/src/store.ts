@@ -10,6 +10,7 @@ import { Macros } from "./core/macros";
 import { DataFetcher } from "./core/data-fetcher";
 import { Food } from "./core/food";
 import { Calculator } from "./core/calculator";
+import { EditFoodModal } from "./core/edit-food-modal";
 
 export const mainStore = defineStore("mainStore", {
   state: () => {
@@ -24,6 +25,7 @@ export const mainStore = defineStore("mainStore", {
 
       addFoodModal: AddFoodModal.create(),
       foodInfoModal: FoodInfoModal.create(),
+      editFoodModal: EditFoodModal.create(),
 
       planInfoInput: PlanInfoInput.default(),
       calculating: false,

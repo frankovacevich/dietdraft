@@ -52,7 +52,7 @@ export class PlanData {
 
   updateMealPlan(day: number, mealPlan: Food[][]) {
     for (let m = 0; m < mealPlan.length; m++) {
-      const eatenFoods = this.foodPlan[m][day].filter((food) => food.selected);
+      const eatenFoods = this.foodPlan[day][m].filter((food) => food.selected);
       mealPlan[m] = [...eatenFoods, ...mealPlan[m]];
     }
     this.foodPlan[day] = mealPlan;

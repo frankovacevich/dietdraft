@@ -26,6 +26,7 @@
 }
 
 .title-bar-icon {
+  cursor: pointer;
   width: 40px;
   height: 40px;
   text-align: center;

@@ -7,21 +7,20 @@ export class Food {
   icon!: string;
   description!: string;
   category!: string;
-
-  selected: boolean = false;
-  amount: number = 1;
-  meals: Meal[] = [];
-
   protein!: number;
   fat!: number;
   carbs!: number;
+  meals: Meal[] = [];
 
-  get calories(): number {
-    return this.macros.calories;
-  }
+  selected: boolean = false;
+  amount: number = 1;
 
   get macros(): Macros {
     return new Macros(this.protein, this.fat, this.carbs);
+  }
+
+  get calories(): number {
+    return this.macros.calories;
   }
 
   increaseAmount() {
