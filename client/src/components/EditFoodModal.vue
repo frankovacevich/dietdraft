@@ -16,7 +16,7 @@ const store = mainStore();
       <div style="flex-grow: 1"></div>
       <div>Edit Food</div>
       <div style="flex-grow: 1"></div>
-      <div class="title-bar-icon" @click="store.editFoodModal.saveAndClose()">
+      <div class="title-bar-icon" @click="store.saveAndCloseEditFoodModal()">
         <font-awesome-icon icon="fa-solid fa-check" />
       </div>
     </TitleBar>

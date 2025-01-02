@@ -24,11 +24,6 @@ const store = mainStore();
     <div class="title-bar-icon" @click="store.goToPreviousDay">
       <font-awesome-icon icon="fa-solid fa-chevron-left" />
     </div>
-    <router-link to="/plan">
-      <div class="title-bar-icon">
-        <font-awesome-icon icon="fa-solid fa-sliders" />
-      </div>
-    </router-link>
     <div class="title-bar-icon" @click="store.toggleEditMode">
       <font-awesome-icon v-if="store.editMode" icon="fa-solid fa-pen-to-square" />
       <font-awesome-icon v-if="!store.editMode" icon="fa-regular fa-pen-to-square" />
@@ -113,6 +108,12 @@ const store = mainStore();
   </MainContainer>
 
   <div class="bottom-toolbar" v-if="store.editMode">
+    <router-link to="/plan">
+      <div class="round-button">
+        <font-awesome-icon icon="fa-solid fa-sliders" />
+      </div>
+    </router-link>
+    <div style="flex-grow: 1"></div>
     <div class="round-button round-button-secondary" @click="store.clearSelectedDay()">
       <font-awesome-icon icon="fa-solid fa-trash" />
     </div>
@@ -125,14 +126,14 @@ const store = mainStore();
 <style scoped>
 .bottom-toolbar {
   position: fixed;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 20px;
+  right: 20px;
   height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  left: 20px;
 }
 
 .round-button {

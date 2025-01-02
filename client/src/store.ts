@@ -146,5 +146,10 @@ export const mainStore = defineStore("mainStore", {
       this.planData.addFoods(this.day, meal, foods);
       this.save();
     },
+
+    saveAndCloseEditFoodModal() {
+      this.editFoodModal.saveAndClose();
+      this.save();
+    },
   },
 });
