@@ -14,10 +14,10 @@ export function getEnumValue(e: any, v: string) {
  */
 export enum CalculationMethod {
   ALL = "All",
-  PROTEIN = "Optimize Protein",
-  FAT = "Optimize Fat",
-  CARBS = "Optimize Carbs",
-  CALORIES = "Optimize Calories",
+  PROTEIN = "Protein",
+  FAT = "Fat",
+  CARBS = "Carbs",
+  CALORIES = "Calories",
 }
 
 export enum Meal {

@@ -9,6 +9,10 @@ export class FoodSet {
     this.foods = foods;
   }
 
+  getFoods(): Food[] {
+    return this.foods;
+  }
+
   getSelectedFoods(): Food[] {
     return this.foods.filter((food) => food.selected);
   }

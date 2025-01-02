@@ -27,7 +27,7 @@ const store = mainStore();
       </div>
       <div class="input-container">
         <input type="text" placeholder="Icon" v-model="store.editFoodModal.iconInput" />
-        <div class="food-icon" :class="{ crossed: crossed }">
+        <div class="food-icon">
           <img :src="store.editFoodModal.iconSrc" />
         </div>
       </div>

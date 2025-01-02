@@ -18,10 +18,10 @@ export class Macros {
   }
 
   get calories(): number {
-    return (
+    return Math.round(
       this.protein * Macros.PROTEIN_FACTOR +
-      this.fat * Macros.FAT_FACTOR +
-      this.carbs * Macros.CARBS_FACTOR
+        this.fat * Macros.FAT_FACTOR +
+        this.carbs * Macros.CARBS_FACTOR,
     );
   }
 

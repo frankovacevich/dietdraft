@@ -137,6 +137,7 @@ const store = mainStore();
 }
 
 .round-button {
+  cursor: pointer;
   width: 56px;
   height: 56px;
   display: flex;

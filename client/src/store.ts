@@ -93,7 +93,7 @@ export const mainStore = defineStore("mainStore", {
         this.planInfo.carbs - totalEaten.carbs,
       );
       const calculator = new Calculator(
-        this.foodSet.getSelectedFoods(),
+        this.foodSet.getFoods(),
         this.planInfo.calculationMethod,
         targets,
       );
@@ -107,7 +107,7 @@ export const mainStore = defineStore("mainStore", {
       this.planInfo = this.planInfoInput.toPlanInfo();
 
       const calculator = Calculator.fromPlanInfo(
-        this.foodSet.getSelectedFoods(),
+        this.foodSet.getFoods(),
         this.planInfo as PlanInfo,
       );
       const newPlan = calculator.calculatePlan(this.planInfo.days);
