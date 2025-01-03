@@ -63,6 +63,7 @@ export const mainStore = defineStore("mainStore", {
       if (this.foodSet.isEmpty) {
         DataFetcher.fetchDefaultFoods().then((foods) => this.foodSet.setFoods(foods));
       }
+      this.planInfoInput = PlanInfoInput.fromPlanInfo(this.planInfo as PlanInfo);
     },
 
     goToPreviousDay() {

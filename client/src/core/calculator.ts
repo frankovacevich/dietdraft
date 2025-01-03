@@ -4,6 +4,7 @@ import { Food } from "./food";
 import { Macros } from "./macros";
 
 export class Calculator {
+  private readonly INITIAL_SUBSAMPLE = 0.2;
   private readonly POPULATION_SIZE = 100;
   private readonly SURVIVAL_RATE = 0.3;
   private readonly MAX_ITERATIONS = 10;
@@ -15,7 +16,10 @@ export class Calculator {
   target!: Macros;
 
   constructor(foods: Food[], calculationMethod: CalculationMethod, target: Macros) {
-    this.foods = foods.map((food) => food.cleanCopy());
+    this.foods = getRandomSubsample(
+      foods.map((food) => food.cleanCopy()),
+      Math.round(foods.length * this.INITIAL_SUBSAMPLE),
+    );
     this.calculationMethod = calculationMethod;
 
     target.protein = Math.max(0, target.protein);
@@ -79,8 +83,7 @@ export class Calculator {
     plans = this.sortPlans(plans);
 
     // Extinction: remove the ones with high error
-    const survivalRate = 0.1;
-    const survivorsCount = Math.ceil(survivalRate * plans.length);
+    const survivorsCount = Math.ceil(this.SURVIVAL_RATE * plans.length);
     plans = plans.slice(0, survivorsCount);
 
     // Evolution: randomly mutate some meals

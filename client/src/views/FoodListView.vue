@@ -24,6 +24,7 @@ const store = mainStore();
         :protein="food.protein"
         :fat="food.fat"
         :carbs="food.carbs"
+        :selected-quantity="store.selectedQuantity"
         @bodyClick="store.editFoodModal.open(food)"
       ></FoodItem>
     </div>

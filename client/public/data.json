@@ -8,7 +8,7 @@
     "protein": 14.1,
     "fat": 14.7,
     "carbs": 29.9,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Snack", "Lunch", "Dinner", "Breakfast"],
     "selected": false,
     "amount": 1
   },
@@ -21,7 +21,7 @@
     "protein": 10.2,
     "fat": 10.2,
     "carbs": 30.9,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch"],
     "selected": false,
     "amount": 1
   },
@@ -34,7 +34,7 @@
     "protein": 34.1,
     "fat": 14.8,
     "carbs": 30.4,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Snack", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -47,7 +47,7 @@
     "protein": 26.3,
     "fat": 9.4,
     "carbs": 22,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Snack", "Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -60,7 +60,7 @@
     "protein": 17.2,
     "fat": 17.5,
     "carbs": 33,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -73,7 +73,7 @@
     "protein": 29.3,
     "fat": 29.7,
     "carbs": 56.1,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -86,7 +86,7 @@
     "protein": 13.3,
     "fat": 14.8,
     "carbs": 22,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Snack", "Lunch", "Dinner", "Breakfast"],
     "selected": false,
     "amount": 1
   },
@@ -112,7 +112,7 @@
     "protein": 15,
     "fat": 5.4,
     "carbs": 13.1,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -125,7 +125,7 @@
     "protein": 12.5,
     "fat": 12.5,
     "carbs": 19.4,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -138,7 +138,7 @@
     "protein": 15.1,
     "fat": 21.4,
     "carbs": 10.8,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -151,7 +151,7 @@
     "protein": 29,
     "fat": 7.8,
     "carbs": 46.9,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -164,7 +164,7 @@
     "protein": 27.2,
     "fat": 28.4,
     "carbs": 37.2,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -177,7 +177,7 @@
     "protein": 14.4,
     "fat": 13.2,
     "carbs": 59.3,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -190,7 +190,7 @@
     "protein": 37,
     "fat": 48.1,
     "carbs": 32.8,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -203,7 +203,7 @@
     "protein": 30.8,
     "fat": 40.9,
     "carbs": 43,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -216,7 +216,7 @@
     "protein": 12.6,
     "fat": 14.3,
     "carbs": 35.5,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -229,7 +229,7 @@
     "protein": 3.1,
     "fat": 14.8,
     "carbs": 18.7,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Breakfast", "Snack"],
     "selected": false,
     "amount": 1
   },
@@ -242,7 +242,7 @@
     "protein": 13,
     "fat": 17.9,
     "carbs": 30.6,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Breakfast", "Snack"],
     "selected": false,
     "amount": 1
   },
@@ -255,7 +255,7 @@
     "protein": 4.1,
     "fat": 8,
     "carbs": 1.5,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Breakfast", "Snack"],
     "selected": false,
     "amount": 1
   },
@@ -268,7 +268,7 @@
     "protein": 7.4,
     "fat": 9.8,
     "carbs": 31.3,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Breakfast"],
     "selected": false,
     "amount": 1
   },
@@ -281,7 +281,7 @@
     "protein": 11.1,
     "fat": 16.6,
     "carbs": 53.6,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Snack"],
     "selected": false,
     "amount": 1
   },
@@ -294,7 +294,7 @@
     "protein": 5.2,
     "fat": 12.7,
     "carbs": 4.4,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Snack"],
     "selected": false,
     "amount": 1
   },
@@ -307,7 +307,7 @@
     "protein": 12,
     "fat": 2.7,
     "carbs": 11,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Breakfast", "Snack"],
     "selected": false,
     "amount": 1
   },
@@ -320,7 +320,7 @@
     "protein": 25,
     "fat": 6,
     "carbs": 10.5,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Breakfast", "Snack"],
     "selected": false,
     "amount": 1
   },
@@ -333,7 +333,7 @@
     "protein": 38,
     "fat": 40,
     "carbs": 55,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -346,7 +346,7 @@
     "protein": 30,
     "fat": 10,
     "carbs": 60,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -359,7 +359,7 @@
     "protein": 43,
     "fat": 35,
     "carbs": 60,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -372,7 +372,7 @@
     "protein": 15,
     "fat": 16,
     "carbs": 75,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Dinner", "Lunch"],
     "selected": false,
     "amount": 1
   },
@@ -385,7 +385,7 @@
     "protein": 18,
     "fat": 20,
     "carbs": 70,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -398,7 +398,7 @@
     "protein": 13,
     "fat": 14,
     "carbs": 85,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -411,7 +411,7 @@
     "protein": 14.8,
     "fat": 22,
     "carbs": 7.8,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -419,56 +419,66 @@
     "id": "a26x7597-1354-46ec-a338-006e6a456f2c",
     "name": "bowl carne picada c/ calabaza",
     "icon": "rice",
-    "category": "bowls",
     "description": "carne picada (200g), calabaza en cubos (100g), aceite, huevo (1)",
+    "category": "bowls",
     "protein": 47,
     "fat": 39,
     "carbs": 8,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"]
+    "meals": ["Snack", "Lunch", "Dinner"],
+    "selected": false,
+    "amount": 1
   },
   {
     "id": "a2607597-1354-46xc-a338-006e6a456f2c",
     "name": "bowl pulled pork c/ zanahorias",
     "icon": "rice",
-    "category": "bowls",
     "description": "pulled pork (200g), zanahoria (1), huevo (1)",
+    "category": "bowls",
     "protein": 35,
     "fat": 19,
     "carbs": 6,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"]
+    "meals": ["Snack", "Lunch", "Dinner"],
+    "selected": false,
+    "amount": 1
   },
   {
     "id": "a2607597-1354-46ec-a338-x06e6a456f2c",
     "name": "bowl atun c/ choclo",
     "icon": "rice",
-    "category": "bowls",
     "description": "atun (145g), choclo (150g), huevo (1), ketchup",
+    "category": "bowls",
     "protein": 41,
     "fat": 8,
     "carbs": 34,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"]
+    "meals": ["Snack", "Lunch", "Dinner"],
+    "selected": false,
+    "amount": 1
   },
   {
     "id": "a2607597-1354-46ec-a338-006e6a456x2c",
     "name": "bowl pollo c/ arvejas",
     "icon": "rice",
-    "category": "bowls",
     "description": "pechuga (150g), arvejas (150g), cebolla (1), huevo (1)",
+    "category": "bowls",
     "protein": 48,
     "fat": 8.5,
     "carbs": 35,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"]
+    "meals": ["Snack", "Lunch", "Dinner"],
+    "selected": false,
+    "amount": 1
   },
   {
     "id": "a2607597-xx54-46ec-a338-006e6a456x2c",
     "name": "bowl pollo c/ arroz",
     "icon": "rice",
-    "category": "bowls",
     "description": "pechuga (150g), arroz (75g), huevo (1), ketchup",
+    "category": "bowls",
     "protein": 39.3,
     "fat": 8.3,
     "carbs": 38.5,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"]
+    "meals": ["Snack", "Lunch", "Dinner"],
+    "selected": false,
+    "amount": 1
   },
   {
     "id": "ceb0aa61-efaa-4de5-a55f-283195c420ec",
@@ -479,7 +489,7 @@
     "protein": 46,
     "fat": 12,
     "carbs": 20,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Dinner", "Lunch"],
     "selected": false,
     "amount": 1
   },
@@ -492,7 +502,7 @@
     "protein": 55,
     "fat": 20,
     "carbs": 50,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -505,7 +515,7 @@
     "protein": 38,
     "fat": 24,
     "carbs": 40,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -518,7 +528,7 @@
     "protein": 15.5,
     "fat": 19,
     "carbs": 25,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -531,7 +541,7 @@
     "protein": 41,
     "fat": 39.6,
     "carbs": 74.6,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -544,7 +554,7 @@
     "protein": 56,
     "fat": 44,
     "carbs": 22,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -557,7 +567,7 @@
     "protein": 62,
     "fat": 40,
     "carbs": 30,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -570,7 +580,7 @@
     "protein": 25,
     "fat": 18,
     "carbs": 50,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -583,7 +593,7 @@
     "protein": 34.8,
     "fat": 28.9,
     "carbs": 26.2,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
@@ -596,7 +606,7 @@
     "protein": 35,
     "fat": 12.6,
     "carbs": 73.4,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Dinner", "Lunch"],
     "selected": false,
     "amount": 1
   },
@@ -622,7 +632,7 @@
     "protein": 20,
     "fat": 30,
     "carbs": 70,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -635,7 +645,7 @@
     "protein": 17.1,
     "fat": 27.8,
     "carbs": 82.2,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -648,7 +658,7 @@
     "protein": 14,
     "fat": 26.2,
     "carbs": 7.7,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -661,7 +671,7 @@
     "protein": 4.9,
     "fat": 6.4,
     "carbs": 0,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -674,7 +684,7 @@
     "protein": 4.2,
     "fat": 6.3,
     "carbs": 0.1,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -687,7 +697,7 @@
     "protein": 0.2,
     "fat": 0.1,
     "carbs": 2.2,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -700,7 +710,7 @@
     "protein": 6.3,
     "fat": 5.3,
     "carbs": 0.6,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -713,7 +723,7 @@
     "protein": 1,
     "fat": 0.2,
     "carbs": 15,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Dinner", "Lunch"],
     "selected": false,
     "amount": 1
   },
@@ -726,7 +736,7 @@
     "protein": 2.7,
     "fat": 12.5,
     "carbs": 5,
-    "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "meals": ["Dinner"],
     "selected": false,
     "amount": 1
   }
