@@ -149,6 +149,13 @@ export const mainStore = defineStore("mainStore", {
       this.save();
     },
 
+    deleteFoodFromEditFoodModal() {
+      const food = this.editFoodModal.food as Food;
+      this.foodSet.deleteFood(food);
+      this.editFoodModal.close();
+      this.save();
+    },
+
     addNewFood() {
       const newFood = this.foodSet.addNewFood();
       this.editFoodModal.open(newFood);

@@ -46,7 +46,7 @@ const store = mainStore();
             <td>Protein</td>
             <td>Fat</td>
             <td>Carbs</td>
-            <td>Calories</td>
+            <td class="grayed-out">Calories</td>
           </tr>
           <tr>
             <td>
@@ -58,7 +58,7 @@ const store = mainStore();
             <td>
               <input v-model="store.editFoodModal.carbsInput" type="number" min="0" max="300" />
             </td>
-            <td>{{ store.editFoodModal.calories }}</td>
+            <td class="grayed-out">{{ store.editFoodModal.calories }}</td>
           </tr>
         </table>
       </div>
@@ -67,6 +67,10 @@ const store = mainStore();
           <input type="checkbox" :value="option" v-model="store.editFoodModal.mealsInput" />
           {{ option }} </label
         ><br />
+      </div>
+      <div class="button-wide delete-button" @click="store.deleteFoodFromEditFoodModal()">
+        <font-awesome-icon icon="fa-solid fa-trash" />
+        Delete
       </div>
     </MainContainer>
   </div>
@@ -87,5 +91,21 @@ const store = mainStore();
 .food-icon img {
   width: 20px;
   height: 20px;
+}
+
+.grayed-out {
+  color: var(--color-gray-2);
+}
+
+.delete-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color-danger);
+  border: 1px solid var(--color-danger-active);
+}
+
+.delete-button:active {
+  background-color: var(--color-danger-active);
 }
 </style>
