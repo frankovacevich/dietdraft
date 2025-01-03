@@ -50,12 +50,12 @@ describe("core/plan-data", () => {
     expect(planData.macrosForDay(0).protein).toBe(17.1);
     expect(planData.macrosForDay(0).fat).toBe(18.3);
     expect(planData.macrosForDay(0).carbs).toBe(15.6);
-    expect(planData.macrosForDay(0).calories).toBe(295.5);
+    expect(planData.macrosForDay(0).calories).toBe(296);
 
-    expect(planData.macrosAverage.protein).toBe(17.1 / DAYS_COUNT);
-    expect(planData.macrosAverage.fat).toBe(18.3 / DAYS_COUNT);
-    expect(planData.macrosAverage.carbs).toBe(15.6 / DAYS_COUNT);
-    expect(planData.macrosAverage.calories).toBe(295.5 / DAYS_COUNT);
+    expect(planData.macrosAverage.protein).toBe(9);
+    expect(planData.macrosAverage.fat).toBe(9);
+    expect(planData.macrosAverage.carbs).toBe(8);
+    expect(planData.macrosAverage.calories).toBe(149);
   });
 
   it("should be able to generate a shopping list", () => {
