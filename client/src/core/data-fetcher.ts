@@ -4,9 +4,6 @@ import { FoodSet } from "./food-set";
 import { Food } from "./food";
 
 export class DataFetcher {
-  private static readonly SRC_URL =
-    "https://raw.githubusercontent.com/frankovacevich/dietdraft/master/client/public";
-
   static savePlanData(planData: PlanData) {
     localStorage.setItem("planData", planData.toJson());
   }
@@ -50,7 +47,7 @@ export class DataFetcher {
   }
 
   static async fetchDefaultFoods(): Promise<Food[]> {
-    const url = `${DataFetcher.SRC_URL}/data.json`;
+    const url = "/data.json";
     const response = await fetch(url);
     const foods = await response.json();
     return foods.map(Food.fromObj);
