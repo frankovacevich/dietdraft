@@ -38,28 +38,28 @@ const store = mainStore();
       <div @click="store.selectedQuantity = 1">
         <TotalsBar
           :text="'Protein' + (store.selectedQuantity === 1 ? ' •' : '')"
-          :value="store.todaysQuantities.protein"
+          :value="store.selectedDayMacros.protein"
           :target="store.planInfo.protein"
         ></TotalsBar>
       </div>
       <div @click="store.selectedQuantity = 2">
         <TotalsBar
           :text="'Fat' + (store.selectedQuantity === 2 ? ' •' : '')"
-          :value="store.todaysQuantities.fat"
+          :value="store.selectedDayMacros.fat"
           :target="store.planInfo.fat"
         ></TotalsBar>
       </div>
       <div @click="store.selectedQuantity = 3">
         <TotalsBar
           :text="'Carbs' + (store.selectedQuantity === 3 ? ' •' : '')"
-          :value="store.todaysQuantities.carbs"
+          :value="store.selectedDayMacros.carbs"
           :target="store.planInfo.carbs"
         ></TotalsBar>
       </div>
       <div @click="store.selectedQuantity = 0">
         <TotalsBar
           :text="'Calories' + (store.selectedQuantity === 0 ? ' •' : '')"
-          :value="store.todaysQuantities.calories"
+          :value="store.selectedDayMacros.calories"
           :target="store.planInfo.calories"
         ></TotalsBar>
       </div>
@@ -124,46 +124,6 @@ const store = mainStore();
 </template>
 
 <style scoped>
-.bottom-toolbar {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  left: 20px;
-}
-
-.round-button {
-  cursor: pointer;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-primary);
-  color: var(--color-text);
-  font-size: 16pt;
-  border-radius: 15px;
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-.round-button:active {
-  background-color: var(--color-primary-active);
-}
-
-.round-button-secondary {
-  background-color: var(--color-gray-1);
-}
-
-.round-button-secondary:active {
-  background-color: var(--color-gray-2);
-}
-
 .meal-title-container {
   display: flex;
   align-items: center;

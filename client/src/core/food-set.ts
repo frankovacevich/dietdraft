@@ -3,9 +3,11 @@ import { Food } from "./food";
 export class FoodSet {
   foods: Food[] = [];
 
+  get isEmpty(): boolean {
+    return this.foods.length === 0;
+  }
+
   setFoods(foods: Food[]) {
-    const selectedFoodIds = new Set(this.getSelectedFoods().map((food) => food.id));
-    foods.forEach((food) => (food.selected = selectedFoodIds.has(food.id)));
     this.foods = foods;
   }
 
@@ -23,6 +25,18 @@ export class FoodSet {
 
   getFoodsForCategory(category: string): Food[] {
     return this.foods.filter((food) => food.category === category);
+  }
+
+  deleteFood(food: Food) {
+    this.foods = this.foods.filter((f) => f.id !== food.id);
+  }
+
+  addNewFood(): Food {
+    const newFoodId = Date.now().toString(36);
+    const newFood = Food.placeholder();
+    newFood.id = newFoodId;
+    this.foods.push(newFood);
+    return newFood;
   }
 
   toJson() {

@@ -49,21 +49,6 @@ export class Food {
     food.selected = obj.selected || false;
     food.amount = obj.amount || 1;
     food.meals = obj.meals || [];
-
-    // TODO: Fix this
-    if (obj.b) {
-      food.meals.push(Meal.BREAKFAST);
-    }
-    if (obj.s) {
-      food.meals.push(Meal.SNACK);
-    }
-    if (obj.l) {
-      food.meals.push(Meal.LUNCH);
-    }
-    if (obj.d) {
-      food.meals.push(Meal.DINNER);
-    }
-
     return food;
   }
 
@@ -92,10 +77,10 @@ export class Food {
 
   static placeholder(): Food {
     const food = new Food();
-    food.id = "[placeholder]";
-    food.name = "food name";
+    food.id = "";
+    food.name = "";
     food.icon = "cheese";
-    food.description = "This is a placeholder food!";
+    food.description = "";
     food.category = "";
     food.protein = 100;
     food.fat = 100;

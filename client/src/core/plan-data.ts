@@ -66,43 +66,10 @@ export class PlanData {
       macros.carbs += food.carbs * food.amount;
     });
 
-    macros.protein = macros.protein / this.foodPlan.length;
-    macros.fat = macros.fat / this.foodPlan.length;
-    macros.carbs = macros.carbs / this.foodPlan.length;
+    macros.protein = Math.round(macros.protein / this.foodPlan.length);
+    macros.fat = Math.round(macros.fat / this.foodPlan.length);
+    macros.carbs = Math.round(macros.carbs / this.foodPlan.length);
     return macros;
-  }
-
-  // TODO Remove
-  quantitiesForDay(day: number) {
-    const macros = this.macrosForDay(day);
-    return {
-      protein: macros.protein,
-      fat: macros.fat,
-      carbs: macros.carbs,
-      calories: macros.calories,
-    };
-  }
-
-  // TODO Remove
-  get quantitiesAverage() {
-    const macros = this.macrosAverage;
-    return {
-      protein: macros.protein,
-      fat: macros.fat,
-      carbs: macros.carbs,
-      calories: macros.calories,
-    };
-  }
-
-  // TODO Remove
-  get quantitiesAveragePercentages() {
-    const macros = this.macrosAverage;
-    return {
-      protein: macros.proteinPercentage,
-      fat: macros.fatPercentage,
-      carbs: macros.carbsPercentage,
-      calories: macros.caloriesPercentage,
-    };
   }
 
   get shoppingList(): Food[] {

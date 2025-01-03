@@ -47,11 +47,6 @@ export const mainStore = defineStore("mainStore", {
     selectedDayMacros(): Macros {
       return this.planData.macrosForDay(this.day);
     },
-
-    // TODO: Remove
-    todaysQuantities(): any {
-      return this.planData.quantitiesForDay(this.day);
-    },
   },
 
   actions: {
@@ -65,7 +60,9 @@ export const mainStore = defineStore("mainStore", {
       this.planInfo = DataFetcher.getPlanInfo();
       this.planData = DataFetcher.getPlanData(this.planInfo.days);
       this.foodSet = DataFetcher.getFoodSet();
-      DataFetcher.fetchDefaultFoods().then((foods) => this.foodSet.setFoods(foods));
+      if (this.foodSet.isEmpty) {
+        DataFetcher.fetchDefaultFoods().then((foods) => this.foodSet.setFoods(foods));
+      }
     },
 
     goToPreviousDay() {
@@ -150,6 +147,11 @@ export const mainStore = defineStore("mainStore", {
     saveAndCloseEditFoodModal() {
       this.editFoodModal.saveAndClose();
       this.save();
+    },
+
+    addNewFood() {
+      const newFood = this.foodSet.addNewFood();
+      this.editFoodModal.open(newFood);
     },
   },
 });

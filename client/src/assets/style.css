@@ -44,17 +44,6 @@ body {
   user-select: none;
 }
 
-button {
-  background-color: var(--color-gray-0);
-  border: 1px solid var(--color-gray-3);
-  color: var(--color-text-light);
-  border-radius: 3px;
-  padding: 0 6px;
-  cursor: pointer;
-  text-transform: uppercase;
-  height: 26px;
-}
-
 a[href] {
   text-decoration: none;
   color: inherit;
@@ -83,6 +72,67 @@ a[href] {
   text-transform: capitalize;
   color: var(--color-gray-1);
   padding: 10px 0 10px 0;
+}
+
+/*
+* Buttons
+*/
+
+.button-wide {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: var(--color-primary);
+  padding: 12px;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 500;
+  margin: 10px;
+}
+
+.button-wide:active {
+  background-color: var(--color-primary-active);
+}
+
+.bottom-toolbar {
+  pointer-events: none; 
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  left: 20px;
+}
+
+.round-button {
+  pointer-events: all;
+  cursor: pointer;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-size: 16pt;
+  border-radius: 15px;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.round-button:active {
+  background-color: var(--color-primary-active);
+}
+
+.round-button-secondary {
+  background-color: var(--color-gray-1);
+}
+
+.round-button-secondary:active {
+  background-color: var(--color-gray-2);
 }
 
 /*
@@ -129,9 +179,9 @@ a[href] {
   flex-direction: column;
 }
 
-  .input-container.checkboxes label{
-    margin: 5px 0;
-  }
+.input-container.checkboxes label{
+  margin: 5px 0;
+}
 
 .input-container .input-icon {
   color: var(--color-gray-1);

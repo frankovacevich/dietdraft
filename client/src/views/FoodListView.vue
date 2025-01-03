@@ -27,5 +27,11 @@ const store = mainStore();
         @bodyClick="store.editFoodModal.open(food)"
       ></FoodItem>
     </div>
+    <div class="bottom-toolbar">
+      <div style="flex-grow: 1"></div>
+      <div class="round-button" @click="store.addNewFood()">
+        <font-awesome-icon icon="fa-solid fa-plus" />
+      </div>
+    </div>
   </MainContainer>
 </template>

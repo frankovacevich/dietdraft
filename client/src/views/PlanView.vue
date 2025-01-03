@@ -40,33 +40,35 @@ const store = mainStore();
         <td>
           <input v-model="store.planInfoInput.carbs" type="number" min="0" max="300" />
         </td>
-        <td>{{ store.planInfoInput.calories }}</td>
+        <td>{{ store.planInfoInput.macros.calories }}</td>
       </tr>
       <tr>
         <td></td>
-        <td>{{ store.planInfoInput.percentages.protein }}%</td>
-        <td>{{ store.planInfoInput.percentages.fat }}%</td>
-        <td>{{ store.planInfoInput.percentages.carbs }}%</td>
-        <td>{{ store.planInfoInput.percentages.calories }}%</td>
+        <td>{{ store.planInfoInput.macros.proteinPercentage }}%</td>
+        <td>{{ store.planInfoInput.macros.fatPercentage }}%</td>
+        <td>{{ store.planInfoInput.macros.carbsPercentage }}%</td>
+        <td>{{ store.planInfoInput.macros.caloriesPercentage }}%</td>
       </tr>
       <tr>
         <td>Average</td>
-        <td>{{ store.planData.quantitiesAverage.protein.toFixed() }}</td>
-        <td>{{ store.planData.quantitiesAverage.fat.toFixed() }}</td>
-        <td>{{ store.planData.quantitiesAverage.carbs.toFixed() }}</td>
-        <td>{{ store.planData.quantitiesAverage.calories.toFixed() }}</td>
+        <td>{{ store.planData.macrosAverage.protein }}</td>
+        <td>{{ store.planData.macrosAverage.fat }}</td>
+        <td>{{ store.planData.macrosAverage.carbs }}</td>
+        <td>{{ store.planData.macrosAverage.calories }}</td>
       </tr>
       <tr>
         <td></td>
-        <td>{{ store.planData.quantitiesAveragePercentages.protein }}%</td>
-        <td>{{ store.planData.quantitiesAveragePercentages.fat }}%</td>
-        <td>{{ store.planData.quantitiesAveragePercentages.carbs }}%</td>
-        <td>{{ store.planData.quantitiesAveragePercentages.calories }}%</td>
+        <td>{{ store.planData.macrosAverage.proteinPercentage }}%</td>
+        <td>{{ store.planData.macrosAverage.fatPercentage }}%</td>
+        <td>{{ store.planData.macrosAverage.carbsPercentage }}%</td>
+        <td>{{ store.planData.macrosAverage.caloriesPercentage }}%</td>
       </tr>
     </table>
-    <div class="button" @click="store.generateNewPlan()">
-      <font-awesome-icon icon="fa-solid fa-rotate-right" />
-      <span style="margin-left: 10px">Calculate</span>
+    <div class="bottom-toolbar">
+      <div style="flex-grow: 1"></div>
+      <div class="round-button" @click="store.generateNewPlan()">
+        <font-awesome-icon icon="fa-solid fa-rotate-right" />
+      </div>
     </div>
   </MainContainer>
 </template>
@@ -91,20 +93,6 @@ select {
   margin-bottom: 10px;
   gap: 10px;
   padding: 10px;
-}
-
-.button {
-  border-radius: 5px;
-  background-color: var(--color-primary);
-  padding: 12px;
-  margin-top: 10px;
-  text-align: center;
-  font-weight: 500;
-  margin: 10px;
-}
-
-.button:active {
-  background-color: var(--color-primary-active);
 }
 
 .summary-table {
