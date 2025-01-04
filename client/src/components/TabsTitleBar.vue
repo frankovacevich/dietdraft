@@ -27,12 +27,6 @@ export default {
         <div v-if="isActive('/plan')" class="title-bar-icon-dot"></div>
       </div>
     </router-link>
-    <router-link to="/shopping-list">
-      <div class="title-bar-icon">
-        <font-awesome-icon icon="fa-solid fa-cart-shopping" />
-        <div v-if="isActive('/shopping-list')" class="title-bar-icon-dot"></div>
-      </div>
-    </router-link>
     <router-link to="/foods">
       <div class="title-bar-icon">
         <font-awesome-icon icon="fa-solid fa-utensils" />

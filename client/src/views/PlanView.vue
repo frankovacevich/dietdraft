@@ -1,6 +1,7 @@
 <script setup>
 import MainContainer from "@/components/MainContainer.vue";
 import TabsTitleBar from "@/components/TabsTitleBar.vue";
+import FoodItem from "@/components/FoodItem.vue";
 
 import { mainStore } from "@/store";
 import { CALCULATION_METHODS } from "@/core/enums";
@@ -64,8 +65,24 @@ const store = mainStore();
         <td>{{ store.planData.macrosAverage.caloriesPercentage }}%</td>
       </tr>
     </table>
+
+    <!-- Shopping List -->
+    <div style="padding: 10px">
+      <FoodItem
+        v-for="(food, i) in store.planData.shoppingList"
+        :key="i"
+        :name="food.name"
+        :icon="food.icon"
+        :description="food.description"
+        :amount="food.amount"
+      ></FoodItem>
+    </div>
+
     <div class="bottom-toolbar">
       <div style="flex-grow: 1"></div>
+      <div class="round-button round-button-secondary" @click="store.clearPlan()">
+        <font-awesome-icon icon="fa-solid fa-trash" />
+      </div>
       <div class="round-button" @click="store.generateNewPlan()">
         <font-awesome-icon icon="fa-solid fa-rotate-right" />
       </div>
