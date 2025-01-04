@@ -67,6 +67,7 @@ const store = mainStore();
     </table>
 
     <!-- Shopping List -->
+    <div class="subtitle" style="margin-top: 30px">Shopping List</div>
     <div style="padding: 10px">
       <FoodItem
         v-for="(food, i) in store.planData.shoppingList"
