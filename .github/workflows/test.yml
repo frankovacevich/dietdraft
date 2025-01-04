@@ -3,10 +3,7 @@ name: Run Tests
 on:
   push:
     branches:
-      - '**'  # Run on commits to any branch
-  pull_request:
-    branches:
-      - '**'  # Run on any pull request
+      - master
 
 jobs:
   test:
@@ -19,10 +16,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20' # Use your project's Node.js version
+          node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies (client)
+        run: |
+          cd client
+          npm install
 
-      - name: Run tests
-        run: npm test
+      - name: Run tests (client)
+        run: |
+          cd client
+          npm test
