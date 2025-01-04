@@ -129,6 +129,11 @@ export const mainStore = defineStore("mainStore", {
       this.calculating = false;
     },
 
+    clearPlan() {
+      this.planData = PlanData.createEmptyPlan(this.planInfo.days);
+      this.save();
+    },
+
     changeFoodSelected(food: Food) {
       food.toggleSelected();
       this.save();

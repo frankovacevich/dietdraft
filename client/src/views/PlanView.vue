@@ -10,7 +10,7 @@ const store = mainStore();
 
 <template>
   <TabsTitleBar></TabsTitleBar>
-  <MainContainer padding="0">
+  <MainContainer padding="0 0 56px 0">
     <div class="subtitle" style="padding: 10px">Plan Settings</div>
     <div class="more-options-div">
       <div>Days:</div>
