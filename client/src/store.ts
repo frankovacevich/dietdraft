@@ -51,9 +51,9 @@ export const mainStore = defineStore("mainStore", {
 
   actions: {
     save() {
-      DataFetcher.saveFoodSet(this.foodSet as FoodSet);
-      DataFetcher.savePlanData(this.planData as PlanData);
-      DataFetcher.savePlanInfo(this.planInfo as PlanInfo);
+      DataFetcher.saveFoodSet(this.foodSet);
+      DataFetcher.savePlanData(this.planData);
+      DataFetcher.savePlanInfo(this.planInfo);
     },
 
     load() {
@@ -63,7 +63,7 @@ export const mainStore = defineStore("mainStore", {
       if (this.foodSet.isEmpty) {
         DataFetcher.fetchDefaultFoods().then((foods) => this.foodSet.setFoods(foods));
       }
-      this.planInfoInput = PlanInfoInput.fromPlanInfo(this.planInfo as PlanInfo);
+      this.planInfoInput = PlanInfoInput.fromPlanInfo(this.planInfo);
     },
 
     goToPreviousDay() {
@@ -91,7 +91,7 @@ export const mainStore = defineStore("mainStore", {
         this.planInfo.carbs - totalEaten.carbs,
       );
       const calculator = Calculator.create(
-        this.foodSet.getFoods(),
+        this.planData.shoppingList,
         this.planInfo.calculationMethod,
         targets,
       );
@@ -109,11 +109,7 @@ export const mainStore = defineStore("mainStore", {
       this.calculating = true;
       this.planInfo = this.planInfoInput.toPlanInfo();
 
-      const calculator = Calculator.fromPlanInfo(
-        this.foodSet.getFoods(),
-        this.planInfo as PlanInfo,
-      );
-
+      const calculator = Calculator.fromPlanInfo(this.foodSet.getFoods(), this.planInfo);
       const newPlan = calculator.calculatePlan(this.planInfo.days);
       this.planData.foodPlan = newPlan;
       this.day = 0;
@@ -157,8 +153,7 @@ export const mainStore = defineStore("mainStore", {
     },
 
     deleteFoodFromEditFoodModal() {
-      const food = this.editFoodModal.food as Food;
-      this.foodSet.deleteFood(food);
+      this.foodSet.deleteFood(this.editFoodModal.food);
       this.editFoodModal.close();
       this.save();
     },

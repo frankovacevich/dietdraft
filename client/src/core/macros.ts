@@ -13,10 +13,6 @@ export class Macros {
     this.carbs = carbs;
   }
 
-  private calcPercentage(value: number, factor: number): number {
-    return Math.round((100 * value * factor) / this.calories);
-  }
-
   get calories(): number {
     const calories =
       this.protein * Macros.PROTEIN_FACTOR +
@@ -25,16 +21,20 @@ export class Macros {
     return Math.round(calories);
   }
 
+  private static calcPercentage(value: number, factor: number, total: number): number {
+    return Math.round((100 * value * factor) / total);
+  }
+
   get proteinPercentage(): number {
-    return this.calcPercentage(this.protein, Macros.PROTEIN_FACTOR);
+    return Macros.calcPercentage(this.protein, Macros.PROTEIN_FACTOR, this.calories);
   }
 
   get fatPercentage(): number {
-    return this.calcPercentage(this.fat, Macros.FAT_FACTOR);
+    return Macros.calcPercentage(this.fat, Macros.FAT_FACTOR, this.calories);
   }
 
   get carbsPercentage(): number {
-    return this.calcPercentage(this.carbs, Macros.CARBS_FACTOR);
+    return Macros.calcPercentage(this.carbs, Macros.CARBS_FACTOR, this.calories);
   }
 
   get caloriesPercentage(): number {
