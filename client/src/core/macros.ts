@@ -18,11 +18,11 @@ export class Macros {
   }
 
   get calories(): number {
-    return Math.round(
+    const calories =
       this.protein * Macros.PROTEIN_FACTOR +
-        this.fat * Macros.FAT_FACTOR +
-        this.carbs * Macros.CARBS_FACTOR,
-    );
+      this.fat * Macros.FAT_FACTOR +
+      this.carbs * Macros.CARBS_FACTOR;
+    return Math.round(calories);
   }
 
   get proteinPercentage(): number {
@@ -41,11 +41,13 @@ export class Macros {
     return 100;
   }
 
-  add(macros: Macros): Macros {
-    return new Macros(
-      this.protein + macros.protein,
-      this.fat + macros.fat,
-      this.carbs + macros.carbs,
-    );
+  static fromList(list: Macros[]): Macros {
+    const macros = new Macros();
+    list.forEach((m) => {
+      macros.protein += m.protein;
+      macros.fat += m.fat;
+      macros.carbs += m.carbs;
+    });
+    return macros;
   }
 }

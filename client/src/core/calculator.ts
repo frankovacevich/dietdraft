@@ -4,41 +4,21 @@ import { Food } from "./food";
 import { Macros } from "./macros";
 
 export class Calculator {
-  private readonly MAX_FOODS_PER_MEAL = 5; // Maximum number of foods per meal
-  private readonly INITIAL_SUBSAMPLE = 0.5; // Only use some foods to keep the list short
-  private readonly POPULATION_SIZE = 100;
-  private readonly SURVIVAL_RATE = 0.3;
-  private readonly MAX_ITERATIONS = 10;
-
   private cachedFoodsPerMeal = new Map<Meal, Food[]>();
+
+  minFoodsPerMeal = 1; // Minimum number of foods per meal
+  maxFoodsPerMeal = 5; // Maximum number of foods per meal
+  initialSubsample = 0.5; // Only use some foods to keep the list short
+  populationSize = 100;
+  survivalRate = 0.3;
+  maxIterations = 10;
 
   foods!: Food[];
   calculationMethod!: CalculationMethod;
   target!: Macros;
 
-  constructor(foods: Food[], calculationMethod: CalculationMethod, target: Macros) {
-    this.foods = getRandomSubsample(
-      foods.map((food) => food.cleanCopy()),
-      Math.round(foods.length * this.INITIAL_SUBSAMPLE),
-    );
-    this.calculationMethod = calculationMethod;
-
-    target.protein = Math.max(0, target.protein);
-    target.fat = Math.max(0, target.fat);
-    target.carbs = Math.max(0, target.carbs);
-    this.target = target;
-  }
-
   private calculateError(plan: Food[][]): number {
-    const macros = new Macros();
-    for (const mealPlan of plan) {
-      for (const food of mealPlan) {
-        macros.protein += food.protein * food.amount;
-        macros.fat += food.fat * food.amount;
-        macros.carbs += food.carbs * food.amount;
-      }
-    }
-
+    const macros = Macros.fromList(plan.flat().map((food) => food.macrosTimesAmount));
     const errorCalculator = ErrorCalculatorFactory.forCalculationMethod(this.calculationMethod);
     return errorCalculator.calculate(macros, this.target);
   }
@@ -52,12 +32,13 @@ export class Calculator {
     for (const food of this.foods) {
       food.meals.forEach((m) => this.cachedFoodsPerMeal.get(m)?.push(food));
     }
-    console.log(this.cachedFoodsPerMeal);
     return this.cachedFoodsPerMeal.get(meal)!;
   }
 
   private createRandomMeal(meal: Meal): Food[] {
-    const foodCount = 1 + Math.floor(Math.random() * this.MAX_FOODS_PER_MEAL);
+    const foodCount =
+      this.minFoodsPerMeal +
+      Math.floor(Math.random() * (this.maxFoodsPerMeal - this.minFoodsPerMeal + 1));
     const foods = getRandomSubsample(this.foodsForMeal(meal), foodCount);
     return foods.map((food) => food.cleanCopy());
   }
@@ -65,7 +46,7 @@ export class Calculator {
   private createRandomPopulation(): Food[][][] {
     /* Generates a list with multiple meal plans for a day */
     const plans = [];
-    for (let i = 0; i < this.POPULATION_SIZE; i++) {
+    for (let i = 0; i < this.populationSize; i++) {
       const plan = [];
       for (const meal of MEALS) {
         plan.push(this.createRandomMeal(meal));
@@ -84,13 +65,13 @@ export class Calculator {
     plans = this.sortPlans(plans);
 
     // Extinction: remove the ones with high error
-    const survivorsCount = Math.ceil(this.SURVIVAL_RATE * plans.length);
+    const survivorsCount = Math.ceil(this.survivalRate * plans.length);
     plans = plans.slice(0, survivorsCount);
 
     // Evolution: randomly mutate some meals
     const newPlans = [];
     newPlans.push(...plans);
-    while (newPlans.length < this.POPULATION_SIZE) {
+    while (newPlans.length < this.populationSize) {
       const planIdx = Math.floor(Math.random() * plans.length);
       const mealIdx = Math.floor(Math.random() * MEALS.length);
       const newPlan = plans[planIdx].map((m) => [...m]);
@@ -101,9 +82,27 @@ export class Calculator {
     return newPlans;
   }
 
+  private setFoods(foods: Food[]) {
+    this.foods = getRandomSubsample(
+      foods.map((food) => food.cleanCopy()),
+      Math.round(foods.length * this.initialSubsample),
+    );
+  }
+
+  private setTarget(target: Macros) {
+    target.protein = Math.max(0, target.protein);
+    target.fat = Math.max(0, target.fat);
+    target.carbs = Math.max(0, target.carbs);
+    this.target = target;
+  }
+
+  private setCalculationMethod(calculationMethod: CalculationMethod) {
+    this.calculationMethod = calculationMethod;
+  }
+
   calculateSingleDay(): Food[][] {
     let plans = this.createRandomPopulation();
-    for (let i = 0; i < this.MAX_ITERATIONS; i++) {
+    for (let i = 0; i < this.maxIterations; i++) {
       plans = this.extinctionAndEvolution(plans);
     }
     plans = this.sortPlans(plans);
@@ -119,7 +118,19 @@ export class Calculator {
   }
 
   static fromPlanInfo(foods: Food[], planInfo: PlanInfo) {
-    return new Calculator(foods, planInfo.calculationMethod, planInfo.macros);
+    const calculator = new Calculator();
+    calculator.setFoods(foods);
+    calculator.setCalculationMethod(planInfo.calculationMethod);
+    calculator.setTarget(planInfo.macros);
+    return calculator;
+  }
+
+  static create(foods: Food[], calculationMethod: CalculationMethod, target: Macros) {
+    const calculator = new Calculator();
+    calculator.setFoods(foods);
+    calculator.setCalculationMethod(calculationMethod);
+    calculator.setTarget(target);
+    return calculator;
   }
 }
 

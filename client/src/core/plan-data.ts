@@ -23,31 +23,15 @@ export class PlanData {
   }
 
   macrosForDay(day: number): Macros {
-    const macros = new Macros();
     if (day >= this.foodPlan.length) {
-      return macros;
+      return new Macros();
     }
-
-    this.foodPlan[day].flat().forEach((food) => {
-      macros.protein += food.protein * food.amount;
-      macros.fat += food.fat * food.amount;
-      macros.carbs += food.carbs * food.amount;
-    });
-
-    return macros;
+    return Macros.fromList(this.foodPlan[day].flat().map((food) => food.macrosTimesAmount));
   }
 
   macrosForSelectedFoodsForDay(day: number): Macros {
-    const macros = new Macros();
-    this.foodPlan[day]
-      .flat()
-      .filter((food) => food.selected)
-      .forEach((food) => {
-        macros.protein += food.protein * food.amount;
-        macros.fat += food.fat * food.amount;
-        macros.carbs += food.carbs * food.amount;
-      });
-    return macros;
+    const foods = this.foodPlan[day].flat().filter((food) => food.selected);
+    return Macros.fromList(foods.map((food) => food.macrosTimesAmount));
   }
 
   updateMealPlan(day: number, mealPlan: Food[][]) {
@@ -59,13 +43,7 @@ export class PlanData {
   }
 
   get macrosAverage(): Macros {
-    const macros = new Macros();
-    this.foodPlan.flat(2).forEach((food) => {
-      macros.protein += food.protein * food.amount;
-      macros.fat += food.fat * food.amount;
-      macros.carbs += food.carbs * food.amount;
-    });
-
+    const macros = Macros.fromList(this.foodPlan.flat(2).map((food) => food.macrosTimesAmount));
     macros.protein = Math.round(macros.protein / this.foodPlan.length);
     macros.fat = Math.round(macros.fat / this.foodPlan.length);
     macros.carbs = Math.round(macros.carbs / this.foodPlan.length);

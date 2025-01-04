@@ -90,11 +90,12 @@ export const mainStore = defineStore("mainStore", {
         this.planInfo.fat - totalEaten.fat,
         this.planInfo.carbs - totalEaten.carbs,
       );
-      const calculator = new Calculator(
+      const calculator = Calculator.create(
         this.foodSet.getFoods(),
         this.planInfo.calculationMethod,
         targets,
       );
+
       const newPlan = calculator.calculateSingleDay();
       this.planData.updateMealPlan(this.day, newPlan);
       this.save();
@@ -104,11 +105,9 @@ export const mainStore = defineStore("mainStore", {
       this.calculating = true;
       this.planInfo = this.planInfoInput.toPlanInfo();
 
-      const targets = new Macros(this.planInfo.protein, this.planInfo.fat, this.planInfo.carbs);
-      const calculator = new Calculator(
+      const calculator = Calculator.fromPlanInfo(
         this.foodSet.getFoods(),
-        this.planInfo.calculationMethod,
-        targets,
+        this.planInfo as PlanInfo,
       );
 
       const newPlan = calculator.calculatePlan(this.planInfo.days);
