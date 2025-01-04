@@ -138,12 +138,8 @@ export class Calculator {
     return calculator;
   }
 
-  static create(foods: Food[], calculationMethod: CalculationMethod, target: Macros) {
-    const calculator = new Calculator();
-    calculator.setFoods(foods);
-    calculator.setCalculationMethod(calculationMethod);
-    calculator.setTarget(target);
-    return calculator;
+  static create() {
+    return new Calculator();
   }
 }
 

@@ -84,18 +84,22 @@ export const mainStore = defineStore("mainStore", {
     },
 
     recalculateToday() {
+      const shoppingList = this.planData.shoppingList;
       const totalEaten = this.planData.macrosForEatenFoodsForDay(this.day);
       const targets = new Macros(
         this.planInfo.protein - totalEaten.protein,
         this.planInfo.fat - totalEaten.fat,
         this.planInfo.carbs - totalEaten.carbs,
       );
-      const calculator = Calculator.create(
-        this.planData.shoppingList,
-        this.planInfo.calculationMethod,
-        targets,
-      );
-      calculator.initialSubsample = 1;
+      const calculator = Calculator.create();
+      calculator.setCalculationMethod(this.planInfo.calculationMethod);
+      calculator.setTarget(targets);
+      if (shoppingList.length > 6) {
+        calculator.setFoods(shoppingList);
+        calculator.initialSubsample = 1;
+      } else {
+        calculator.setFoods(this.foodSet.getFoods());
+      }
       for (const meal of this.planData.eatenMealsForDay(this.day)) {
         calculator.skipMeal(meal);
       }
