@@ -1,7 +1,7 @@
 [
   {
     "id": "e169f7f5-1ccf-4e75-9cf0-e28f096567bc",
-    "name": "sandwhich",
+    "name": "sandwich",
     "icon": "sandwich",
     "description": "1 feta de jamon, 1 feta de queso",
     "category": "sandwiches & wraps",
@@ -112,7 +112,7 @@
     "protein": 15,
     "fat": 5.4,
     "carbs": 13.1,
-    "meals": ["Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -125,7 +125,7 @@
     "protein": 12.5,
     "fat": 12.5,
     "carbs": 19.4,
-    "meals": ["Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -138,7 +138,7 @@
     "protein": 15.1,
     "fat": 21.4,
     "carbs": 10.8,
-    "meals": ["Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -224,8 +224,8 @@
     "id": "63ca83cb-d4d9-49ca-845d-1e7ccc8dae72",
     "name": "veggie spring rolls (4)",
     "icon": "springrolls",
-    "category": "tartas y empanadas",
     "description": "4 spring rolls",
+    "category": "tartas y empanadas",
     "protein": 9.6,
     "fat": 13.6,
     "carbs": 35.7,
@@ -281,7 +281,7 @@
     "protein": 7.4,
     "fat": 9.8,
     "carbs": 31.3,
-    "meals": ["Breakfast"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },

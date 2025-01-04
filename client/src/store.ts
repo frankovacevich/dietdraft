@@ -95,8 +95,8 @@ export const mainStore = defineStore("mainStore", {
         this.planInfo.calculationMethod,
         targets,
       );
+      calculator.initialSubsample = 1;
       for (const meal of this.planData.eatenMealsForDay(this.day)) {
-        console.log(meal);
         calculator.skipMeal(meal);
       }
 
