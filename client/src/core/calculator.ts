@@ -9,9 +9,9 @@ export class Calculator {
   minFoodsPerMeal = 1; // Minimum number of foods per meal
   maxFoodsPerMeal = 5; // Maximum number of foods per meal
   initialSubsample = 0.5; // Only use some foods to keep the list short
-  populationSize = 100;
+  populationSize = 10;
   survivalRate = 0.3;
-  maxIterations = 10;
+  maxIterations = 100;
 
   private foods!: Food[];
   private calculationMethod!: CalculationMethod;
