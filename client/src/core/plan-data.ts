@@ -1,4 +1,4 @@
-import { MEALS } from "./enums";
+import { Meal, MEALS } from "./enums";
 import { Food } from "./food";
 import { Macros } from "./macros";
 
@@ -23,15 +23,25 @@ export class PlanData {
   }
 
   macrosForDay(day: number): Macros {
-    if (day >= this.foodPlan.length) {
-      return new Macros();
-    }
     return Macros.fromList(this.foodPlan[day].flat().map((food) => food.macrosTimesAmount));
   }
 
-  macrosForSelectedFoodsForDay(day: number): Macros {
-    const foods = this.foodPlan[day].flat().filter((food) => food.selected);
-    return Macros.fromList(foods.map((food) => food.macrosTimesAmount));
+  eatenFoodsForDay(day: number): Food[] {
+    return this.foodPlan[day].flat().filter((food) => food.selected);
+  }
+
+  macrosForEatenFoodsForDay(day: number): Macros {
+    return Macros.fromList(this.eatenFoodsForDay(day).map((food) => food.macrosTimesAmount));
+  }
+
+  eatenMealsForDay(day: number): Meal[] {
+    const meals: Meal[] = [];
+    for (let m = 0; m < MEALS.length; m++) {
+      if (this.foodPlan[day][m].some((food) => food.selected)) {
+        meals.push(MEALS[m]);
+      }
+    }
+    return meals;
   }
 
   updateMealPlan(day: number, mealPlan: Food[][]) {

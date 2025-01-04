@@ -13,9 +13,12 @@ export class Calculator {
   survivalRate = 0.3;
   maxIterations = 10;
 
-  foods!: Food[];
-  calculationMethod!: CalculationMethod;
-  target!: Macros;
+  private foods!: Food[];
+  private calculationMethod!: CalculationMethod;
+  private target!: Macros;
+  private skippedMeals: Set<Meal> = new Set();
+
+  private constructor() {}
 
   private calculateError(plan: Food[][]): number {
     const macros = Macros.fromList(plan.flat().map((food) => food.macrosTimesAmount));
@@ -24,21 +27,27 @@ export class Calculator {
   }
 
   private foodsForMeal(meal: Meal): Food[] {
+    if (this.skippedMeals.has(meal)) {
+      return [];
+    }
+
     const cachedValue = this.cachedFoodsPerMeal.get(meal);
     if (cachedValue !== undefined) {
       return cachedValue;
     }
+
     MEALS.forEach((m) => this.cachedFoodsPerMeal.set(m, []));
     for (const food of this.foods) {
-      food.meals.forEach((m) => this.cachedFoodsPerMeal.get(m)?.push(food));
+      for (const meal of food.meals) {
+        this.cachedFoodsPerMeal.get(meal)?.push(food);
+      }
     }
     return this.cachedFoodsPerMeal.get(meal)!;
   }
 
   private createRandomMeal(meal: Meal): Food[] {
-    const foodCount =
-      this.minFoodsPerMeal +
-      Math.floor(Math.random() * (this.maxFoodsPerMeal - this.minFoodsPerMeal + 1));
+    const [min, max] = [this.minFoodsPerMeal, this.maxFoodsPerMeal];
+    const foodCount = min + Math.floor(Math.random() * (max - min + 1));
     const foods = getRandomSubsample(this.foodsForMeal(meal), foodCount);
     return foods.map((food) => food.cleanCopy());
   }
@@ -82,22 +91,26 @@ export class Calculator {
     return newPlans;
   }
 
-  private setFoods(foods: Food[]) {
+  setFoods(foods: Food[]) {
     this.foods = getRandomSubsample(
       foods.map((food) => food.cleanCopy()),
       Math.round(foods.length * this.initialSubsample),
     );
   }
 
-  private setTarget(target: Macros) {
+  setTarget(target: Macros) {
     target.protein = Math.max(0, target.protein);
     target.fat = Math.max(0, target.fat);
     target.carbs = Math.max(0, target.carbs);
     this.target = target;
   }
 
-  private setCalculationMethod(calculationMethod: CalculationMethod) {
+  setCalculationMethod(calculationMethod: CalculationMethod) {
     this.calculationMethod = calculationMethod;
+  }
+
+  skipMeal(meal: Meal) {
+    this.skippedMeals.add(meal);
   }
 
   calculateSingleDay(): Food[][] {

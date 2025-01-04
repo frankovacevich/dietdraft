@@ -84,7 +84,7 @@ export const mainStore = defineStore("mainStore", {
     },
 
     recalculateToday() {
-      const totalEaten = this.planData.macrosForSelectedFoodsForDay(this.day);
+      const totalEaten = this.planData.macrosForEatenFoodsForDay(this.day);
       const targets = new Macros(
         this.planInfo.protein - totalEaten.protein,
         this.planInfo.fat - totalEaten.fat,
@@ -95,6 +95,10 @@ export const mainStore = defineStore("mainStore", {
         this.planInfo.calculationMethod,
         targets,
       );
+      for (const meal of this.planData.eatenMealsForDay(this.day)) {
+        console.log(meal);
+        calculator.skipMeal(meal);
+      }
 
       const newPlan = calculator.calculateSingleDay();
       this.planData.updateMealPlan(this.day, newPlan);
