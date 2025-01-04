@@ -19,6 +19,10 @@ export class Food {
     return new Macros(this.protein, this.fat, this.carbs);
   }
 
+  get totalMacros(): Macros {
+    return new Macros(this.protein * this.amount, this.fat * this.amount, this.carbs * this.amount);
+  }
+
   get calories(): number {
     return this.macros.calories;
   }

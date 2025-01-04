@@ -5,12 +5,13 @@ import { PlanInfo } from "./core/plan-info";
 import { AddFoodModal } from "./core/add-food-modal";
 import { FoodInfoModal } from "./core/food-info-modal";
 import { PlanInfoInput } from "./core/plan-info-input";
-import { MEALS } from "./core/enums";
+import { Meal, MEALS } from "./core/enums";
 import { Macros } from "./core/macros";
 import { DataFetcher } from "./core/data-fetcher";
 import { Food } from "./core/food";
 import { Calculator } from "./core/calculator";
 import { EditFoodModal } from "./core/edit-food-modal";
+import { CalculationRule } from "./core/calculation-rule";
 
 export const mainStore = defineStore("mainStore", {
   state: () => {
@@ -94,6 +95,7 @@ export const mainStore = defineStore("mainStore", {
         this.foodSet.getFoods(),
         this.planInfo.calculationMethod,
         targets,
+        [CalculationRule.create([Meal.LUNCH], [], [this.foodSet.foods[1] as Food])],
       );
       const newPlan = calculator.calculateSingleDay();
       this.planData.updateMealPlan(this.day, newPlan);
@@ -104,10 +106,15 @@ export const mainStore = defineStore("mainStore", {
       this.calculating = true;
       this.planInfo = this.planInfoInput.toPlanInfo();
 
-      const calculator = Calculator.fromPlanInfo(
+      const targets = new Macros(this.planInfo.protein, this.planInfo.fat, this.planInfo.carbs);
+      const rule = CalculationRule.create([Meal.LUNCH], [], [this.foodSet.foods[1] as Food]);
+      const calculator = new Calculator(
         this.foodSet.getFoods(),
-        this.planInfo as PlanInfo,
+        this.planInfo.calculationMethod,
+        targets,
+        [rule],
       );
+
       const newPlan = calculator.calculatePlan(this.planInfo.days);
       this.planData.foodPlan = newPlan;
       this.day = 0;
