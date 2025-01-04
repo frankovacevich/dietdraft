@@ -11,7 +11,6 @@ import { DataFetcher } from "./core/data-fetcher";
 import { Food } from "./core/food";
 import { Calculator } from "./core/calculator";
 import { EditFoodModal } from "./core/edit-food-modal";
-import { CalculationRule } from "./core/calculation-rule";
 
 export const mainStore = defineStore("mainStore", {
   state: () => {
@@ -106,7 +105,6 @@ export const mainStore = defineStore("mainStore", {
       this.planInfo = this.planInfoInput.toPlanInfo();
 
       const targets = new Macros(this.planInfo.protein, this.planInfo.fat, this.planInfo.carbs);
-      const rule = CalculationRule.create([Meal.LUNCH], [], [this.foodSet.foods[1] as Food]);
       const calculator = new Calculator(
         this.foodSet.getFoods(),
         this.planInfo.calculationMethod,
