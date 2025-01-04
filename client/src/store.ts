@@ -20,7 +20,7 @@ export const mainStore = defineStore("mainStore", {
       planData: PlanData.createEmptyPlan(PlanInfo.DEFAULT_DAYS),
 
       day: 0,
-      editMode: false,
+      editMode: true,
       selectedQuantity: 0, // 0: calories, 1: protein 2: fat, 3: carbs
 
       addFoodModal: AddFoodModal.create(),
