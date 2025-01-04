@@ -84,26 +84,33 @@ export const mainStore = defineStore("mainStore", {
     },
 
     recalculateToday() {
-      const shoppingList = this.planData.shoppingList;
+      const calculator = Calculator.create();
+      calculator.setCalculationMethod(this.planInfo.calculationMethod);
+
+      // Don't recalculate the meals that have been eaten
+      for (const meal of this.planData.eatenMealsForDay(this.day)) {
+        calculator.skipMeal(meal);
+      }
+
+      // Adjust the target to account for the foods that have been eaten
       const totalEaten = this.planData.macrosForEatenFoodsForDay(this.day);
       const targets = new Macros(
         this.planInfo.protein - totalEaten.protein,
         this.planInfo.fat - totalEaten.fat,
         this.planInfo.carbs - totalEaten.carbs,
       );
-      const calculator = Calculator.create();
-      calculator.setCalculationMethod(this.planInfo.calculationMethod);
       calculator.setTarget(targets);
-      if (shoppingList.length > 6) {
+
+      // Use shopping list to calculate the plan if there are enough foods
+      const shoppingList = this.planData.shoppingList;
+      if (shoppingList.length > this.foodSet.length * calculator.initialSubsample) {
         calculator.setFoods(shoppingList);
         calculator.initialSubsample = 1;
       } else {
         calculator.setFoods(this.foodSet.getFoods());
       }
-      for (const meal of this.planData.eatenMealsForDay(this.day)) {
-        calculator.skipMeal(meal);
-      }
 
+      // Create and save
       const newPlan = calculator.calculateSingleDay();
       this.planData.updateMealPlan(this.day, newPlan);
       this.save();

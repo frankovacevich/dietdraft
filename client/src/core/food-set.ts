@@ -4,7 +4,11 @@ export class FoodSet {
   foods: Food[] = [];
 
   get isEmpty(): boolean {
-    return this.foods.length === 0;
+    return this.length === 0;
+  }
+
+  get length(): number {
+    return this.foods.length;
   }
 
   setFoods(foods: Food[]) {
