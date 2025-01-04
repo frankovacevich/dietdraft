@@ -216,7 +216,20 @@
     "protein": 12.6,
     "fat": 14.3,
     "carbs": 35.5,
-    "meals": ["Lunch", "Dinner"],
+    "meals": [],
+    "selected": false,
+    "amount": 1
+  },
+  {
+    "id": "63ca83cb-d4d9-49ca-845d-1e7ccc8dae72",
+    "name": "veggie spring rolls (4)",
+    "icon": "springrolls",
+    "category": "sandwiches & wraps",
+    "description": "4 spring rolls",
+    "protein": 9.6,
+    "fat": 13.6,
+    "carbs": 35.7,
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -417,13 +430,13 @@
   },
   {
     "id": "a26x7597-1354-46ec-a338-006e6a456f2c",
-    "name": "bowl carne picada c/ calabaza",
+    "name": "bowl carne picada c/ morron",
     "icon": "rice",
-    "description": "carne picada (200g), calabaza en cubos (100g), aceite, huevo (1)",
+    "description": "carne picada (150g), cebolla, morron, ketchup",
     "category": "bowls",
-    "protein": 47,
-    "fat": 39,
-    "carbs": 8,
+    "protein": 29.3,
+    "fat": 22,
+    "carbs": 23,
     "meals": ["Snack", "Lunch", "Dinner"],
     "selected": false,
     "amount": 1
@@ -546,6 +559,19 @@
     "amount": 1
   },
   {
+    "id": "84bd8740-c087-44c0-a321-5b6bf66082f9",
+    "name": "balletjes c/ torrejas de brocoli",
+    "icon": "meatballs",
+    "description": "balletjes (6), torrejas (4)",
+    "category": "main",
+    "protein": 19.3,
+    "fat": 25.5,
+    "carbs": 9.5,
+    "meals": ["Lunch", "Dinner"],
+    "selected": false,
+    "amount": 1
+  },
+  {
     "id": "9e2c79ad-a921-453c-8195-4c57b9701c68",
     "name": "pan de carne c/ zanahorias",
     "icon": "meat",
@@ -620,6 +646,19 @@
     "fat": 28.6,
     "carbs": 1.8,
     "meals": ["Breakfast", "Snack", "Lunch", "Dinner"],
+    "selected": false,
+    "amount": 1
+  },
+  {
+    "id": "84bd8740-c087-44c0-a321-5b6bf66082f9",
+    "name": "balletjes",
+    "icon": "meatballs",
+    "description": "balletjes (6)",
+    "category": "main",
+    "protein": 15.8,
+    "fat": 22.5,
+    "carbs": 15.8,
+    "meals": ["Lunch", "Dinner"],
     "selected": false,
     "amount": 1
   },
