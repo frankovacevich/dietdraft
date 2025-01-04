@@ -2,7 +2,6 @@ import { PlanInfo } from "./plan-info";
 import { CalculationMethod, Meal, MEALS } from "./enums";
 import { Food } from "./food";
 import { Macros } from "./macros";
-import { CalculationRule } from "./calculation-rule";
 
 export class Calculator {
   private readonly MAX_FOODS_PER_MEAL = 5; // Maximum number of foods per meal
@@ -16,14 +15,8 @@ export class Calculator {
   foods!: Food[];
   calculationMethod!: CalculationMethod;
   target!: Macros;
-  rules!: CalculationRule[];
 
-  constructor(
-    foods: Food[],
-    calculationMethod: CalculationMethod,
-    target: Macros,
-    rules: CalculationRule[],
-  ) {
+  constructor(foods: Food[], calculationMethod: CalculationMethod, target: Macros) {
     this.foods = getRandomSubsample(
       foods.map((food) => food.cleanCopy()),
       Math.round(foods.length * this.INITIAL_SUBSAMPLE),
@@ -34,7 +27,6 @@ export class Calculator {
     target.fat = Math.max(0, target.fat);
     target.carbs = Math.max(0, target.carbs);
     this.target = target;
-    this.rules = rules;
   }
 
   private calculateError(plan: Food[][]): number {
@@ -60,17 +52,11 @@ export class Calculator {
     for (const food of this.foods) {
       food.meals.forEach((m) => this.cachedFoodsPerMeal.get(m)?.push(food));
     }
+    console.log(this.cachedFoodsPerMeal);
     return this.cachedFoodsPerMeal.get(meal)!;
   }
 
   private createRandomMeal(meal: Meal): Food[] {
-    for (const rule of this.rules) {
-      const foods = rule.getMeal(meal, 0);
-      if (foods !== null) {
-        return foods;
-      }
-    }
-
     const foodCount = 1 + Math.floor(Math.random() * this.MAX_FOODS_PER_MEAL);
     const foods = getRandomSubsample(this.foodsForMeal(meal), foodCount);
     return foods.map((food) => food.cleanCopy());
@@ -133,7 +119,7 @@ export class Calculator {
   }
 
   static fromPlanInfo(foods: Food[], planInfo: PlanInfo) {
-    return new Calculator(foods, planInfo.calculationMethod, planInfo.macros, []);
+    return new Calculator(foods, planInfo.calculationMethod, planInfo.macros);
   }
 }
 

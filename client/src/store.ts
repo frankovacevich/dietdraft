@@ -95,7 +95,6 @@ export const mainStore = defineStore("mainStore", {
         this.foodSet.getFoods(),
         this.planInfo.calculationMethod,
         targets,
-        [CalculationRule.create([Meal.LUNCH], [], [this.foodSet.foods[1] as Food])],
       );
       const newPlan = calculator.calculateSingleDay();
       this.planData.updateMealPlan(this.day, newPlan);
@@ -112,7 +111,6 @@ export const mainStore = defineStore("mainStore", {
         this.foodSet.getFoods(),
         this.planInfo.calculationMethod,
         targets,
-        [rule],
       );
 
       const newPlan = calculator.calculatePlan(this.planInfo.days);

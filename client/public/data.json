@@ -351,7 +351,7 @@
     "amount": 1
   },
   {
-    "id": "",
+    "id": "285c871b-xxxx-4082-bb41-cde59117f74c",
     "name": "butter chicken",
     "icon": "noodles",
     "description": "risotto (75g), pollo (125g)",
@@ -580,7 +580,7 @@
     "protein": 56,
     "fat": 44,
     "carbs": 22,
-    "meals": ["Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
@@ -593,7 +593,7 @@
     "protein": 62,
     "fat": 40,
     "carbs": 30,
-    "meals": ["Lunch", "Dinner"],
+    "meals": [],
     "selected": false,
     "amount": 1
   },
