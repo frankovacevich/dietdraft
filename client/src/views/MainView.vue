@@ -119,9 +119,6 @@ const store = mainStore();
     <div class="round-button round-button-secondary" @click="store.clearSelectedDay()">
       <font-awesome-icon icon="fa-solid fa-trash" />
     </div>
-    <div class="round-button" @click="store.openPresetPlansModal()">
-      <font-awesome-icon icon="fa-solid fa-bookmark" />
-    </div>
     <div class="round-button" @click="store.recalculateToday()">
       <font-awesome-icon icon="fa-solid fa-rotate-right" />
     </div>
