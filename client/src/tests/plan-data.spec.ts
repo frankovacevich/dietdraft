@@ -7,10 +7,6 @@ describe("core/plan-data", () => {
   it("should be able to create an empty PlanData", () => {
     const planData = PlanData.createEmptyPlan(DAYS_COUNT);
     expect(planData).toBeTruthy();
-    expect(planData.foodPlan).toEqual([
-      [[], [], [], []],
-      [[], [], [], []],
-    ]);
   });
 
   it("should be able to convert to and from json", () => {

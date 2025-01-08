@@ -85,6 +85,8 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faArrowLeft);
 library.add(faCalendar);
@@ -104,6 +106,8 @@ library.add(faTrash);
 library.add(faUser);
 library.add(faUtensils);
 library.add(faXmark);
+library.add(faDownload);
+library.add(faBookmark);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 

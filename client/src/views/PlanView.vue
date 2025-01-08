@@ -84,7 +84,7 @@ const store = mainStore();
       <div class="round-button round-button-secondary" @click="store.clearPlan()">
         <font-awesome-icon icon="fa-solid fa-trash" />
       </div>
-      <div class="round-button" @click="store.generateNewPlan()">
+      <div class="round-button" @click="store.recalculateAll()">
         <font-awesome-icon icon="fa-solid fa-rotate-right" />
       </div>
     </div>

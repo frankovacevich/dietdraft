@@ -3,31 +3,31 @@ import { Food } from "./food";
 import { Macros } from "./macros";
 
 export class PlanData {
-  foodPlan!: Food[][][]; // [day][meal][food]
+  plans!: Food[][][]; // [day][meal][food]
 
   private constructor() {
-    this.foodPlan = [];
+    this.plans = [];
   }
 
   getFoods(day: number, meal: number): Food[] {
-    const foodsForDay = day >= this.foodPlan.length ? [] : this.foodPlan[day];
+    const foodsForDay = day >= this.plans.length ? [] : this.plans[day];
     return meal >= foodsForDay.length ? [] : foodsForDay[meal];
   }
 
   addFoods(day: number, meal: number, foods: Food[]) {
-    this.foodPlan[day][meal].push(...foods);
+    this.plans[day][meal].push(...foods);
   }
 
   removeFood(day: number, meal: number, index: number) {
-    this.foodPlan[day][meal].splice(index, 1);
+    this.plans[day][meal].splice(index, 1);
   }
 
   macrosForDay(day: number): Macros {
-    return Macros.fromList(this.foodPlan[day].flat().map((food) => food.macrosTimesAmount));
+    return Macros.fromList(this.plans[day].flat().map((food) => food.macrosTimesAmount));
   }
 
   eatenFoodsForDay(day: number): Food[] {
-    return this.foodPlan[day].flat().filter((food) => food.selected);
+    return this.plans[day].flat().filter((food) => food.selected);
   }
 
   macrosForEatenFoodsForDay(day: number): Macros {
@@ -37,33 +37,33 @@ export class PlanData {
   eatenMealsForDay(day: number): Meal[] {
     const meals: Meal[] = [];
     for (let m = 0; m < MEALS.length; m++) {
-      if (this.foodPlan[day][m].some((food) => food.selected)) {
+      if (this.plans[day][m].some((food) => food.selected)) {
         meals.push(MEALS[m]);
       }
     }
     return meals;
   }
 
-  updateMealPlan(day: number, mealPlan: Food[][]) {
-    for (let m = 0; m < mealPlan.length; m++) {
-      const eatenFoods = this.foodPlan[day][m].filter((food) => food.selected);
-      mealPlan[m] = [...eatenFoods, ...mealPlan[m]];
+  updateMealPlan(day: number, plan: Food[][]) {
+    for (let m = 0; m < plan.length; m++) {
+      const eatenFoods = this.plans[day][m].filter((food) => food.selected);
+      plan[m] = [...eatenFoods, ...plan[m]];
     }
-    this.foodPlan[day] = mealPlan;
+    this.plans[day] = plan;
   }
 
   get macrosAverage(): Macros {
-    const macros = Macros.fromList(this.foodPlan.flat(2).map((food) => food.macrosTimesAmount));
-    macros.protein = Math.round(macros.protein / this.foodPlan.length);
-    macros.fat = Math.round(macros.fat / this.foodPlan.length);
-    macros.carbs = Math.round(macros.carbs / this.foodPlan.length);
+    const macros = Macros.fromList(this.plans.flat(2).map((food) => food.macrosTimesAmount));
+    macros.protein = Math.round(macros.protein / this.plans.length);
+    macros.fat = Math.round(macros.fat / this.plans.length);
+    macros.carbs = Math.round(macros.carbs / this.plans.length);
     return macros;
   }
 
   get shoppingList(): Food[] {
     const foodMap = new Map<string, Food>();
 
-    this.foodPlan.flat(2).forEach((food) => {
+    this.plans.flat(2).forEach((food) => {
       const existingFood = foodMap.get(food.id);
       if (!existingFood) {
         foodMap.set(food.id, food.copy());
@@ -77,10 +77,10 @@ export class PlanData {
 
   clearDay(day: number) {
     const newPlan = [];
-    for (const mealPlan of this.foodPlan[day]) {
-      newPlan.push(mealPlan.filter((food) => food.selected));
+    for (const plan of this.plans[day]) {
+      newPlan.push(plan.filter((food) => food.selected));
     }
-    this.foodPlan[day] = newPlan;
+    this.plans[day] = newPlan;
   }
 
   static createEmptyPlan(days: number): PlanData {
@@ -90,13 +90,13 @@ export class PlanData {
       for (let m = 0; m < MEALS.length; m++) {
         dayPlan.push([]);
       }
-      planData.foodPlan.push(dayPlan);
+      planData.plans.push(dayPlan);
     }
     return planData;
   }
 
   toJson(): string {
-    return JSON.stringify({ foodPlan: this.foodPlan });
+    return JSON.stringify({ plans: this.plans });
   }
 
   static fromJson(json: any): PlanData {
@@ -105,7 +105,7 @@ export class PlanData {
     }
 
     const planData = new PlanData();
-    planData.foodPlan = JSON.parse(json).foodPlan.map((a: Food[][]) =>
+    planData.plans = JSON.parse(json).plans.map((a: Food[][]) =>
       a.map((b: Food[]) => b.map((c: Food) => Food.fromObj(c))),
     );
     return planData;

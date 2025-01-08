@@ -11,6 +11,8 @@ import { DataFetcher } from "./core/data-fetcher";
 import { Food } from "./core/food";
 import { Calculator } from "./core/calculator";
 import { EditFoodModal } from "./core/edit-food-modal";
+import { PresetPlansModal } from "./core/preset-plans-modal";
+import { PresetPlanSet } from "./core/preset-plan-set";
 
 export const mainStore = defineStore("mainStore", {
   state: () => {
@@ -18,6 +20,7 @@ export const mainStore = defineStore("mainStore", {
       foodSet: FoodSet.default(),
       planInfo: PlanInfo.default(),
       planData: PlanData.createEmptyPlan(PlanInfo.DEFAULT_DAYS),
+      presetPlanSet: PresetPlanSet.default(),
 
       day: 0,
       editMode: true,
@@ -26,6 +29,7 @@ export const mainStore = defineStore("mainStore", {
       addFoodModal: AddFoodModal.create(),
       foodInfoModal: FoodInfoModal.create(),
       editFoodModal: EditFoodModal.create(),
+      presetPlansModal: PresetPlansModal.create(),
 
       planInfoInput: PlanInfoInput.default(),
       calculating: false,
@@ -64,6 +68,7 @@ export const mainStore = defineStore("mainStore", {
         DataFetcher.fetchDefaultFoods().then((foods) => this.foodSet.setFoods(foods));
       }
       this.planInfoInput = PlanInfoInput.fromPlanInfo(this.planInfo);
+      this.day = this.planInfo.currentDay;
     },
 
     goToPreviousDay() {
@@ -111,18 +116,18 @@ export const mainStore = defineStore("mainStore", {
       }
 
       // Create and save
-      const newPlan = calculator.calculateSingleDay();
+      const newPlan = calculator.calculateSingle();
       this.planData.updateMealPlan(this.day, newPlan);
       this.save();
     },
 
-    generateNewPlan() {
+    recalculateAll() {
       this.calculating = true;
       this.planInfo = this.planInfoInput.toPlanInfo();
 
       const calculator = Calculator.fromPlanInfo(this.foodSet.getFoods(), this.planInfo);
-      const newPlan = calculator.calculatePlan(this.planInfo.days);
-      this.planData.foodPlan = newPlan;
+      const newPlans = calculator.calculateMany(this.planInfo.days);
+      this.planData.plans = newPlans;
       this.day = 0;
 
       this.save();
@@ -177,6 +182,10 @@ export const mainStore = defineStore("mainStore", {
     addNewFood() {
       const newFood = this.foodSet.addNewFood();
       this.editFoodModal.open(newFood);
+    },
+
+    openPresetPlansModal() {
+      this.presetPlansModal.open(this.presetPlanSet.plans);
     },
   },
 });

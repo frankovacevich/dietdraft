@@ -5,6 +5,7 @@ import AddFoodModal from "@/components/AddFoodModal.vue";
 import FoodInfoModal from "@/components/FoodInfoModal.vue";
 import FoodItem from "@/components/FoodItem.vue";
 import MainContainer from "@/components/MainContainer.vue";
+import PresetPlansModal from "@/components/PresetPlansModal.vue";
 import TitleBar from "@/components/TitleBar.vue";
 import TotalsBar from "@/components/TotalsBar.vue";
 
@@ -16,6 +17,7 @@ const store = mainStore();
 <template>
   <AddFoodModal></AddFoodModal>
   <FoodInfoModal></FoodInfoModal>
+  <PresetPlansModal></PresetPlansModal>
   <TitleBar>
     <div style="margin-left: 8px">
       Day {{ store.day + 1 }} / {{ store.planInfo.days }} ({{ store.selectedDayName }})
@@ -116,6 +118,9 @@ const store = mainStore();
     <div style="flex-grow: 1"></div>
     <div class="round-button round-button-secondary" @click="store.clearSelectedDay()">
       <font-awesome-icon icon="fa-solid fa-trash" />
+    </div>
+    <div class="round-button" @click="store.openPresetPlansModal()">
+      <font-awesome-icon icon="fa-solid fa-bookmark" />
     </div>
     <div class="round-button" @click="store.recalculateToday()">
       <font-awesome-icon icon="fa-solid fa-rotate-right" />

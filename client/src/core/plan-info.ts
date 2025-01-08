@@ -24,6 +24,7 @@ export class PlanInfo {
   }
 
   get currentDay(): number {
+    /* Return the current day based on the date the plan was created */
     const date = this.created;
     const today = new Date();
     const oneDay = 24 * 60 * 60 * 1000;
@@ -31,17 +32,6 @@ export class PlanInfo {
     const dateStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const differenceInDays = Math.floor((todayStart.getTime() - dateStart.getTime()) / oneDay);
     return Math.min(differenceInDays, this.days - 1);
-  }
-
-  // TODO remove
-  get percentages() {
-    const macros = this.macros;
-    return {
-      protein: macros.proteinPercentage,
-      fat: macros.fatPercentage,
-      carbs: macros.caloriesPercentage,
-      calories: macros.caloriesPercentage,
-    };
   }
 
   toJson(): string {

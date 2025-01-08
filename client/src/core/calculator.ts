@@ -113,7 +113,7 @@ export class Calculator {
     this.skippedMeals.add(meal);
   }
 
-  calculateSingleDay(): Food[][] {
+  calculateSingle(): Food[][] {
     let plans = this.createRandomPopulation();
     for (let i = 0; i < this.maxIterations; i++) {
       plans = this.extinctionAndEvolution(plans);
@@ -122,10 +122,10 @@ export class Calculator {
     return plans[0];
   }
 
-  calculatePlan(days: number): Food[][][] {
+  calculateMany(days: number): Food[][][] {
     const foodPlan = [];
     for (let i = 0; i < days; i++) {
-      foodPlan.push(this.calculateSingleDay());
+      foodPlan.push(this.calculateSingle());
     }
     return foodPlan;
   }

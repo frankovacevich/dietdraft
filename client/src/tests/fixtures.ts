@@ -40,4 +40,10 @@ export class Fixtures {
   static getFoods(): Food[] {
     return FOODS.map((f) => Food.fromObj(f));
   }
+
+  static getMealPlan(): Food[][] {
+    // Single meal plan
+    const foods = Fixtures.getFoods();
+    return [[foods[0].copy(), foods[1].copy()], [foods[2].copy()], [], [foods[2].copy()]];
+  }
 }
